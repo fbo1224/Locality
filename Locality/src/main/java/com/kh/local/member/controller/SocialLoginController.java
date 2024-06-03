@@ -28,12 +28,23 @@ public class SocialLoginController {
 
 	private final MemberService memberService;
 	
+    @GetMapping("kakaoLogin")
+    public String kakaoLogin() {
+
+    	String loginUrl = "https://kauth.kakao.com/oauth/authorize"
+		    			+ "?client_id=6a7db0306acb235e8eca7541784693af"
+		    			+ "&redirect_uri=http://localhost:8001/local/code"
+		    			+ "&response_type=code";
+    	
+    	return "redirect:" + loginUrl; 
+    	
+    }
+
 	@GetMapping("code")
 	public ModelAndView code(String code, HttpSession session, ModelAndView mv) throws IOException, ParseException {
 		
 		String accessToken = getToken(code);
 		String socialId = getUserInfo(accessToken);
-		
 		Member member = memberService.socialLogin(socialId);
 		
 		if(member != null) {
@@ -93,8 +104,6 @@ public class SocialLoginController {
 		HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
 		urlConnection.setRequestMethod("GET");
 		urlConnection.setRequestProperty("Authorization", "Bearer " + accessToken);
-		
-		//System.out.println(urlConnection.getResponseCode());
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 		

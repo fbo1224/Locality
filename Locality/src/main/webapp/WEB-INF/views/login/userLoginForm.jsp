@@ -203,8 +203,9 @@
             })
             
             function kakao(){
-            	location.href='https://kauth.kakao.com/oauth/authorize?client_id=6a7db0306acb235e8eca7541784693af&redirect_uri=http://localhost:8001/local/code&response_type=code';
+            	location.href='kakaoLogin';
             }
+            
         </script>
 </body>
 </html>
