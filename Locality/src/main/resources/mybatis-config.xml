@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.kh.local.member.model.vo.Member" alias="member"/>
+    	<typeAlias type="com.kh.local.notice.model.vo.Notice" alias="notice"/>
+		<typeAlias type="com.kh.local.auction.model.vo.Save" alias="save" />
+		<typeAlias type="com.kh.local.auction.model.vo.Bid" alias="bid" />
+		<typeAlias type="com.kh.local.auction.model.vo.MorePagination" alias="morepagination" />
+		<typeAlias type="com.kh.local.auction.model.vo.Auction" alias="auction"/>
+    	<typeAlias type="com.kh.local.community.model.vo.CommuPhotoVO" alias="commuPhoto"/>
+		<typeAlias type="com.kh.local.community.model.vo.CommuBoardVO" alias="commuBoard"/>
+		<typeAlias type="com.kh.local.community.model.vo.CommuLikeVO" alias="commuLike"/>
+		<typeAlias type="com.kh.local.community.model.vo.CommuReplyVO" alias="commuReply"/>
+		<typeAlias type="com.kh.local.member.model.vo.Areas" alias="areas"/>
+		<typeAlias type="com.kh.local.animal.model.vo.AnimalBoard" alias="AnimalBoard"/>              
+		<typeAlias type="com.kh.local.animal.model.vo.AnimalBoard"/>
+		<typeAlias type="com.kh.local.ad.model.vo.AdBoardVO" alias="adBoard"/>
+		<typeAlias type="com.kh.local.ad.model.vo.AdPhotoVO" alias="adPhoto"/>
+		<typeAlias type="com.kh.local.ad.model.vo.AdNumVO" alias="adNum"/>
+		<typeAlias type="com.kh.local.member.model.vo.JpgFile" alias="jpgFile"/>
+		<typeAlias type="com.kh.local.member.model.vo.GuestBook" alias="guestBook"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/mapper/member-mapper.xml"/>
+    	<mapper resource="/mapper/community-mapper.xml"/>
+		<mapper resource="/mapper/notice-mapper.xml"/>
+		<mapper resource="/mapper/auction-mapper.xml"/>
+		<mapper resource="/mapper/ad-mapper.xml"/>
+		<mapper resource="/mapper/animal-mapper.xml"/>
+	</mappers>
+	
+	
+
+
+</configuration>

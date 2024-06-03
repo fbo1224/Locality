@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="animalMapper">
+
+
+<resultMap id="list" type="AnimalBoard">
+<result column="BOARD_NO" property="boardNo"/>
+<result column="TITLE" property="title"/>
+<result column="CATEGORY_NAME" property="categoryName"/>
+<result column="content" property="content"/>
+<result column="WRITE_DATE" property="writeDate"/>
+<result column="VIEW_COUNT" property="viewCount"/>
+<result column="NICKNAME" property="writer"/>
+<result column="CATEGORY_NO" property="categoryNo"/>
+<result column="USER_NO" property="userNo"/>
+</resultMap>
+
+
+
+<select id = "areaInfo"  parameterType="_int" resultType="com.kh.local.common.model.vo.AreaInfomation">
+	
+	SELECT 
+    COUNTY_NAME countryName,
+    CITY_NAME cityName
+FROM
+    TB_AREAS A, TB_CITY C
+   WHERE
+   		A.CITY_CODE = C.CITY_CODE AND AREAS_CODE = #{code}		
+
+</select>
+<select id="BoardCount" resultType="_int">
+
+	SELECT
+			COUNT (*)
+	FROM
+			TB_ANIMAL_BOARD		
+
+</select>
+
+<select id="BoardList" resultMap="list">
+
+				SELECT
+				        BOARD_NO,
+				        TITLE,
+				        CONTENT,
+				        NICKNAME,
+				        CATEGORY_NAME,
+				        TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE",
+				        VIEW_COUNT,
+				        CATEGORY_NO,
+				        USER_NO
+				 FROM
+				        TB_ANIMAL_BOARD
+				 JOIN 
+				        TB_CATEGORY USING(CATEGORY_NO)
+				 JOIN 
+				        TB_MEMBER USING (USER_NO)
+				 ORDER
+				    BY
+				        WRITE_DATE DESC
+
+
+</select>
+<select id="keywordList" resultMap="list">
+
+				SELECT
+				        BOARD_NO,
+				        TITLE,
+				        CONTENT,
+				        NICKNAME,
+				        CATEGORY_NAME,
+				        TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE",
+				        VIEW_COUNT,
+				        CATEGORY_NO,
+				        USER_NO
+				 FROM
+				        TB_ANIMAL_BOARD
+				 JOIN 
+				        TB_CATEGORY USING(CATEGORY_NO)
+				 JOIN 
+				        TB_MEMBER USING (USER_NO)
+				 WHERE        
+						CATEGORY_NAME = #{category}				        
+				 ORDER
+				    BY
+				        WRITE_DATE DESC
+
+
+
+</select>
+<select id="searchkeyword" parameterType="HashMap" resultMap="list">
+				
+				SELECT 
+						BOARD_NO,
+						TITLE,
+						CONTENT,
+						NICKNAME,
+						CATEGORY_NAME,
+						TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE",
+						VIEW_COUNT,
+						CATEGORY_NO,
+						USER_NO
+				  FROM	
+				  		TB_ANIMAL_BOARD
+				  JOIN 			
+						TB_CATEGORY USING(CATEGORY_NO)
+				  JOIN
+				  		TB_MEMBER USING(USER_NO)
+				 WHERE
+				 		<choose>
+				 				<when test="category=='title'">
+				 					TITLE
+				 				</when>
+				 				<when test="category=='writer'">
+				 					NICKNAME
+				 				</when>
+				 				<otherwise>
+				 					CONTENT
+				 				</otherwise>
+				 		</choose>
+				  LIKE '%' || #{keyword}|| '%'
+				 		 		
+				 ORDER
+				 	BY
+				 		WRITE_DATE DESC		 			
+</select>
+
+
+</mapper>

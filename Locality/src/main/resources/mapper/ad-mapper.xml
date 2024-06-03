@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.kh.local.ad.model.dao.AdMapper">
+	
+	<resultMap type="adBoard" id="adResultMap">
+		<result property="adNo"         column="AD_NO"/>
+		<result property="categoryName" column="BIZ_CNAME"/>
+		<result property="adTitle"      column="AD_TITLE"/>
+		<result property="countyName"    column="COUNTY_NAME"/>
+		<result property="adWriter"     column="BIZ_NAME"/>
+		<result property="count"        column="COUNT"/>
+		<result property="adContent"    column="AD_CONTENT"/>
+		<result property="changeName"   column="CHANGE_NAME"/>
+		<result property="fileLevel"    column="FILE_LEVEL"/>
+		<result property="bizCall"      column="BIZ_CALL"/>
+		<result property="bizAddress"   column="BIZ_ADDRESS"/>
+		<result property="enrollDate"   column="ENROLL_DATE"/>
+	</resultMap>
+	
+	
+	
+	
+	
+	
+	
+	<select id="selectListCount" parameterType="adNum" resultType="_int">
+		SELECT
+			   COUNT(*)
+		 FROM
+		       TB_AD
+		 LEFT      
+		 JOIN 
+		       TB_BIZ USING (BIZ_NO)
+		 LEFT
+		 JOIN
+		       TB_BIZ_CATEGORY ON (TB_BIZ_CATEGORY.BIZ_CNUM = TB_AD.CATEGORY)
+		 LEFT
+		 JOIN 
+		       TB_AD_PHOTO USING (AD_NO)
+		 LEFT      
+         JOIN 
+               TB_AREAS USING (AREAS_CODE)       
+		WHERE
+		       TB_BIZ.STATUS = 'Y'
+		<if test="category != 0">       
+     	  AND
+		       TB_AD.CATEGORY = #{ category }
+		</if>       
+     
+ 		  AND
+		       AREAS_CODE = #{ areasNo }
+     
+	</select>
+	
+	<select id="selectAll" parameterType="adNum" resultMap="adResultMap">
+		SELECT
+			   AD_NO,
+			   BIZ_CNAME,
+			   AD_TITLE,
+			   COUNTY_NAME,
+			   BIZ_NAME,
+			   COUNT,
+			   CHANGE_NAME,
+			   FILE_LEVEL
+		  FROM
+		       TB_AD
+		  LEFT     
+		  JOIN 
+		       TB_BIZ USING (BIZ_NO)
+		  LEFT     
+		  JOIN
+		       TB_BIZ_CATEGORY ON (TB_BIZ_CATEGORY.BIZ_CNUM = TB_AD.CATEGORY)
+		  LEFT     
+		  JOIN 
+		       TB_AD_PHOTO USING (AD_NO)
+		 LEFT      
+         JOIN 
+               TB_AREAS USING (AREAS_CODE)		       
+	     WHERE
+	           TB_AD.STATUS = 'Y'
+		<if test="category != 0">       
+     	  AND
+		       TB_AD.CATEGORY = #{ category }
+		</if>     
+ 		  AND
+		       AREAS_CODE = #{ areasNo }
+
+	</select>
+	
+	<update id="increaseCount" parameterType="_int">
+		UPDATE
+		       TB_AD
+		   SET
+		       COUNT = COUNT + 1
+		 WHERE
+		       STATUS = 'Y'
+		   AND 
+		       AD_NO = #{ adNo }               
+	</update>
+	
+	<select id="selectBoard" parameterType="_int" resultMap="adResultMap">
+		SELECT
+		       AD_NO,
+		       BIZ_NO,
+		       BIZ_NAME,
+		       AD_TITLE,
+		       AD_CONTENT,
+		       BIZ_ADDRESS,
+		       BIZ_CNAME,
+		       CHANGE_NAME,
+		       ENROLL_DATE,
+		       COUNT,
+		       BIZ_CALL
+		  FROM
+		       TB_AD      
+		  LEFT     
+		  JOIN 
+		       TB_BIZ USING (BIZ_NO)
+		  LEFT     
+		  JOIN
+		       TB_BIZ_CATEGORY ON (TB_BIZ_CATEGORY.BIZ_CNUM = TB_AD.CATEGORY)
+		  LEFT     
+		  JOIN 
+		       TB_AD_PHOTO USING (AD_NO)
+		 LEFT      
+         JOIN 
+               TB_AREAS USING (AREAS_CODE)			       
+	    WHERE
+	           TB_AD.STATUS = 'Y'
+	      AND
+	           AD_NO = #{ adNo }     
+
+	</select>
+	
+	<update id="deleteBoard" parameterType="_int">
+		UPDATE
+		       TB_AD
+		   SET
+		       STATUS = 'N'
+		 WHERE
+		       AD_NO = #{ adNo }           
+	</update>
+	
+	<update id="updatePhoto" parameterType="adPhoto">
+		UPDATE
+		       TB_AD_PHOTO
+		   SET
+		       ORIGIN_NAME = #{originName},
+		       CHANGE_NAME = #{changeName}
+		 WHERE
+		       AD_NO = #{adNo}           
+	</update>
+	
+	<update id="updateBoard" parameterType="adBoard" >
+		UPDATE
+			   TB_AD
+		   SET
+		       AD_TITLE = #{adTitle},
+		       AD_CONTENT = #{adContent},
+		       CATEGORY = #{categoryNo},
+		       MODIFY_DATE = SYSDATE
+		 WHERE
+		       AD_NO = #{adNo}      	   
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+</mapper>  

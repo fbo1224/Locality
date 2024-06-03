@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.local.auction.model.dao.AuctionMapper">
+	
+	<resultMap type="auction" id="auctionResultSet">
+		<result column="AUCTION_NO"  property="auctionNo" />
+		<result column="PD_NAME" property="pdName" />
+		<result column="PD_DESC" property="pdDesc" />
+		<result column="BID_UNIT" property="bidUnit" />
+		<result column="CONDITION" property="condition" />
+		<result column="START_DATE" property="startDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="BID_CNT" property="bidCnt" />
+		<result column="START_PRICE" property="startPrice" />
+		<result column="PD_CNT" property="pdCnt" />
+		<result column="PD_STATUS" property="pdStatus" />
+		<result column="CATE_NO" property="cateNo" />
+		<result column="SELLER" property="seller" />
+		<result column="USER_NO" property="userNo" />
+		<result column="IMG_PATH" property="imgPath" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="BID_PRICE" property="bidPrice" />
+		<result column="REMAIN_DATE" property="remainDate" />
+	</resultMap>
+	
+	<sql id="selectList">
+		       AUCTION_NO,
+		       PD_NAME,
+		       PD_DESC,
+		       BID_UNIT,
+		       CONDITION,
+		       TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
+		       TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
+		       BID_CNT,
+		       START_PRICE,
+		       PD_CNT,
+		       PD_STATUS,
+		       PD_LCN,
+		       CATE_NO,
+		       SELLER,
+		       IMG_PATH,
+		       TO_CHAR(TB_AUC_IMG.CREATE_DATE , 'YYYY/MM/DD') AS CREATE_DATE
+	</sql>
+	
+	<!-- 상품 리스트 조회 -->
+	<select id="selectAuction" resultMap="auctionResultSet">
+	   SELECT
+		       <include refid="selectList" />
+		 FROM
+		       TB_AUCTION
+		 JOIN
+		       TB_AUC_IMG USING(AUCTION_NO)
+	    WHERE
+	           PD_STATUS = 'Y'
+	    ORDER
+	       BY
+	           AUCTION_NO DESC
+	</select>
+	
+	<select id="auctionDetail" parameterType="_int" resultMap="auctionResultSet">
+		SELECT
+		       <include refid="selectList" />
+		       TRUNC(END_DATE - SYSDATE, 0) + 1 AS REMAIN_DATE,
+		       BID_PRICE
+		 FROM
+		       TB_AUCTION
+		 JOIN
+		       TB_AUC_RECORD USING(AUCTION_NO)
+		 JOIN
+		       TB_AUC_IMG USING(AUCTION_NO)
+		 JOIN
+		       TB_MEMBER USING(USER_NO)
+	    WHERE
+	           PD_STATUS = 'Y'
+	      AND
+	           AUCTION_NO = #{auctionNo}
+	</select>
+	
+	<update id="increaseCount" parameterType="_int">
+		UPDATE
+		       TB_AUCTION
+		   SET
+		       PD_CNT = PD_CNT + 1
+		 WHERE
+		       AUCTION_NO = #{auctionNo}
+		   AND
+		       PD_STATUS = 'Y'
+	</update>
+	
+	<!-- 장바구니 담기 전 해당 상품이 있는지 SELECT -->
+	<select id="selectSave" parameterType="save" resultType="save">
+		SELECT
+		       USER_NO userNo,
+		       AUCTION_NO auctionNo
+		  FROM 
+		       TB_SAVE
+		 WHERE
+		       USER_NO = #{userNo}
+		   AND
+		       AUCTION_NO = #{auctionNo}
+	</select>
+	
+	<!-- 장바구니 담기 -->
+	<insert id="insertSave" parameterType="save">
+		INSERT
+		  INTO
+		       TB_SAVE
+		VALUES
+		       (
+		       #{userNo},
+		       #{auctionNo}
+		       )
+	</insert>
+	
+	<select id="selectSaveList" parameterType="_int" resultMap="auctionResultSet">
+		SELECT
+			    TB_AUCTION.AUCTION_NO,
+			    PD_NAME,
+			    PD_DESC,
+			    BID_UNIT,
+			    CONDITION,
+			    TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
+			    TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
+			    BID_CNT,
+			    START_PRICE,
+			    PD_CNT,
+			    PD_STATUS,
+			    PD_LCN,
+			    CATE_NO,
+			    SELLER,
+			    IMG_PATH,
+			    TO_CHAR(TB_AUC_IMG.CREATE_DATE , 'YYYY/MM/DD') AS CREATE_DATE
+		FROM
+		    	TB_SAVE
+		JOIN
+		    	TB_AUCTION ON TB_SAVE.AUCTION_NO = TB_AUCTION.AUCTION_NO
+		JOIN
+		    	TB_AUC_IMG ON TB_SAVE.AUCTION_NO = TB_AUC_IMG.AUCTION_NO
+		WHERE
+		    	PD_STATUS = 'Y'
+		AND
+		    	TB_SAVE.USER_NO = #{userNo}
+	</select>
+	
+	<delete id="deleteSave" parameterType="save">
+		DELETE
+		  FROM
+		       TB_SAVE
+		 WHERE
+		       USER_NO = #{userNo}
+		   AND
+		       AUCTION_NO = #{auctionNo}
+	</delete>
+	
+	<!-- 상품등록 -->
+	<insert id="insertAuction" parameterType="auction">
+		INSERT ALL
+	    INTO 	TB_AUCTION 
+	    VALUES 
+		        (
+		        SEQ_AUCTION.NEXTVAL, 
+		        #{pdName}, 
+		        #{pdDesc}, 
+		        #{bidUnit}, 
+		        DEFAULT, 
+		        SYSDATE, 
+		        SYSDATE + INTERVAL '15' DAY, 
+		        DEFAULT, 
+		        #{startPrice}, 
+		        DEFAULT, 
+		        DEFAULT, 
+		        null, 
+		        #{seller}, 
+		        #{cateNo},
+		        #{userNo}
+		        )
+		INTO    
+		        TB_AUC_RECORD 
+        VALUES
+                (
+                 SEQ_AUCTION.CURRVAL,
+                 #{userNo},
+                 #{startPrice}
+                 )
+        INTO
+                TB_AUC_IMG 
+        VALUES
+                (
+               SEQ_AUCTION.CURRVAL, 
+               #{imgPath}, 
+               SYSDATE
+                )
+        SELECT
+                *
+          FROM
+                DUAL
+	</insert>
+	
+	<select id="selectAuctionNo" parameterType="auction" resultType="_int">
+		SELECT 
+		       AUCTION_NO
+	      FROM
+	          (
+			    SELECT 
+			           * 
+			      FROM 
+			           TB_AUCTION
+			     ORDER
+			        BY 
+			           ROWNUM DESC
+			                       )
+  		 WHERE 
+  		       ROWNUM = 1
+	</select>
+	
+	<update id="deleteAuction" parameterType="save">
+		UPDATE
+		       TB_AUCTION
+		   SET
+		       PD_STATUS = 'N'
+		 WHERE
+		       AUCTION_NO = #{auctionNo}
+		   AND
+		       USER_NO = #{userNo}
+	</update>
+	
+	<select id="selectSearchList" parameterType="hashMap" resultMap="auctionResultSet">
+		SELECT    
+				AUCTION_NO,
+				PD_NAME,
+				PD_DESC,
+				BID_UNIT,
+				CONDITION,
+				BID_CNT,
+				START_PRICE,
+				PD_CNT,
+				PD_STATUS,
+				PD_LCN,
+				CATE_NO,
+				SELLER,
+				IMG_PATH
+	      FROM
+	            TB_AUCTION
+	      JOIN
+	            TB_AUC_IMG USING(AUCTION_NO)
+	     WHERE
+	            PD_STATUS = 'Y'
+	       AND
+	            PD_NAME
+	       LIKE '%' || #{keyword} || '%'
+	      ORDER
+	         BY
+	       <choose>
+         		<when test="field == 'low'">
+         			BID_PRICE ASC
+         		</when>
+         		<when test="field == 'bid'">
+         			BID_CNT DESC
+         		</when>
+         		<when test="field == 'cnt'">
+         			PD_CNT DESC
+         		</when>
+         		<otherwise>
+	         		AUCTION_NO DESC
+         		</otherwise>
+         	</choose>
+	</select>
+	
+	<!-- 필터 기능 -->
+	<select id="searchFilter" parameterType="string" resultMap="auctionResultSet">
+		SELECT    
+				AUCTION_NO,
+				PD_NAME,
+				PD_DESC,
+				BID_UNIT,
+				CONDITION,
+				BID_CNT,
+				START_PRICE,
+				PD_CNT,
+				PD_STATUS,
+				PD_LCN,
+				CATE_NO,
+				SELLER,
+				IMG_PATH,
+				TB_AUC_RECORD.BID_PRICE
+	      FROM
+	            TB_AUCTION
+	      JOIN
+	            TB_AUC_IMG USING(AUCTION_NO)
+	      LEFT
+	      JOIN
+	            TB_AUC_RECORD USING(AUCTION_NO)
+	     WHERE
+	            PD_STATUS = 'Y'
+	      ORDER
+	         BY
+         	<choose>
+         		<when test="field == 'low'">
+         			BID_PRICE ASC
+         		</when>
+         		<when test="field == 'bid'">
+         			BID_CNT DESC
+         		</when>
+         		<when test="field == 'cnt'">
+         			PD_CNT DESC
+         		</when>
+         		<otherwise>
+	         		AUCTION_NO DESC
+         		</otherwise>
+         	</choose>
+	</select>
+	
+	<select id="resultAuction" parameterType="_int" resultMap="auctionResultSet">
+		SELECT
+		       BID_PRICE,
+		       PD_NAME,
+			   PD_DESC,
+			   BID_UNIT,
+			   CONDITION,
+			   TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
+			   TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
+			   TRUNC(END_DATE - SYSDATE, 0) AS REMAIN_DATE,
+			   BID_CNT,
+			   START_PRICE,
+			   PD_CNT,
+			   PD_STATUS,
+			   PD_LCN,
+			   CATE_NO,
+			   SELLER,
+			   IMG_PATH
+		  FROM
+		       TB_AUC_RECORD
+		  JOIN
+		       TB_AUCTION USING(AUCTION_NO)
+		  JOIN      
+	           TB_AUC_IMG USING(AUCTION_NO)
+	     WHERE
+	           TB_AUC_RECORD.USER_NO = #{userNo}
+	       AND
+	           TB_AUCTION.PD_STATUS = 'Y'
+	</select>
+	
+	<delete id="cancelBid" parameterType="save">
+		DELETE
+		  FROM
+		       TB_AUC_RECORD
+		 WHERE
+		       USER_NO = #{userNo}
+		   AND
+		       AUCTION_NO = #{auctionNo}
+	</delete>
+	
+	<select id="selectBid" parameterType="bid" resultType="bid">
+		SELECT
+		       AUCTION_NO auctionNo,
+		       USER_NO userNo,
+		       BID_PRICE bidPrice
+		  FROM
+		       TB_AUC_RECORD
+		 WHERE
+		       USER_NO = #{userNo}
+		   AND
+		       AUCTION_NO = #{auctionNo}
+	</select>
+	
+	<insert id="auctionBid" parameterType="bid">
+		INSERT
+		  INTO
+		       TB_AUC_RECORD
+		VALUES
+		       (
+               #{auctionNo},
+               #{userNo},
+		       #{bidPrice}
+		       )
+	</insert>
+	
+	<select id="morePage" parameterType="morepagination" resultType="morepagination">
+		SELECT    
+				AUCTION_NO,
+				PD_NAME,
+				PD_DESC,
+				BID_UNIT,
+				CONDITION,
+				BID_CNT,
+				START_PRICE,
+				PD_CNT,
+				PD_STATUS,
+				PD_LCN,
+				CATE_NO,
+				SELLER,
+				IMG_PATH,
+				TB_AUC_RECORD.BID_PRICE
+	      FROM
+	            TB_AUCTION
+	      JOIN
+	            TB_AUC_IMG USING(AUCTION_NO)
+	      LEFT
+	      JOIN
+	            TB_AUC_RECORD USING(AUCTION_NO)
+	     WHERE
+	            PD_STATUS = 'Y'
+	      ORDER
+	         BY
+         	<choose>
+         		<when test="field == 'low'">
+         			BID_PRICE ASC
+         		</when>
+         		<when test="field == 'bid'">
+         			BID_CNT DESC
+         		</when>
+         		<when test="field == 'cnt'">
+         			PD_CNT DESC
+         		</when>
+         		<otherwise>
+	         		AUCTION_NO DESC
+         		</otherwise>
+         	</choose>
+	</select>
+	
+	<select id="selectRemainDate" resultMap="auctionResultSet">
+		SELECT 
+               AUCTION_NO,
+               TB_AUC_RECORD.USER_NO,
+               MAX(BID_PRICE) AS HIGHEST_BID_PRICE
+          FROM
+               TB_AUC_RECORD
+          JOIN
+               TB_AUCTION USING(AUCTION_NO)
+         WHERE
+               TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
+           AND
+               PD_STATUS = 'Y'
+         GROUP 
+            BY
+               AUCTION_NO,
+               TB_AUC_RECORD.USER_NO
+         ORDER 
+            BY
+               AUCTION_NO
+	</select>
+	
+	
+	<update id="changeStatus">
+		UPDATE
+		       TB_AUCTION
+		   SET
+		       PD_STATUS = 'N'
+		       
+		 WHERE
+		       TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
+	</update>
+	
+	<delete id="deleteRecord">
+		DELETE
+		  FROM
+		       TB_AUC_RECORD
+	     WHERE
+	           AUCTION_NO IN  (
+				              SELECT
+				                     AUCTION_NO
+				                FROM 
+				                     TB_AUCTION
+				               WHERE
+				                     TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
+				              )
+	</delete>
+	
+	
+
+</mapper>

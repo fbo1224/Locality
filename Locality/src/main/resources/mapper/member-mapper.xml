@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.local.member.model.dao.MemberMapper">
+	
+	<resultMap type="member" id="memberResultSet">
+		<result property="userNo" column="USER_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userPwd" column="USER_PWD"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="detailedAddress" column="DETAILED_ADDRESS"/>
+		<result property="phone" column="PHONE"/>
+		<result property="status" column="STATUS"/>
+		<result property="cityCode" column="CITY_CODE"/>
+		<result property="cityName" column="CITY_NAME"/>
+		<result property="countyName" column="COUNTY_NAME"/>
+		<result property="areasCode" column="AREAS_CODE"/>
+	</resultMap>
+	
+	<resultMap type="areas" id="areasResultSet">
+		<result property="areasCode" column="AREAS_CODE"/>
+		<result property="countyName" column="COUNTY_NAME"/>
+		<result property="cityCode" column="CITY_CODE"/>
+		<result property="cityName" column="CITY_NAME"/>
+	</resultMap>
+	
+	<resultMap type="jpgFile" id="jpgFileResultSet">
+		<result property="fileNo" column="FILE_NO"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
+	
+	<resultMap type="guestBook" id="bookResultSet">
+		<result property="postNo" column="POST_NO"/>
+		<result property="postUser" column="POST_USER"/>
+		<result property="postContent" column="POST_CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="nickName" column="NICKNAME"/>
+	</resultMap>
+
+	<parameterMap id="searchParams" type="hashmap">
+		<parameter property="keyword" javaType="string" />
+		<parameter property="userNo" javaType="int" />
+		<parameter property="confirmNo" javaType="int"/>
+	</parameterMap>
+	
+	<sql id="friendQuery">
+		SELECT
+			  DISTINCT
+		      M.USER_NO,
+		      M.USER_ID,
+		      M.USER_NAME,
+		      M.NICKNAME,
+              C.CITY_NAME,
+		      A.COUNTY_NAME
+		  FROM
+		      TB_MEMBER M
+		  JOIN
+		      TB_AREAS A USING (AREAS_CODE)
+          JOIN
+              TB_CITY C USING (CITY_CODE)
+	</sql>
+	
+	<sql id="friendQueryJoin">
+		JOIN
+		    TB_FRIEND F ON (M.USER_NO = F.FRIEND_ID)
+       WHERE
+            F.FRIEND_ID IN (SELECT
+		           			      FRIEND_ID
+		                      FROM
+		                          TB_FRIEND
+		                     WHERE
+		                           MY_ID = 
+	</sql>
+	
+	<select id="loginConfirm" parameterType="member" resultMap="memberResultSet">
+		SELECT
+		      USER_NO,
+		      USER_ID,
+		      USER_PWD,
+		      USER_NAME,
+		      NICKNAME,
+		      PHONE,
+		      CITY_CODE,
+              AREAS_CODE,
+		      COUNTY_NAME,
+		      ADDRESS,
+              DETAILED_ADDRESS
+		  FROM
+		      TB_MEMBER
+		  JOIN
+		      TB_AREAS USING (AREAS_CODE)
+          LEFT
+          JOIN
+              TB_ADDRESS USING (USER_NO)       
+		 WHERE     
+		      USER_ID = #{userId}
+		   AND
+		      STATUS = 'Y'   
+	</select>
+	
+	<select id="citySearch" parameterType="_int" resultMap="areasResultSet">
+		SELECT
+		      AREAS_CODE,
+		      COUNTY_NAME
+		  FROM
+		      TB_AREAS
+		 WHERE
+		      CITY_CODE = #{cityNo}
+	</select>
+	
+	<select id="emailConfirm" parameterType="String" resultType="_int">
+		SELECT
+		      COUNT(*)
+		  FROM
+		      TB_MEMBER
+		 WHERE         
+		      USER_ID = #{email}
+	</select>	
+	
+	<select id="nickPhoneConfirm" parameterType="member" resultType="_integer">
+		SELECT
+		      COUNT(*)
+		  FROM
+		      TB_MEMBER
+		 WHERE         
+		      NICKNAME = #{nickName}
+		UNION ALL
+		SELECT
+		      COUNT(*)
+		  FROM
+		      TB_MEMBER 
+		 WHERE
+		      PHONE = #{phone}
+	</select>
+	
+	<insert id="signUpUser" parameterType="member">
+		INSERT
+		  INTO
+			  TB_MEMBER
+			  (
+			  USER_NO,
+			  USER_ID,
+			  USER_PWD,
+			  USER_NAME,
+			  NICKNAME,
+			  PHONE,
+			  AREAS_CODE
+			  )
+		VALUES
+			  (
+			  SEQ_MEM.NEXTVAL,
+			  #{userId},
+			  #{userPwd},
+			  #{userName},
+			  #{nickName},
+			  #{phone},
+			  #{areasCode}
+			  )	  	  
+	</insert>
+	
+	<update id="updateUser" parameterType="member">
+		UPDATE TB_MEMBER
+		   SET
+		      NICKNAME = #{nickName},
+		      PHONE = #{phone},
+		      AREAS_CODE = #{areasCode}
+		 WHERE
+		      USER_NO = #{userNo} 
+	</update>
+	
+	<insert id="insertAddress" parameterType="member">
+		INSERT
+		  INTO
+		      TB_ADDRESS
+		 VALUES
+		       (
+		       #{userNo},
+		       #{address},
+		       #{detailedAddress}
+		       )     
+	</insert>
+	
+	<update id="updateAddress" parameterType="member">
+		UPDATE TB_ADDRESS
+           SET
+              ADDRESS = #{address},
+              DETAILED_ADDRESS = #{detailedAddress}
+         WHERE
+              USER_NO = #{userNo}     		
+	</update>
+	
+	<select id="photo" parameterType="_int" resultMap="jpgFileResultSet">
+		SELECT
+		      FILE_NO,
+		      USER_NO,
+		      ORIGIN_NAME,
+		      CHANGE_NAME,
+		      FILE_PATH,
+		      TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS CREATE_DATE
+		  FROM
+		      TB_JPGFILE
+		 WHERE
+		      USER_NO = #{userNo}         
+	</select>
+	
+	<insert id="photoUpload" parameterType="jpgFile">
+		INSERT
+		  INTO
+		      TB_JPGFILE
+		 VALUES
+		       (
+		       SEQ_JPGFILE.NEXTVAL,
+		       #{userNo},
+		       #{originName},
+		       #{changeName},
+		       #{filePath},
+		       SYSDATE
+		       )     
+	</insert>
+	
+	<delete id="photoDelete" parameterType="_int">
+		DELETE
+		  FROM
+		      TB_JPGFILE
+		 WHERE
+		      FILE_NO = #{fileNo}     
+	</delete>
+	
+	<select id="guestBookList" parameterType="_int" resultMap="bookResultSet">
+		SELECT
+		      POST_NO,
+		      POST_USER,
+		      NICKNAME,
+		      POST_CONTENT,
+		      CREATE_DATE
+		 FROM
+		     TB_POST
+		WHERE
+		     POST_USER =  #{userNo}          
+		ORDER
+		   BY
+		     CREATE_DATE DESC     
+	</select>
+	
+	<insert id="insertPost" parameterType="guestBook">
+		INSERT 
+		  INTO 
+		      TB_POST 
+	    VALUES
+	    	  (
+	    	  SEQ_POST.NEXTVAL,
+	    	  #{postUser}, 
+	    	  #{nickName},
+	    	  #{postContent},
+	    	  SYSDATE
+	    	  )
+	</insert>
+	
+	<delete id="deletePost" parameterType="_int">
+		DELETE
+		  FROM
+		      TB_POST
+		 WHERE
+		      POST_NO = #{postNo}     
+	</delete>
+	
+	<select id="friendList" parameterType="_int" resultMap="memberResultSet">
+		
+		<include refid="friendQuery"/>
+        JOIN
+		    TB_FRIEND F ON (M.USER_NO = F.FRIEND_ID OR M.USER_NO = F.MY_ID)
+       WHERE
+            F.FRIENDSHIP_NO IN (SELECT
+			           			      FRIENDSHIP_NO
+			                      FROM
+			                          TB_FRIEND
+			                     WHERE
+			                           MY_ID = #{userNo}
+	                                OR
+	                                  FRIEND_ID = #{userNo})
+         AND
+         	F.STATUS = 'Y'
+          AND	 
+		     M.STATUS = 'Y'	 	       
+	</select>
+	
+	<select id="friendConfirm" parameterType="_int" resultMap="memberResultSet">
+	
+		<include refid="friendQuery"/>
+		JOIN
+		    TB_FRIEND F ON (M.USER_NO = F.FRIEND_ID)
+       WHERE
+            F.FRIEND_ID IN (SELECT
+		           			      FRIEND_ID
+		                      FROM
+		                          TB_FRIEND
+		                     WHERE
+		                           MY_ID = #{confirmNo})
+         AND
+         	F.STATUS = 'N'
+          AND	 
+		     M.STATUS = 'Y'	 	
+	</select>
+	
+	<select id="searchFriend" parameterType="string" resultMap="memberResultSet">
+		<include refid="friendQuery"/>
+		WHERE
+			 M.USER_NAME = #{keyword}
+		  AND	 
+		     STATUS = 'Y'	 
+	</select>
+	
+	<insert id="follow" parameterType="hashmap">
+		INSERT
+		  INTO
+		      TB_FRIEND
+		      (
+		      FRIENDSHIP_NO,
+		      MY_ID,
+		      FRIEND_ID
+		      )
+		VALUES
+		      (
+		      SEQ_FRIEND.NEXTVAL,
+		      #{firendNo},
+		      #{userNo}
+		      )    
+	</insert>
+	
+	<update id="userDelete" parameterType="_int">
+		UPDATE
+		      TB_MEMBER
+		   SET
+		      STATUS = 'N'
+		 WHERE
+		      USER_NO = #{userNo}
+	</update>
+	
+	<update id="confirmUpdate" parameterType="hashmap">
+		UPDATE
+		      TB_FRIEND
+		   SET
+		      STATUS = 'Y'
+		 WHERE
+		      MY_ID = #{userNo}
+		   AND
+		      FRIEND_ID = #{friendNo}      
+	</update>
+	
+	<delete id="refuse">
+		DELETE
+		  FROM
+		      TB_FRIEND
+		 WHERE
+		      MY_ID = #{userNo}
+		   AND
+		      FRIEND_ID = #{friendNo}    
+	</delete>
+	
+</mapper>
