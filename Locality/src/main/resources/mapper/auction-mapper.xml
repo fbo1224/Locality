@@ -60,7 +60,20 @@
 	           PD_STATUS = 'Y'
 	    ORDER
 	       BY
-	           AUCTION_NO DESC
+         	<choose>
+         		<when test="filter == 'low'">
+         			BID_PRICE ASC
+         		</when>
+         		<when test="filter == 'bid'">
+         			BID_CNT DESC
+         		</when>
+         		<when test="filter == 'cnt'">
+         			PD_CNT DESC
+         		</when>
+         		<otherwise>
+	         		AUCTION_NO DESC
+         		</otherwise>
+         	</choose>
 	</select>
 	
 	<select id="auctionDetail" parameterType="_int" resultMap="auctionResultSet">
@@ -280,13 +293,13 @@
 	      ORDER
 	         BY
 	       <choose>
-         		<when test="field == 'low'">
+         		<when test="filter == 'low'">
          			BID_PRICE ASC
          		</when>
-         		<when test="field == 'bid'">
+         		<when test="filter == 'bid'">
          			BID_CNT DESC
          		</when>
-         		<when test="field == 'cnt'">
+         		<when test="filter == 'cnt'">
          			PD_CNT DESC
          		</when>
          		<otherwise>
@@ -295,7 +308,7 @@
          	</choose>
 	</select>
 	
-	<!-- 필터 기능 -->
+	<!-- 필터 기능 
 	<select id="searchFilter" parameterType="string" resultMap="auctionResultSet">
 		SELECT    
 				AUCTION_NO,
@@ -335,7 +348,7 @@
 	         		AUCTION_NO DESC
          		</otherwise>
          	</choose>
-	</select>
+	</select>-->
 	
 	<select id="resultAuction" parameterType="_int" resultMap="auctionResultSet">
 		SELECT

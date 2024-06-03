@@ -15,7 +15,7 @@ import com.kh.local.auction.model.vo.Save;
 public interface AuctionMapper {
 	
 	// 상품 리스트 조회
-	List<Auction> selectAuction(RowBounds rowBounds);
+	List<Auction> selectAuction(RowBounds rowBounds, String filter);
 	
 	// 상품 상세조회
 	Auction auctionDetail(int auctionNo);

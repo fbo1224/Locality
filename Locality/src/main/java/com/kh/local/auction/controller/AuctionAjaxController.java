@@ -1,10 +1,8 @@
 package com.kh.local.auction.controller;
 
 
-import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +24,16 @@ public class AuctionAjaxController {
 	
 	private final AuctionService auctionService;
 	
-	@GetMapping("/{page}")
-	public String selectAuction(@PathVariable("page") int page) {
+	@GetMapping("/{page}/{filter}")
+	public String selectAuction(@PathVariable("page") int page, @PathVariable("filter") String filter) {
+		System.out.println(filter);
+		System.out.println(page);
 	      PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 12, 10);
 	      RowBounds rowBounds = new RowBounds(
 	            (pi.getCurrentPage() - 1) * pi.getBoardLimit(),
 	            pi.getBoardLimit()
 	            );
-		return new Gson().toJson(auctionService.selectAuction(rowBounds));
+		return new Gson().toJson(auctionService.selectAuction(rowBounds, filter));
 	}
 	
 	@GetMapping("/detail.auction/{auctionNo}")

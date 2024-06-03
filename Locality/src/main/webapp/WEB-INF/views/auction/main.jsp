@@ -170,18 +170,18 @@
         <div id="ct">
             <div class="title">
                 <div><h1 id="pd_title">전체 상품</h1></div>
-                <div>
-                	<a href="filter.do?field=all">전체보기</a>
-                	<a href="filter.do?field=bid">인기순</a>
-                	<a href="filter.do?field=cnt">조회순</a>
-                	<a href="filter.do?field=low">가격 낮은 순</a>
-                	
-                	<button class="filter" value="all">전체보기</button>
-                	<button class="filter" value="bid">인기순</button>
-                	<button class="filter" value="cnt">조회순</button>
-                	<button class="filter" value="low">가격 낮은 순</button>
+                <div id="filter">
+                	<button id="all" value="all">전체보기</button>
+                	<button value="bid">인기순</button>
+                	<button value="cnt">조회순</button>
+                	<button value="low">가격 낮은 순</button>
                 </div>
             </div>
+            
+            <script>
+
+            	
+            </script>
             
             <div class="pro_wrap">
             	<div class="duct_wrap">
@@ -190,29 +190,65 @@
 			</div>
 		      <div class="refresh_btn"><img src="./resources/images/auction/more.png"></img></div>
             <script>
-	            let page = 1, resultStr = '';
+	            let page = 1,filter = 'all', resultStr = '';
 	            $(() => {
 	            	selectAuction(page);
 	                $('.refresh_btn > img').click(() => {
 	                	selectAuction(++page);
 	                });
 	             });
-		            // 리스트 뿌리기
-		        	$(() => {
-		        		$pdTitle = $('#pd_title');
-	        			if(${ value eq 'low' }){
-	        				$pdTitle.text('가격 낮은 순서 상품');
-	        			} 
-	        			else if (${ value eq 'bid' }){
-	        				$pdTitle.text('인기순 상품');	
-	        			}
-	        			else if(${ value  eq 'cnt' }){
-	        				$pdTitle.text('높은 조회 상품');
-	        			}
-	        			else{
-	        				$pdTitle.text('전체 상품');
-	        			}
-		        	})
+	            
+	            // 필터
+            	$(() => {
+            		$('#filter > button').click((e) => {
+            			
+            			let filter = e.target.value
+            			selectAuction(filter);
+            			
+            			console.log(filter);
+            		})
+            	})
+	            
+	            
+		            // 제품 리스트 AJAX
+		            function selectAuction(){
+		            	$.ajax({
+		            		url : 'products/' + page + '/' + filter,
+		            		type : 'get',
+		            		success : result => {
+		            			console.log(result);
+		            			for(let i in result){
+			            			resultStr += '<div class="product">'
+					    						+ '<input type="hidden" value="' + result[i].auctionNo + '">'
+					    						+ '<div class="pd_photo"><img src="' + result[i].imgPath + '" alt="상품"></div>'
+					    						+ '<div class="pd_title">' + result[i].pdName + '</div>'
+					    						+ '<div class="pd_auc">현재가:  ' + result[i].startPrice 
+					    						+ '원 <br> 입찰단위 : ' + result[i].bidUnit + '원</div>'
+					    						+ '<div class="pd_count">조회수: ' + result[i].pdCnt + ' 회 <br> 입찰수: ' + result[i].bidCnt + '건</div>'
+					    						+ '</div>'
+		            			}
+		            			$('.duct_wrap').html(resultStr);
+		            			/*
+	                        	if(result[0].pageInfo.currentPage != result[0].pageInfo.maxPage){
+				                    $('.refresh_btn').css('display', 'block');
+				                }
+				                else{
+				                    $('.refresh_btn').css('display', 'none');
+				                }*/
+		            		},
+		            		error : result => {
+		            			console.log('실패');
+		            		}
+		            	})
+		            }
+	            	
+   		            // 상세페이지로 이동
+   		            $(() => {
+   		                $('.product').click(() => {
+   		            		console.log('click');
+   		                    location.href = 'detail.auction/' + $(this).children('input[type="hidden"]').val();
+   		                });
+   		            });
 		            // TOP버튼
 		            $(() => { 
 		            	$(window).scroll(function() {
@@ -230,54 +266,6 @@
 		              }); 
 		              
 		            });
-		            // 제품 리스트 AJAX
-		            function selectAuction(){
-		            	$.ajax({
-		            		url : 'products/' + page,
-		            		type : 'get',
-		            		success : result =>{
-		            			console.log(result);
-		            			for(let i in result){
-			            			resultStr += '<div class="product">'
-					    						+ '<input type="hidden" value="' + result[i].auctionNo + '">'
-					    						+ '<div class="pd_photo"><img src="' + result[i].imgPath + '" alt="상품"></div>'
-					    						+ '<div class="pd_title">' + result[i].pdName + '</div>'
-					    						+ '<div class="pd_auc">현재가:  ' + result[i].startPrice 
-					    						+ '원 <br> 입찰단위 : ' + result[i].bidUnit + '원</div>'
-					    						+ '<div class="pd_count">조회수: ' + result[i].pdCnt + ' 회 <br> 입찰수: ' + result[i].bidCnt + '건</div>'
-					    						+ '</div>'
-		            			}
-		            			$('.duct_wrap').html(resultStr);
-		            			
-	                        	if(result[0].pageInfo.currentPage != result[0].pageInfo.maxPage){
-				                    $('.refresh_btn').css('display', 'block');
-				                }
-				                else{
-				                    $('.refresh_btn').css('display', 'none');
-				                }
-
-		            			
-		            		},
-		            		error : result => {
-		            			console.log('실패');
-		            		}
-		            	})
-		            	
-		            	
-		            	
-		            }
-	            	
-   		            // 상세페이지로 이동
-   		            $(() => {
-   		                $('.product').click(() => {
-   		            	console.log('click');
-   		                    location.href = 'detail.auction/' + $(this).children('input[type="hidden"]').val();
-   		                });
-   		            });
-   		            
-   		            $(() => {
-   		            	$('')
-   		            })
             </script>
 
         </div>
