@@ -181,7 +181,11 @@
 				
 				function inBid(){
 					const bidPrice = document.getElementById('bid').value;
+					
+					
 					location.href="auction.bid?userNo=" + ${ loginUser.userNo } + '&auctionNo=' + ${ auction.auctionNo } + '&bidPrice=' + bidPrice;  
+					
+					
 				}
 				
 			</script>

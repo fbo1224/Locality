@@ -243,7 +243,7 @@
 		            			console.log(result);
 		            			for(let i in result){
 			            			resultStr += '<div class="product">'
-					    						+ '<input type="hidden" value="' + result[i].auctionNo + '">'
+					    					   + '<input type="hidden" value="' + result[i].auctionNo + '">'
 					    						+ '<div class="pd_photo"><img src="' + result[i].imgPath + '" alt="상품"></div>'
 					    						+ '<div class="pd_title">' + result[i].pdName + '</div>'
 					    						+ '<div class="pd_auc">현재가:  ' + result[i].startPrice 
@@ -267,28 +267,26 @@
 		            }
 	            	
    		            // 상세페이지로 이동
-   		            $(() => {
-   		                $('.product').click(() => {
-   		            		console.log('click');
-   		                    location.href = 'detail.auction/' + $(this).children('input[type="hidden"]').val();
-   		                });
+   		            
+   		            $(document).on('click','.product',function() {
+   		            	location.href = 'detail.auction?auctionNo=' + $(this).children('input[type="hidden"]').val();
    		            });
+   		            
 		            // TOP버튼
 		            $(() => { 
 		            	$(window).scroll(function() {
-		                if ($(this).scrollTop() > 250) { 
-		                  $('#topBtn').fadeIn();
-		                } else {
-		                  $('#topBtn').fadeOut();
-		                }
-		              }); 
+			                if ($(this).scrollTop() > 250) { 
+			                  $('#topBtn').fadeIn();
+			                } else {
+			                  $('#topBtn').fadeOut();
+			                }
+		            	}); 
 		            	
-		              $("#topBtn").click(function() { 
-		              	$('html, body').animate({ scrollTop : 0
-		              	}, 500);
-		              	return false; 
-		              }); 
-		              
+			            $("#topBtn").click(function() { 
+				             $('html, body').animate({ scrollTop : 0
+				             }, 500);
+				             return false; 
+			            }); 
 		            });
             </script>
 

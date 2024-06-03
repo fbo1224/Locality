@@ -70,9 +70,12 @@ public class AuctionController {
 	
 	
 	// 상세페이지 이동
-	/*
+	
 	@GetMapping("detail.auction")
 	public ModelAndView auctionDetail(int auctionNo, ModelAndView mv) {
+		
+		System.out.println("detailAuctionController");
+		
 		Auction auction = auctionService.auctionDetail(auctionNo);
 		if(auctionService.increaseCount(auctionNo) > 0 && auction != null) {
 			mv.addObject("auction", auction).setViewName("auction/detail");
@@ -80,7 +83,7 @@ public class AuctionController {
 			mv.addObject("errorMsg", "상품 조회에 실패하였습니다.").setViewName("common/errorPage");
 		}
 		return mv;
-	}*/
+	}
 	
 	// 상세페이지에서 자기가 등록한 물품 삭제
 	@GetMapping("delete.auction")
