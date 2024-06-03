@@ -13,6 +13,8 @@ public interface MemberService {
 
 	Member loginConfirm(Member member);
 	
+	Member socialLogin(String socialId);
+	
 	List<Areas> citySearch(int cityNo);
 	
 	int emailConfirm(String email);
@@ -45,14 +47,13 @@ public interface MemberService {
 	
 	int userDelete(int userNo);
 	
-	int confirmUpdate(HashMap<String, Integer> map);
+	int confirmUpdate(int friendShip);
 	
-	int refuse(HashMap<String, Integer> map);
+	int refuse(int friendShip);
 
 	int updateAddress(Member member);
 
 	int insertAddress(Member member);
-	
-	Member socialLogin(String socialId);
-	
+
+	int friendSelect(HashMap<String, Integer> map);
 }

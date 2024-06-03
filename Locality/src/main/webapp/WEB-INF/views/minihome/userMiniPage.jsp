@@ -121,6 +121,7 @@ body {
 				url: '/local/miniPage/friendDelete/'+friendNo+'/'+${sessionScope.loginUser.userNo},
 				type: 'post',
 				success: result =>{
+					console.log(result)
 					if(result.data === 1){
 						$('#friendDelete').css('display', 'none');
 						alert('친구 삭제 완료')
@@ -131,7 +132,7 @@ body {
 		
 		function friendConfirm(){
 			$.ajax({
-				url: '/local/miniPage/confirmUpdate/'+friendNo+'/'+${sessionScope.loginUser.userNo},
+				url: '/local/miniPage/updateConfirm/'+friendNo+'/'+${sessionScope.loginUser.userNo},
 				type: 'post',
 				success: result =>{
 					if(result.data === 1){

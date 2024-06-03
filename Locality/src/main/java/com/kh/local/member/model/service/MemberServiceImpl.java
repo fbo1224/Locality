@@ -26,6 +26,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member socialLogin(String socialId) {
+		return memberMapper.socialLogin(socialId);
+	}
+	
+	@Override
 	public List<Areas> citySearch(int cityNo) {
 		return memberMapper.citySearch(cityNo);
 	}
@@ -107,13 +112,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int confirmUpdate(HashMap<String, Integer> map) {
-		return memberMapper.confirmUpdate(map);
+	public int confirmUpdate(int friendShip) {
+		return memberMapper.confirmUpdate(friendShip);
 	}
 
 	@Override
-	public int refuse(HashMap<String, Integer> map) {
-		return memberMapper.refuse(map);
+	public int refuse(int friendShip) {
+		return memberMapper.refuse(friendShip);
 	}
 
 	@Override
@@ -127,8 +132,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member socialLogin(String socialId) {
-		return memberMapper.socialLogin(socialId);
+	public int friendSelect(HashMap<String, Integer> map) {
+		return memberMapper.friendSelect(map);
 	}
 
 

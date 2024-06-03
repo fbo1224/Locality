@@ -142,26 +142,26 @@ public class MiniAjaxController {
 	}
 	
 	@PostMapping("/friendDelete/{friendNo}/{userNo}")
-	public ResponseEntity<Message> refuse(@PathVariable("friendNo") int friendNo, @PathVariable("userNo")int userNo){
+	public ResponseEntity<Message> refuse(@PathVariable("friendNo") int friendNo, @PathVariable("userNo")int userNo, HttpSession session){
 		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("userNo", userNo);
 		map.put("firendNo", friendNo);
 		
-		message.setData(memberService.refuse(map));
+		message.setData(memberService.refuse(memberService.friendSelect(map)));
 		message.setMessage("친구삭제");
 		message.setResponseCode("200");
 		
 		return merge(message);
 	}
 	
-	@PostMapping("/confirmUpdate/{friendNo}/{userNo}")
+	@PostMapping("/updateConfirm/{friendNo}/{userNo}")
 	public ResponseEntity<Message> confirmUpdate(@PathVariable("friendNo") int friendNo, @PathVariable("userNo")int userNo){
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("userNo", userNo);
 		map.put("firendNo", friendNo);
 		
-		message.setData(memberService.confirmUpdate(map));
+		message.setData(memberService.confirmUpdate(memberService.friendSelect(map)));
 		message.setMessage("친구승인");
 		message.setResponseCode("200");
 		

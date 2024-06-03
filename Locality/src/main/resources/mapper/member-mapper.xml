@@ -362,15 +362,25 @@
 		      USER_NO = #{userNo}
 	</update>
 	
-	<update id="confirmUpdate" parameterType="hashmap">
+	<select id="friendSelect" parameterType="hashmap" resultType="_int">
+		SELECT
+		      FRIENDSHIP_NO
+		  FROM
+		      TB_FRIEND
+		 WHERE         
+		      MY_ID = #{userNo} OR MY_ID = #{friendNo}
+		   AND
+		      FRIEND_ID = #{userNo} OR FRIEND_ID = #{friendNo}   
+	</select>
+	
+	
+	<update id="confirmUpdate" parameterType="int">
 		UPDATE
 		      TB_FRIEND
 		   SET
 		      STATUS = 'Y'
 		 WHERE
-		      MY_ID = #{userNo}
-		   AND
-		      FRIEND_ID = #{friendNo}      
+		      FRIENDSHIP_NO = #{friendShip} 
 	</update>
 	
 	<delete id="refuse" parameterType="hashmap">
@@ -378,9 +388,7 @@
 		  FROM
 		      TB_FRIEND
 		 WHERE
-		      MY_ID = #{userNo}
-		   AND
-		      FRIEND_ID = #{friendNo}    
+		      FRIENDSHIP_NO = #{friendShip}
 	</delete>
 	
 </mapper>
