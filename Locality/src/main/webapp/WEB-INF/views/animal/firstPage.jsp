@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +7,7 @@
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<title>Å¸ÀÌÆ²</title>
+<title>íƒ€ì´í‹€</title>
 
 <style>
 	#entire {
@@ -102,19 +102,19 @@
 
 	<div id="board_table" class="table">
 	
-		<div id="title" class="table" style="height: 20%; font-family:bolder;"><h2 align="center">½ÇÁ¾Á¦º¸</h2></div>
+		<div id="title" class="table" style="height: 20%; font-family:bolder;"><h2 align="center">ì‹¤ì¢…ì œë³´</h2></div>
 		
 		<div id="content" class="table" style="height: 50%; padding-left : 23%; " >
 			
-			<!-- ³ªÁß¿¡´Â for¹® µ¹¸± ¿¹Á¤ -->
+			<!-- ë‚˜ì¤‘ì—ëŠ” forë¬¸ ëŒë¦´ ì˜ˆì • -->
 			<div id="report">
 			<div class="image" style="height:65%; width : 100%; ">Image</div>
 					<div id="text" style="height:35%; width : 100%; font-size : 11px;">
 						<ul>
-							<li>ÀÌ¸§ : ±î¹Ì</li>
-							<li>Á¾·ù : °í¾çÀÌ / ÄÚ¸®¾È¼ôÇì¾î</li>
-							<li>³ªÀÌ : 6»ì</li>
-							<li>½ÇÁ¾Àå¼Ò : ¿¬Èñµ¿ ¾îµò°¡</li>
+							<li>ì´ë¦„ : ê¹Œë¯¸</li>
+							<li>ì¢…ë¥˜ : ê³ ì–‘ì´ / ì½”ë¦¬ì•ˆìˆí—¤ì–´</li>
+							<li>ë‚˜ì´ : 6ì‚´</li>
+							<li>ì‹¤ì¢…ìž¥ì†Œ : ì—°í¬ë™ ì–´ë”˜ê°€</li>
 							
 						</ul>						
 
@@ -139,31 +139,31 @@
 		
 		</div>
 		<div id="table_btn">
-		<button type="button" id="btn" onclick="location.href='report'">½ÇÁ¾Á¦º¸</button>
+		<button type="button" id="btn" onclick="location.href='report'">ì‹¤ì¢…ì œë³´í•˜ê¸°</button>
 		</div>
 	</div>
 	<div style="height:38%; width : 100%;">
-		<!-- bootStrap °Ô½ÃÆÇ ¿¹Á¤ -->
-		<h2 align="center"> ÃÖ±Ù °Ô½Ã±Û top 5 </h2>
+		<!-- bootStrap ê²Œì‹œíŒ ì˜ˆì • -->
+		<h2 align="center"> ìµœê·¼ ê²Œì‹œê¸€ top 5 </h2>
 	
-		<div id="click"> <a href="boardList">´õº¸±â</a> </div>	
+		<div id="click"> <a href="boardList">ë”ë³´ê¸°</a> </div>	
   <table class="table" style="width : 52%; margin-left : 23%; margin-top:25px;">
     <thead>
       <tr id="thead">
-        <th>Ä«Å×°í¸®</th>
-        <th colspan="3">Á¦¸ñ</th>
-        <th>Á¾</th>
-        <th>Á¾·ù</th>
-        <th>ÀÛ¼ºÀÏ</th>
-        <th>Á¶È¸¼ö</th>
+        <th>ì¹´í…Œê³ ë¦¬</th>
+        <th colspan="3">ì œëª©</th>
+        <th>ì¢…</th>
+        <th>ì¢…ë¥˜</th>
+        <th>ìž‘ì„±ì¼</th>
+        <th>ì¡°íšŒìˆ˜</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Ä«Å×°í¸®¸í</td>
-        <td colspan="3">Á¦¸ñ </td>
-        <td>¸»Æ¼Çª</td>
-        <td>°­¾ÆÁö </td>
+        <td>ì¹´í…Œê³ ë¦¬ëª…</td>
+        <td colspan="3">ì œëª© </td>
+        <td>ë§í‹°í‘¸</td>
+        <td>ê°•ì•„ì§€ </td>
         <td>2024.03.22</td>
         <td>5</td>
       </tr>
@@ -182,7 +182,7 @@
 	
 
 	/*
-	 ÀüÃ¼ °Ô½Ã±Û ºÒ·¯¿À±â? callbackÇÔ¼ö
+	 ì „ì²´ ê²Œì‹œê¸€ ë¶ˆëŸ¬ì˜¤ê¸°? callbackí•¨ìˆ˜
 	$(function(){
 		findTopBoards
 		

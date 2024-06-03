@@ -15,6 +15,7 @@
 <result column="NICKNAME" property="writer"/>
 <result column="CATEGORY_NO" property="categoryNo"/>
 <result column="USER_NO" property="userNo"/>
+<result column="CHANGE_NAME" property="uploadedFile"/>
 </resultMap>
 
 
@@ -22,12 +23,12 @@
 <select id = "areaInfo"  parameterType="_int" resultType="com.kh.local.common.model.vo.AreaInfomation">
 	
 	SELECT 
-    COUNTY_NAME countryName,
-    CITY_NAME cityName
-FROM
-    TB_AREAS A, TB_CITY C
-   WHERE
-   		A.CITY_CODE = C.CITY_CODE AND AREAS_CODE = #{code}		
+	   		 COUNTY_NAME countryName,
+	   		 CITY_NAME cityName
+	  FROM
+    		TB_AREAS A, TB_CITY C
+   	 WHERE
+   			A.CITY_CODE = C.CITY_CODE AND AREAS_CODE = #{code}		
 
 </select>
 <select id="BoardCount" resultType="_int">
@@ -50,13 +51,16 @@ FROM
 				        TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE",
 				        VIEW_COUNT,
 				        CATEGORY_NO,
-				        USER_NO
+				        USER_NO,
+				        CHANGE_NAME
 				 FROM
 				        TB_ANIMAL_BOARD
 				 JOIN 
 				        TB_CATEGORY USING(CATEGORY_NO)
 				 JOIN 
 				        TB_MEMBER USING (USER_NO)
+				 JOIN
+				 		TB_BOARD_FILE USING (BOARD_NO)       
 				 ORDER
 				    BY
 				        WRITE_DATE DESC
@@ -74,13 +78,16 @@ FROM
 				        TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE",
 				        VIEW_COUNT,
 				        CATEGORY_NO,
-				        USER_NO
+				        USER_NO,
+				        CHANGE_NAME
 				 FROM
 				        TB_ANIMAL_BOARD
 				 JOIN 
 				        TB_CATEGORY USING(CATEGORY_NO)
 				 JOIN 
 				        TB_MEMBER USING (USER_NO)
+				 JOIN
+				 		TB_BOARD_FILE USING (BOARD_NO)        
 				 WHERE        
 						CATEGORY_NAME = #{category}				        
 				 ORDER
@@ -97,23 +104,26 @@ FROM
 						TITLE,
 						CONTENT,
 						NICKNAME,
+						
 						CATEGORY_NAME,
 						TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE",
 						VIEW_COUNT,
 						CATEGORY_NO,
-						USER_NO
+						USER_NO,
+						
 				  FROM	
 				  		TB_ANIMAL_BOARD
 				  JOIN 			
 						TB_CATEGORY USING(CATEGORY_NO)
 				  JOIN
 				  		TB_MEMBER USING(USER_NO)
+				  	
 				 WHERE
 				 		<choose>
-				 				<when test="category=='title'">
+				 				<when test="category=='제목'">
 				 					TITLE
 				 				</when>
-				 				<when test="category=='writer'">
+				 				<when test="category=='작성자'">
 				 					NICKNAME
 				 				</when>
 				 				<otherwise>
@@ -125,6 +135,160 @@ FROM
 				 ORDER
 				 	BY
 				 		WRITE_DATE DESC		 			
+</select>
+
+<insert id="insertContent" parameterType="Report">
+			INSERT
+			  INTO
+			  		TB_MISSING_REPORT (
+			  							REPORT_NO,	
+			  							REPORT_PLACE,
+			  							CONTENT,
+			  							REPORT_DATE,
+			  							REPORT_TIME,
+			  							USER_NO,
+			  							ANIMAL_NAME,
+			  							STATUS,
+			  							)
+			  					VALUES
+			  							(
+			  							SEQ_REPORT.NEXTVAL,
+			  							#{reportPlace},
+			  							#{content},
+			  							#{reportDate},
+			  							#{reportTime},
+			  							#{userNo},
+			  							#{animalName},
+			  							DEFAULT
+			  							)
+			  		
+
+</insert>
+<insert id="insertReport" parameterType="Attachment">
+			INSERT 
+			  INTO 
+					TB_REPORT_ATTACHMENT
+										(
+										ATTACHEMENT_NO,
+										ORIGIN_NAME,
+										CHANGE_NAME,
+										FILE_PATH,
+										REPORT_NO
+										)
+								VALUES
+										(
+										SEQ_ATTACHEMENT.NEXTVAL,
+										#{originName},
+										#{changeName},
+										#{filePath},
+										SEQ_REPORT.CURRVAL
+										)
+							
+				
+
+</insert>
+<insert id="default" parameterType="Attachment">
+			INSERT 
+			  INTO 
+					TB_REPORT_ATTACHMENT
+										(
+										ATTACHEMENT_NO,
+										ORIGIN_NAME,
+										CHANGE_NAME,
+										FILE_PATH,
+										REPORT_NO
+										)
+								VALUES
+										(
+										SEQ_ATTACHEMENT.NEXTVAL,
+										#{originName},
+										#{changeName},
+										#{filePath},
+										#{reportNo}
+										)
+</insert>
+<insert id="Attachment">
+			INSERT
+			  INTO
+			  		TB_BOARD_FILE(
+			  						ATTACHMENT_NO,
+			  						ORIGIN_NAME,
+			  						CHANGE_NAME,
+			  						BOARD_NO
+			  					  )
+			  				VALUES(
+			  						SEQ_BOARDFILE.NEXTVAL,
+			  						#{originName},
+			  						#{changeName},
+			  						SEQ_ANIMAL_BOARD.CURRVAL
+			  						)		  
+			  
+			  		
+</insert>
+<insert id="insertBoard" parameterType="AnimalBoard">
+			INSERT
+			  INTO
+			  		TB_ANIMAL_BOARD(
+					  				BOARD_NO,
+					  				TITLE,
+					  				CONTENT,
+					  				WRITE_DATE,
+			  						VIEW_COUNT,
+			  						CATEGORY_NO,
+			  						USER_NO
+			  						)
+							VALUES(
+			  						SEQ_ANIMAL_BOARD.NEXTVAL,
+			  						#{title},
+			  						#{content},
+			  						SYSDATE,
+			  						0,
+			  						#{categoryNo},
+			  						#{userNo}
+			  						)			
+	
+</insert>					
+<select id="animalInfo" parameterType="HashMap" resultType="Animal">
+			SELECT
+					ANIMAL_NO,
+					ANIMAL_TYPE,
+					BREEDE,
+					ANIMAL_NAME,
+					GENDER,
+					PORTRAIT,
+					AGE,
+					NUTRIED,
+					USER_NO
+			FROM
+					TB_ANIMAL		
+		   WHERE
+		   			USER_NO = #{user} AND ANIMAL_NAME = #{animalName}				
+					
+
+</select>
+<select id="viewDetail" resultMap="list" parameterType="_int">
+			SELECT
+				        BOARD_NO,
+				        TITLE,
+				        CONTENT,
+				        NICKNAME,
+				        CATEGORY_NAME,
+				        TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE",
+				        VIEW_COUNT,
+				        CATEGORY_NO,
+				        USER_NO,
+				        CHANGE_NAME
+				 FROM
+				        TB_ANIMAL_BOARD
+				 JOIN 			
+						TB_CATEGORY USING(CATEGORY_NO)
+				 JOIN
+				  		TB_MEMBER USING(USER_NO)
+				 JOIN 	
+				 		TB_BOARD_FILE USING(BOARD_NO) 		       
+				WHERE
+						BOARD_NO = #{boardNo}       
+					
 </select>
 
 

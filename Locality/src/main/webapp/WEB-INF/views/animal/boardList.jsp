@@ -33,13 +33,14 @@
 	margin: 0 auto;
 }
 
-.componenets {
+.components {
 	width: 100%;
 	height: 20%;
-	;
+	cursor:pointer;
+	
 }
 
-.component>div {
+.components>hover {
 	
 }
 
@@ -73,6 +74,23 @@
 .input select, input {
 	border-radius: 5px;
 }
+
+#enroll {
+	width : 100px;
+	height : 30px;
+	background-color : white;
+	border : 2px solid #7EA1FF;
+	border-radius: 4px;
+	color : gray;
+	font-size : 14px;
+}
+
+#img{
+	height:100%;
+	width:100%;
+}
+
+
 </style>
 </head>
 <body>
@@ -119,9 +137,9 @@
 			</div>
 
 			<div id="component"
-				style="height: 75%; width: 100%; margin-top: 45px;">
+				style="height: 80%; width: 100%; margin-top: 45px;">
 
-				<div class="componenets" >
+				<div class="components" >
 
 					<c:forEach items="${list}" var="AnimalBoard">
 						
@@ -129,7 +147,7 @@
 						<!-- image -->
 						<div
 							style="height: 85%; margin-top: 10px; width: 120px; border: 1px solid lightgray">
-							이미지</div>
+							<img src="${AnimalBoard.uploadedFile}" alt="파일" id="img"> </div>
 
 
 						<!-- title & text -->
@@ -137,12 +155,11 @@
 							style="height: 85%; margin-top: 10px; width: 360px; margin-left: 20px;">
 							<!-- title -->
 							<div style="height: 25%; width: 100%; font-weight: bolder;">${ AnimalBoard.title}</div>
-
+							<div style="display:none" id="boardNo">${AnimalBoard.boardNo }</div>
 							<!-- text -->
 							<div
 								style="height: 65%; width: 100%; margin-top: 10px; font-size: 12px;">
-								<p>${ AnimalBoard.content }
-								<p>
+								<p>${ AnimalBoard.content }<p>
 							</div>
 						</div>
 
@@ -161,43 +178,21 @@
 
 				</div>
 
-<<<<<<< Updated upstream
-				<div style="width: 100%; height: 80%; marin-top : 500px;" >
-					<div class="container mt-3" style="width: 40%; margin-left: 30%; ">
+				<div style="float:left; margin-top:439px;"><button id="enroll" onclick="location.href='enrollform'">글쓰기</button></div>	
 
-
-						<ul class="pagination">
-                     <c:choose>
-                        <c:when test="${pageinfo.currentPage eq 1 }">
-                           <li class="page-item disabled"><a class="page-link"
-                              href="#" style="background-color: #FFFAB7">����</a></li>
-                        </c:when>
-                        <c:otherwise>
-                           <a class="page-link"
-                              href="boardList?page=${pageInfo.currentPage -1}"
-                              style="background-color: #FFFAB7">����</a>
-                        </c:otherwise>
-                     </c:choose>
-
-                     <c:forEach begin="${pageInfo.startPage }" end="${pageInfo.endPage }" var="p">
-                        <li class="page-item"><a class="page-link" href="boardList?page=${p }">${p }</a></li>
-                     </c:forEach>
-                     
-                     <li class="page-item"><a class="page-link" href="boardList?page=${pageInfo.startPage }" style="background-color: #FFFAB7">����</a></li>
-                  </ul>
-=======
-				
-
-				</div>
+	</div>
+	
+				<div style="width: 100%; height: 80%; float:left; margin-bottom:50px;" >
+					
 				<div style="width: 100%; height: 15%">
 					<div class="container mt-3" style="width: 40%; margin-left: 30%;">
 
 
-						<ul class="pagination">
+						<ul class="pagination" style="margin-left : 70px; " >
 							<c:choose>
 								<c:when test="${pageinfo.currentPage eq 1 }">
-									<li class="page-item disabled"><a class="page-link"
-										href="#" style="background-color: #FFFAB7">이전</a></li>
+									<li class="page-item"><a class="page-link"
+										href="boardList?page=${pageInfo.currentPage -1}" style="background-color: #FFFAB7">이전</a></li>
 								</c:when>
 								<c:otherwise>
 									<a class="page-link"
@@ -210,17 +205,17 @@
 								<li class="page-item"><a class="page-link" id="page" href="boardList?page=${p }">${p }</a></li>
 							</c:forEach>
 							
-							<li class="page-item"><a class="page-link" href="#" style="background-color: #FFFAB7">다음</a></li>
+							<li class="page-item"><a class="page-link" href="boardList?page=${pageInfo.currentPage +1}" style="background-color: #FFFAB7">다음</a></li>
 						</ul>
->>>>>>> Stashed changes
+
 
 					</div>
 		</div>
 			</div>
-
 	</div>
+	
 
-	<jsp:include page="../common/footer.jsp" />
+	<jsp:include page ="../common/footer.jsp"/>
 
 
 	<script> // 카테고리 선택시 값 바뀌는 기능 
@@ -243,6 +238,14 @@
 			location.href = 'searchkeyword?category='+$group+'&keyword='+$keyword;
 			
 			}
+			
+			// 게시글 상세보기 
+			$('.components').click(()=>{
+				// 안보이게 숨겨둔 boardNo
+				const $boardNo = $('#boardNo').text();
+				console.log($boardNo);
+				location.href = "viewDetail?boardNo="+$boardNo; 
+			});
 	</script>
 </body>
 </html>
