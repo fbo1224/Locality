@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.kh.local.community.model.dao.CommunityMapper">
+<mapper namespace="com.kh.local.community.model.repository.CommunityMapper">
 
 
 	<resultMap type="commuBoard" id="commuResultMap">

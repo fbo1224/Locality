@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
-import com.kh.local.ad.model.dao.AdMapper;
+import com.kh.local.ad.model.repository.AdMapper;
 import com.kh.local.ad.model.vo.AdBoardVO;
 import com.kh.local.ad.model.vo.AdPhotoVO;
 import com.kh.local.common.model.vo.PageInfo;
