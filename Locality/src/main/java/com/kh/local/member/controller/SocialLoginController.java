@@ -26,8 +26,8 @@ public class SocialLoginController {
 	public void code(String code) throws IOException, ParseException {
 		
 		String accessToken = getToken(code);
-		Member member = getUserInfo(accessToken);
-		System.out.println(member);
+		String socialId = getUserInfo(accessToken);
+		System.out.println(socialId);
 	}
 	
 	public String getToken(String code) throws IOException, ParseException{
@@ -68,7 +68,7 @@ public class SocialLoginController {
 		return accessToken;
 	}
 	
-	public Member getUserInfo(String accessToken) throws IOException, ParseException {
+	public String getUserInfo(String accessToken) throws IOException, ParseException {
 		
 		String userInfoUrl = "https://kapi.kakao.com/v2/user/me";
 		
@@ -85,12 +85,7 @@ public class SocialLoginController {
 		
 		JSONObject responseObj = (JSONObject)new JSONParser().parse(responseData);
 		
-		Member member = new Member();
-		
-		member.setUserId(responseObj.get("id").toString());
-		
-		return member;
-		
+		return responseObj.get("id").toString();
 	}	
 	
 }
