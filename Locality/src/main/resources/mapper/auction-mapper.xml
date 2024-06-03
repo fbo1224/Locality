@@ -9,7 +9,6 @@
 		<result column="PD_NAME" property="pdName" />
 		<result column="PD_DESC" property="pdDesc" />
 		<result column="BID_UNIT" property="bidUnit" />
-		<result column="CONDITION" property="condition" />
 		<result column="START_DATE" property="startDate" />
 		<result column="END_DATE" property="endDate" />
 		<result column="BID_CNT" property="bidCnt" />
@@ -25,19 +24,24 @@
 		<result column="REMAIN_DATE" property="remainDate" />
 	</resultMap>
 	
+	<resultMap type="bid" id="bidResultSet">
+		<result column="USER_NO" property="userNo" />
+		<result column="AUCTION_NO" property="auctionNo" />
+		<result column="BID_PRICE" property="bidPrice" />
+		<result column="CONDITION" property="condition" />
+	</resultMap>
+	
 	<sql id="selectList">
 		       AUCTION_NO,
 		       PD_NAME,
 		       PD_DESC,
 		       BID_UNIT,
-		       CONDITION,
 		       TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
 		       TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
 		       BID_CNT,
 		       START_PRICE,
 		       PD_CNT,
 		       PD_STATUS,
-		       PD_LCN,
 		       CATE_NO,
 		       SELLER,
 		       IMG_PATH,
@@ -61,21 +65,48 @@
 	
 	<select id="auctionDetail" parameterType="_int" resultMap="auctionResultSet">
 		SELECT
-		       <include refid="selectList" />
-		       TRUNC(END_DATE - SYSDATE, 0) + 1 AS REMAIN_DATE,
-		       BID_PRICE
-		 FROM
-		       TB_AUCTION
-		 JOIN
-		       TB_AUC_RECORD USING(AUCTION_NO)
-		 JOIN
-		       TB_AUC_IMG USING(AUCTION_NO)
-		 JOIN
-		       TB_MEMBER USING(USER_NO)
-	    WHERE
-	           PD_STATUS = 'Y'
-	      AND
-	           AUCTION_NO = #{auctionNo}
+		       A.AUCTION_NO,
+		       A.PD_NAME,
+		       A.PD_DESC,
+		       A.BID_UNIT,
+		       TO_CHAR(A.START_DATE, 'YYYY/MM/DD') AS START_DATE,
+		       TO_CHAR(A.END_DATE, 'YYYY/MM/DD') AS END_DATE,
+		       TRUNC(A.END_DATE - SYSDATE, 0) + 1 AS REMAIN_DATE,
+		       A.BID_CNT,
+		       A.START_PRICE,
+		       A.PD_CNT,
+		       A.PD_STATUS,
+		       M.USER_NAME AS SELLER,
+		       A.CATE_NO,
+		       I.IMG_PATH,
+		       MAX(R.BID_PRICE) AS BID_PRICE
+		FROM
+		       TB_AUCTION A
+		JOIN
+		       TB_AUC_IMG I ON A.AUCTION_NO = I.AUCTION_NO
+		JOIN
+		       TB_AUC_RECORD R ON A.AUCTION_NO = R.AUCTION_NO
+		JOIN
+		       TB_MEMBER M ON A.USER_NO = M.USER_NO
+		WHERE
+		       A.PD_STATUS = 'Y'
+		AND
+		       A.AUCTION_NO = #{auctionNo}
+		GROUP 
+		   BY
+		       A.AUCTION_NO,
+		       A.PD_NAME,
+		       A.PD_DESC,
+		       A.BID_UNIT,
+		       A.START_DATE,
+		       A.END_DATE,
+		       A.BID_CNT,
+		       A.START_PRICE,
+		       A.PD_CNT,
+		       A.PD_STATUS,
+		       M.USER_NAME,
+		       A.CATE_NO,
+		       I.IMG_PATH
 	</select>
 	
 	<update id="increaseCount" parameterType="_int">
@@ -120,14 +151,12 @@
 			    PD_NAME,
 			    PD_DESC,
 			    BID_UNIT,
-			    CONDITION,
 			    TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
 			    TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
 			    BID_CNT,
 			    START_PRICE,
 			    PD_CNT,
 			    PD_STATUS,
-			    PD_LCN,
 			    CATE_NO,
 			    SELLER,
 			    IMG_PATH,
@@ -164,7 +193,6 @@
 		        #{pdName}, 
 		        #{pdDesc}, 
 		        #{bidUnit}, 
-		        DEFAULT, 
 		        SYSDATE, 
 		        SYSDATE + INTERVAL '15' DAY, 
 		        DEFAULT, 
@@ -182,7 +210,8 @@
                 (
                  SEQ_AUCTION.CURRVAL,
                  #{userNo},
-                 #{startPrice}
+                 #{startPrice},
+                 DEFAULT
                  )
         INTO
                 TB_AUC_IMG 
@@ -232,12 +261,10 @@
 				PD_NAME,
 				PD_DESC,
 				BID_UNIT,
-				CONDITION,
 				BID_CNT,
 				START_PRICE,
 				PD_CNT,
 				PD_STATUS,
-				PD_LCN,
 				CATE_NO,
 				SELLER,
 				IMG_PATH
@@ -275,12 +302,10 @@
 				PD_NAME,
 				PD_DESC,
 				BID_UNIT,
-				CONDITION,
 				BID_CNT,
 				START_PRICE,
 				PD_CNT,
 				PD_STATUS,
-				PD_LCN,
 				CATE_NO,
 				SELLER,
 				IMG_PATH,
@@ -314,19 +339,18 @@
 	
 	<select id="resultAuction" parameterType="_int" resultMap="auctionResultSet">
 		SELECT
+		       AUCTION_NO,
 		       BID_PRICE,
 		       PD_NAME,
 			   PD_DESC,
 			   BID_UNIT,
-			   CONDITION,
 			   TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
 			   TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
-			   TRUNC(END_DATE - SYSDATE, 0) AS REMAIN_DATE,
+			   TRUNC(END_DATE - SYSDATE, 0) + 1 AS REMAIN_DATE,
 			   BID_CNT,
 			   START_PRICE,
 			   PD_CNT,
 			   PD_STATUS,
-			   PD_LCN,
 			   CATE_NO,
 			   SELLER,
 			   IMG_PATH
@@ -352,11 +376,12 @@
 		       AUCTION_NO = #{auctionNo}
 	</delete>
 	
-	<select id="selectBid" parameterType="bid" resultType="bid">
+	<select id="selectBid" parameterType="bid" resultMap="bidResultSet">
 		SELECT
-		       AUCTION_NO auctionNo,
-		       USER_NO userNo,
-		       BID_PRICE bidPrice
+		       AUCTION_NO,
+		       USER_NO,
+		       BID_PRICE,
+		       CONDITION
 		  FROM
 		       TB_AUC_RECORD
 		 WHERE
@@ -364,6 +389,17 @@
 		   AND
 		       AUCTION_NO = #{auctionNo}
 	</select>
+	
+	<update id="updateBid" parameterType="bid">
+		UPDATE
+		       TB_AUC_RECORD
+		   SET
+		       BID_PRICE = #{bidPrice}
+         WHERE
+               USER_NO = #{userNo}
+           AND
+               AUCTION_NO = #{auctionNo}
+	</update>
 	
 	<insert id="auctionBid" parameterType="bid">
 		INSERT
@@ -383,12 +419,10 @@
 				PD_NAME,
 				PD_DESC,
 				BID_UNIT,
-				CONDITION,
 				BID_CNT,
 				START_PRICE,
 				PD_CNT,
 				PD_STATUS,
-				PD_LCN,
 				CATE_NO,
 				SELLER,
 				IMG_PATH,
@@ -420,37 +454,72 @@
          	</choose>
 	</select>
 	
-	<select id="selectRemainDate" resultMap="auctionResultSet">
-		SELECT 
-               AUCTION_NO,
-               TB_AUC_RECORD.USER_NO,
-               MAX(BID_PRICE) AS HIGHEST_BID_PRICE
-          FROM
-               TB_AUC_RECORD
-          JOIN
-               TB_AUCTION USING(AUCTION_NO)
+	<select id="selectRemainDate" resultMap="bidResultSet">
+	    SELECT
+	           *
+	      FROM
+				(SELECT 
+		               AUCTION_NO,
+		               TB_AUC_RECORD.USER_NO,
+		               MAX(BID_PRICE) AS BID_PRICE
+		          FROM
+		               TB_AUC_RECORD
+		          JOIN
+		               TB_AUCTION USING(AUCTION_NO)
+		         WHERE
+		               TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
+		           AND
+		               PD_STATUS = 'Y'
+		         GROUP 
+		            BY
+		               AUCTION_NO,
+		               TB_AUC_RECORD.USER_NO
+		         ORDER 
+		            BY
+		               AUCTION_NO)
          WHERE
-               TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
-           AND
-               PD_STATUS = 'Y'
-         GROUP 
-            BY
-               AUCTION_NO,
-               TB_AUC_RECORD.USER_NO
-         ORDER 
-            BY
-               AUCTION_NO
+               ROWNUM = 1
 	</select>
 	
+	<update id="changeCondition" parameterType="bid">
+		UPDATE
+		       TB_AUC_RECORD
+		   SET
+		       CONDITION = 'Y'
+		 WHERE
+		       AUCTION_NO = #{auctionNo}
+		   AND
+		       USER_NO = #{userNo}
+		   AND
+		       BID_PRICE = 
+		       (
+		        SELECT 
+		               MAX(BID_PRICE) AS BID_PRICE
+		          FROM
+		               TB_AUC_RECORD
+		          JOIN
+		               TB_AUCTION ON(TB_AUC_RECORD.AUCTION_NO = TB_AUCTION.AUCTION_NO)
+		         WHERE
+		               TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
+		           AND
+		               PD_STATUS = 'Y'
+                   AND
+                       TB_AUC_RECORD.USER_NO = #{userNo}
+                  AND
+                        TB_AUC_RECORD.AUCTION_NO = #{auctionNo}
+		       )
+	</update>
 	
-	<update id="changeStatus">
+	
+	<update id="changeStatus" parameterType="bid">
 		UPDATE
 		       TB_AUCTION
 		   SET
 		       PD_STATUS = 'N'
-		       
 		 WHERE
 		       TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
+		   AND
+		       AUCTION_NO = #{auctionNo}
 	</update>
 	
 	<delete id="deleteRecord">
@@ -458,15 +527,25 @@
 		  FROM
 		       TB_AUC_RECORD
 	     WHERE
-	           AUCTION_NO IN  (
-				              SELECT
-				                     AUCTION_NO
-				                FROM 
-				                     TB_AUCTION
-				               WHERE
-				                     TRUNC(END_DATE - SYSDATE, 3) &lt;= 0
-				              )
+	           'Y' = (SELECT
+	                         PD_STATUS
+	                    FROM
+	                         TB_AUCTION
+                       WHERE
+                             AUCTION_NO = #{auctionNo}
+	                   )  
+		   AND
+		       CONDITION = 'N'
+		   AND
+		       AUCTION_NO = #{auctionNo}
 	</delete>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		TB_AUCTION		
+	</select>
 	
 	
 
