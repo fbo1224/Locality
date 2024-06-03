@@ -79,7 +79,7 @@
 		                           MY_ID = 
 	</sql>
 	
-	<select id="loginConfirm" parameterType="member" resultMap="memberResultSet">
+	<sql id="login">
 		SELECT
 		      USER_NO,
 		      USER_ID,
@@ -99,11 +99,24 @@
           LEFT
           JOIN
               TB_ADDRESS USING (USER_NO)       
+	</sql>
+	
+	<select id="loginConfirm" parameterType="member" resultMap="memberResultSet">
+		<include refid="login"/>   
 		 WHERE     
 		      USER_ID = #{userId}
 		   AND
 		      STATUS = 'Y'   
 	</select>
+	
+	<select id="socialLogin" parameterType="string" resultMap="memberResultSet">
+		<include refid="login"/>
+		WHERE
+		     SOCIAL_ID = #{socialId}
+		  AND
+		     STATUS = 'Y'   
+	</select>
+	
 	
 	<select id="citySearch" parameterType="_int" resultMap="areasResultSet">
 		SELECT
@@ -152,6 +165,9 @@
 			  NICKNAME,
 			  PHONE,
 			  AREAS_CODE
+		<if test="socialId != null">
+			 ,SOCIAL_ID
+		</if>	  
 			  )
 		VALUES
 			  (
@@ -162,6 +178,9 @@
 			  #{nickName},
 			  #{phone},
 			  #{areasCode}
+		<if test="socialId != null">
+			 ,#{socialId}
+		</if>
 			  )	  	  
 	</insert>
 	
@@ -354,7 +373,7 @@
 		      FRIEND_ID = #{friendNo}      
 	</update>
 	
-	<delete id="refuse">
+	<delete id="refuse" parameterType="hashmap">
 		DELETE
 		  FROM
 		      TB_FRIEND

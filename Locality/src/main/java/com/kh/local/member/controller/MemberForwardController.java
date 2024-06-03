@@ -13,10 +13,6 @@ import com.kh.local.member.model.vo.Member;
 public class MemberForwardController {
 
 	@GetMapping("loginForm")
-	public String loginForm() {
-		return "login/login";
-	}
-	@GetMapping("userLoginForm")
 	public String userLoginForm() {
 		return "login/userLoginForm";
 	}
@@ -28,6 +24,7 @@ public class MemberForwardController {
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("loginUser");
+		session.removeAttribute("socialId");
 		return "home";
 	}
 	

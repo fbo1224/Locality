@@ -126,6 +126,11 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.insertAddress(member);
 	}
 
+	@Override
+	public Member socialLogin(String socialId) {
+		return memberMapper.socialLogin(socialId);
+	}
+
 
 
 }

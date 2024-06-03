@@ -174,7 +174,7 @@
             <div id="searchLogin">
                 <a href="#">아이디 찾기</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="#">비밀번호 찾기</a>
             </div>
-            <a id="kakaoLogin">
+            <a id="kakaoLogin" onclick="kakao();">
             	<img alt="카카오로그인" src="resources/images/kakao/kakao_login.png">
             </a>
             <br><br>
@@ -202,9 +202,9 @@
                 }
             })
             
-            $('#kakaoLogin').click(()=>{
+            function kakao(){
             	location.href='https://kauth.kakao.com/oauth/authorize?client_id=6a7db0306acb235e8eca7541784693af&redirect_uri=http://localhost:8001/local/code&response_type=code';
-            })
+            }
         </script>
 </body>
 </html>

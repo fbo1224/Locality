@@ -78,28 +78,31 @@ body {
             <button class="btn btn-lg btn-secondary" onclick="guestBook()">방명록</button>
             <c:choose>
             	<c:when test="${result == 1}">
-		            <button class="btn btn-lg btn-danger" id="plusBtn" onclick="friend()">친구추가</button>
+		            <button class="btn btn-lg btn-danger" id="plusBtn" onclick="friend();">친구추가</button>
             	</c:when>
             	<c:when test="${result == 2}">
-		            <button class="btn btn-lg btn-danger" id="friendDelete" onclick="friendDelete()">친구삭제</button>
+		            <button class="btn btn-lg btn-danger" id="friendDelete" onclick="friendDelete();">친구삭제</button>
             	</c:when>
             	<c:otherwise>
-            		<button class="btn btn-lg btn-danger" id="friendDelete" onclick="friend">친구승인</button>
+            		<button class="btn btn-lg btn-danger" id="friendConfirm" onclick="friendConfirm();">친구승인</button>
             	</c:otherwise>
             </c:choose>
         </div>
     </div>
 	
 	<script>
+		
 		const friendNo = ${friendNo};
 	  	const friendName = '${friendName}';
 	  	
 		function photo(){
 			location.href='/local/userPhoto/' + friendNo + '/' + friendName;
 		}
+		
 		function guestBook(){
 			location.href='/local/userGuestBook/' + friendNo + '/' + friendName;
 		}
+		
 		function friend(){
 			$.ajax({
 				url: '/local/miniPage/follow/' + friendNo,
@@ -107,17 +110,35 @@ body {
 				success: confirm =>{
 					if(confirm.data === 1){
 						$('#plusBtn').css('display', 'none');
+						alert('친구 추가 완료. 승인 대기 중')
 					}
 				}
 			})
 		}
+		
 		function friendDelete(){
 			$.ajax({
 				url: '/local/miniPage/friendDelete/'+friendNo+'/'+${sessionScope.loginUser.userNo},
 				type: 'post',
-				success: data =>{
-					
+				success: result =>{
+					if(result.data === 1){
+						$('#friendDelete').css('display', 'none');
+						alert('친구 삭제 완료')
+					}
 				}
+			})
+		}
+		
+		function friendConfirm(){
+			$.ajax({
+				url: '/local/miniPage/confirmUpdate/'+friendNo+'/'+${sessionScope.loginUser.userNo},
+				type: 'post',
+				success: result =>{
+					if(result.data === 1){
+						$('#friendConfirm').css('display', 'none');
+						alert('친구 승인 완료')
+					}
+				}	
 			})
 		}
 	</script>

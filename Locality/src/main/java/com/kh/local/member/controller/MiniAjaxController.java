@@ -130,15 +130,42 @@ public class MiniAjaxController {
 	@PostMapping("/follow/{friend}")
 	public ResponseEntity<Message> follow(@PathVariable("friend")int friend, HttpSession session) {
 		
-		System.out.println(friend);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("userNo", ((Member)session.getAttribute("loginUser")).getUserNo());
 		map.put("firendNo", friend);
 		
 		message.setData(memberService.follow(map));
 		message.setMessage("친구추가");
-		message.setMessage("200");
+		message.setResponseCode("200");
 		
 		return merge(message);
 	}
+	
+	@PostMapping("/friendDelete/{friendNo}/{userNo}")
+	public ResponseEntity<Message> refuse(@PathVariable("friendNo") int friendNo, @PathVariable("userNo")int userNo){
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("userNo", userNo);
+		map.put("firendNo", friendNo);
+		
+		message.setData(memberService.refuse(map));
+		message.setMessage("친구삭제");
+		message.setResponseCode("200");
+		
+		return merge(message);
+	}
+	
+	@PostMapping("/confirmUpdate/{friendNo}/{userNo}")
+	public ResponseEntity<Message> confirmUpdate(@PathVariable("friendNo") int friendNo, @PathVariable("userNo")int userNo){
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("userNo", userNo);
+		map.put("firendNo", friendNo);
+		
+		message.setData(memberService.confirmUpdate(map));
+		message.setMessage("친구승인");
+		message.setResponseCode("200");
+		
+		return merge(message);
+	}
+	
 }

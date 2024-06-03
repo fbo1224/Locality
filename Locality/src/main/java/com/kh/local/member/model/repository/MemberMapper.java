@@ -54,6 +54,8 @@ public interface MemberMapper  {
 	int updateAddress(Member member);
 
 	int insertAddress(Member member);
+
+	Member socialLogin(String socialId);
 	
 	
 }

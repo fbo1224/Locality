@@ -53,4 +53,6 @@ public interface MemberService {
 
 	int insertAddress(Member member);
 	
+	Member socialLogin(String socialId);
+	
 }
