@@ -48,6 +48,7 @@ public class MemberController {
 		return mv;
 	}
 	
+	
 	@PostMapping("signUpUser")
 	public ModelAndView signUpUser(ModelAndView mv, Member member, HttpSession session) {
 		
@@ -168,7 +169,7 @@ public class MemberController {
 	@PostMapping("confirmUpdate")
 	public ModelAndView confirmUpdate(ModelAndView mv,HttpSession session, Member member) {
 		
-		HashMap<String, Integer> map = new HashMap<>();
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("friendNo", member.getFriendNo());
 		map.put("userNo", member.getUserNo());
 		
@@ -183,7 +184,7 @@ public class MemberController {
 	@PostMapping("refuse")
 	public ModelAndView refuse(ModelAndView mv,HttpSession session, Member member) {
 		
-		HashMap<String, Integer> map = new HashMap<>();
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("friendNo", member.getFriendNo());
 		map.put("userNo", member.getUserNo());
 		
