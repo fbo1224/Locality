@@ -23,19 +23,18 @@
     #ct{
         margin: auto;
         width: 1200px;
-        height: 2500px;
+        height: auto;
         
     }
 
     #photo{
-        margin-top: 150px;
         width: 100%;
         height: 500px;
     }
 
     #header{
         width: 100%;
-        height: 300px;
+        height: 100px;
         position: relative;
     }
 
@@ -142,7 +141,19 @@
 		border: 1px solid black;
     }
     
-
+    #filter > button{
+    	border-radius:10px;
+    	background-color:#fff;
+    	border:1px solid black;
+    	font-weight:bold;
+    	margin-bottom:10px;
+    	margin-right:10px;
+    }
+    #filter > button:hover{
+    	color:white;
+    	background-color:black;
+    }
+    
 
 </style>
 
@@ -160,7 +171,7 @@
         <div id="search">
             <form action="search.do" method="get">
                 <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
-                <input type="hidden" name="field" value="${ field }" />
+                <input type="hidden" name="field"/>
                 <button type="submit">검색</button>
             </form>
         </div>
@@ -171,17 +182,13 @@
             <div class="title">
                 <div><h1 id="pd_title">전체 상품</h1></div>
                 <div id="filter">
-                	<button id="all" value="all">전체보기</button>
+                	<button value="all">전체보기</button>
                 	<button value="bid">인기순</button>
                 	<button value="cnt">조회순</button>
                 	<button value="low">가격 낮은 순</button>
                 </div>
             </div>
             
-            <script>
-
-            	
-            </script>
             
             <div class="pro_wrap">
             	<div class="duct_wrap">
@@ -203,9 +210,26 @@
             		$('#filter > button').click((e) => {
             			
             			let filter = e.target.value
-            			selectAuction(filter);
+            			let title = $('#pd_title');
+            			// AJAX filter 값 넣기
+            			selectAuction(page, filter);
             			
-            			console.log(filter);
+            			// 검색할 때 field 값 넣기
+            			$('input[name="field"]').val(filter);
+            			
+            			// 제목 변경
+            			if(filter == 'bid'){
+            				title.text('인기순 상품');
+            			}
+            			else if(filter == 'cnt'){
+            				title.text('많이 찾은 상품');
+            			}
+            			else if(filter == 'low'){
+            				title.text('가겨 낮은 상품');
+            			}
+            			else{
+            				title.text('전체 상품');
+            			}
             		})
             	})
 	            
@@ -275,7 +299,6 @@
     </div>
 	
 	
-	<jsp:include page="../common/footer.jsp" />
 
 </body>
 </html>

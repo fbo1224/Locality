@@ -33,36 +33,8 @@ import lombok.RequiredArgsConstructor;
 public class AuctionController {
 	
 	private final AuctionService auctionService;
-	/*
-	// 메인페이지 이동
-	@GetMapping("auction")
-	public String auctionMain(Model model) {
-		
-	      int page = 1;
-	      PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 12, 10);
-	      RowBounds rowBounds = new RowBounds(
-	            (pi.getCurrentPage() - 1) * pi.getBoardLimit(),
-	            pi.getBoardLimit()
-	            );
-	      
-		List<Auction> auctionList = auctionService.selectAuction(rowBounds);
-		
-		// 날짜가 지난 상품들 중 입찰 가격이 가장 높은 것
-		Bid bid = auctionService.selectRemainDate();
-		// 상품 번호당 가장 높은 입찰금액(낙찰!) => 낙찰로 처리해줘야함(컨디션을 Y)
-		
-		if(bid != null) {
-			// CONDITION컬럼으로 낙찰 표시
-			//auctionService.changeCondition(prizeList);
-			// 날짜 지난 상품 Status N처리
-			if(auctionService.changeStatus(bid) > 0) {
-				auctionService.deleteRecord(bid);
-			}
-		}
-		model.addAttribute("list", auctionList);
-		return "auction/main";
-	}
-	*/
+	
+	
 	// 메인페이지 이동
 	@GetMapping("auction")
 	public String auctionMain() {
@@ -81,7 +53,6 @@ public class AuctionController {
 		return "auction/main";
 	}
 	
-
 	
 	// 검색기능
 	@GetMapping("search.do")
@@ -90,7 +61,6 @@ public class AuctionController {
 		HashMap<String, String> map = new HashMap();
 		map.put("field", field);
 		map.put("keyword", keyword);
-		
 		List<Auction> searchList = auctionService.selectSearchList(map);
 		
 		model.addAttribute("list", searchList).addAttribute("keyword", keyword);
@@ -98,13 +68,6 @@ public class AuctionController {
 		return "auction/main";
 	}
 	
-	// 필터기능
-	@GetMapping("filter.do")
-	public String searchFilter(Model model, String field) {
-		List<Auction> list = auctionService.searchFilter(field);
-		model.addAttribute("list", list).addAttribute("field", field);
-		return "auction/main";
-	}
 	
 	// 상세페이지 이동
 	/*

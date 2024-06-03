@@ -3,6 +3,7 @@ package com.kh.local.auction.controller;
 
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
