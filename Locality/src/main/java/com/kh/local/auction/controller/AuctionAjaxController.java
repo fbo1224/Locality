@@ -29,7 +29,7 @@ public class AuctionAjaxController {
 	public String selectAuction(@PathVariable("page") int page, @PathVariable("filter") String filter) {
 		System.out.println(filter);
 		System.out.println(page);
-	      PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 12, 10);
+	      PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 8, 10);
 	      RowBounds rowBounds = new RowBounds(
 	            (pi.getCurrentPage() - 1) * pi.getBoardLimit(),
 	            pi.getBoardLimit()
@@ -43,7 +43,6 @@ public class AuctionAjaxController {
 		Auction auction = auctionService.auctionDetail(auctionNo);
 		if(auctionService.increaseCount(auctionNo) > 0 && auction != null) {
 			mv.addObject("auction", auction).setViewName("auction/detail");
-			
 		} else {
 			mv.addObject("errorMsg", "상품 조회에 실패하였습니다.").setViewName("common/errorPage");
 		}
