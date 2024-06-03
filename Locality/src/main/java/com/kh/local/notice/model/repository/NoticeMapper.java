@@ -1,4 +1,4 @@
-package com.kh.local.notice.model.dao;
+package com.kh.local.notice.model.repository;
 
 import java.util.List;
 
