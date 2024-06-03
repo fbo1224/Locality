@@ -52,19 +52,12 @@ public class Forwading {
 
 
 	@RequestMapping("main") // ��, �� ���� 
-	public String forward(HttpSession session){
+	public ModelAndView forward(ModelAndView mv){
+		System.out.println(service.viewMain());
+		mv.addObject("list", service.viewMain()).setViewName("animal/firstPage");
+
+		return mv;
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int userNo = loginUser.getUserNo();
-		
-	//	service.viewMain(userNo);
-		
-		if(loginUser !=null) {
-		return "animal/firstPage";		
-		} else {
-			session.setAttribute("alertMsg", "로그인이 안되어있습니다");
-			return "common/errorPage";
-		}
 	}
 	
 	@GetMapping("boardList")
@@ -79,10 +72,8 @@ public class Forwading {
 		
 
 		model.addAttribute("list", service.BoardList(pi));
-		
 		model.addAttribute("pageInfo", pi);
 		
-	//	System.out.println(service.BoardList(pi).toString());
 	
 		return "animal/boardList";
 	}
@@ -102,9 +93,6 @@ public class Forwading {
 	public ModelAndView searchKeyword(@RequestParam(value="page",defaultValue="1") int page, String category, String keyword,ModelAndView mv) {
 		
 		PageInfo pi = Pagination.getPageInfo(service.BoardCount(), page, 5, 5);
-	//	System.out.println(category);
-	//	System.out.println(keyword);
-
 		
 		HashMap<String, String> map = new HashMap();
 		map.put("category", category);
@@ -252,7 +240,7 @@ public class Forwading {
 	
 	@PostMapping("attachment")
 	public void attachment(MultipartFile upfile,HttpSession session) throws IllegalStateException, IOException {
-		System.out.println(upfile);
+		
 		Attachment attachment = new Attachment();
 		
 		
@@ -261,11 +249,13 @@ public class Forwading {
 			attachment.setOriginName(upfile.getOriginalFilename());
 			attachment.setChangeName(saveFile(upfile,session));
 			attachment.setFilePath(saveFile(upfile, session));
-			attachment.setReportNo(1);
+			attachment.setReportNo(7);
 			service.defaultAttachment(attachment);
 		}
 		
 	}
+	
+	
 	
 	
 	

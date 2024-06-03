@@ -18,6 +18,20 @@
 <result column="CHANGE_NAME" property="uploadedFile"/>
 </resultMap>
 
+<resultMap id="report" type="com.kh.local.animal.model.vo.Report">
+	<result column="REPORT_NO" property="reportNo"/>
+	<result column="REPORT_PLACE" property="reportPlace"/>
+	<result column="REPORT_DATE" property="reportDate"/>
+	<result column="REPORT_TIME" property="reportTime"/>
+	<result column="NICKNAME" property="nickName"/>
+	<result column="ANIMAL_NAME" property="animalName"/>
+	<result column="ANIMAL_TYPE" property="animalType"/>
+	<result column="BREEDE" property="breede"/>
+	<result column="AGE" property="age"/>
+	<result column="STATUS" property="status"/>
+	<result column="CONTENT" property="content"/>
+	<result column="CHANGE_NAME" property="changeName"/>
+</resultMap>
 
 
 <select id = "areaInfo"  parameterType="_int" resultType="com.kh.local.common.model.vo.AreaInfomation">
@@ -37,6 +51,36 @@
 			COUNT (*)
 	FROM
 			TB_ANIMAL_BOARD		
+
+</select>
+<select id="viewMain" resultMap="report">
+		SELECT
+				REPORT_NO,
+				REPORT_PLACE,
+				TO_CHAR(REPORT_DATE,'YYYY-MM-DD') AS "REPORT_DATE",
+				REPORT_TIME,
+				NICKNAME,
+				ANIMAL_NAME,
+                ANIMAL_TYPE,
+                BREEDE,
+                AGE,
+				TB_MISSING_REPORT.STATUS,
+				CONTENT,
+				CHANGE_NAME
+		 FROM
+		 		TB_MISSING_REPORT		
+		 JOIN
+				TB_REPORT_ATTACHMENT USING(REPORT_NO)
+		 JOIN
+		 		TB_MEMBER USING(USER_NO)
+         JOIN
+                TB_ANIMAL USING(ANIMAL_NAME)
+         WHERE
+                tb_missing_report.status='N'
+		 ORDER
+		    BY
+		    	REPORT_DATE DESC		
+                					
 
 </select>
 
@@ -190,20 +234,18 @@
 <insert id="default" parameterType="Attachment">
 			INSERT 
 			  INTO 
-					TB_REPORT_ATTACHMENT
+					TB_BOARD_FILE
 										(
-										ATTACHEMENT_NO,
+										ATTACHMENT_NO,
 										ORIGIN_NAME,
 										CHANGE_NAME,
-										FILE_PATH,
-										REPORT_NO
+										BOARD_NO
 										)
 								VALUES
 										(
 										SEQ_ATTACHEMENT.NEXTVAL,
 										#{originName},
 										#{changeName},
-										#{filePath},
 										#{reportNo}
 										)
 </insert>

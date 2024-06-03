@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.local.animal.model.dao.animalRepository;
+import com.kh.local.animal.model.repository.animalRepository;
 import com.kh.local.animal.model.vo.Animal;
 import com.kh.local.animal.model.vo.AnimalBoard;
 import com.kh.local.animal.model.vo.Attachment;
@@ -71,14 +71,14 @@ public class animalServiceImpl implements animalService {
 	public int insertReport(Attachment attachment) {
 		return repository.insertReport(sqlSession, attachment);
 	}
-	/*
+	
 	@Override
-	public List<Report> viewMain(int userNo) {
+	public List<Report> viewMain() {
 		
-		return repository.viewMain(sqlSession,userNo);
+		return repository.viewMain(sqlSession);
 	}
 	
-	*/
+
 	@Override
 	public int insertAnimalBoard(AnimalBoard board) {
 		return repository.insertAnimalBoard(sqlSession, board);	}
