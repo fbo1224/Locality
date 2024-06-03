@@ -201,16 +201,18 @@
 	            $(() => {
 	            	selectAuction(page);
 	                $('.refresh_btn > img').click(() => {
-	                	selectAuction(++page);
+	                	selectAuction(++page, filter);
 	                });
 	             });
 	            
 	            // 필터
             	$(() => {
             		$('#filter > button').click((e) => {
-            			
-            			let filter = e.target.value
+            			page = 1;
+            			resultStr = '';
+            			filter = e.target.value;
             			let title = $('#pd_title');
+            			console.log(filter);
             			// AJAX filter 값 넣기
             			selectAuction(page, filter);
             			
@@ -225,7 +227,7 @@
             				title.text('많이 찾은 상품');
             			}
             			else if(filter == 'low'){
-            				title.text('가겨 낮은 상품');
+            				title.text('가격 낮은 상품');
             			}
             			else{
             				title.text('전체 상품');
@@ -235,13 +237,17 @@
 	            
 	            
 		            // 제품 리스트 AJAX
-		            function selectAuction(){
+		            function selectAuction(page, filter){
 		            	$.ajax({
 		            		url : 'products/' + page + '/' + filter,
 		            		type : 'get',
 		            		success : result => {
-		            			console.log(result);
-		            			for(let i in result){
+		                        console.log('AJAX 요청 성공 : ', result);
+
+		                        const auctions = result.auctions;
+		                        const pageInfo = result.pageInfo;
+		            			
+		            			for(let i in auctions){
 			            			resultStr += '<div class="product">'
 					    					   + '<input type="hidden" value="' + result[i].auctionNo + '">'
 					    						+ '<div class="pd_photo"><img src="' + result[i].imgPath + '" alt="상품"></div>'
@@ -252,16 +258,18 @@
 					    						+ '</div>'
 		            			}
 		            			$('.duct_wrap').html(resultStr);
-		            			/*
-	                        	if(result[0].pageInfo.currentPage != result[0].pageInfo.maxPage){
-				                    $('.refresh_btn').css('display', 'block');
-				                }
-				                else{
-				                    $('.refresh_btn').css('display', 'none');
-				                }*/
+		            			
+		            			console.log("currentPage: " + pageInfo.currentPage);
+		                        console.log("maxPage: " + pageInfo.maxPage);
+		            			
+		                        if (pageInfo.currentPage != pageInfo.maxPage) {
+		                            $('.refresh_btn').css('display', 'block');
+		                        } else {
+		                            $('.refresh_btn').css('display', 'none');
+		                        }
 		            		},
 		            		error : result => {
-		            			console.log('실패');
+		            			console.log('AJAX 실패');
 		            		}
 		            	})
 		            }

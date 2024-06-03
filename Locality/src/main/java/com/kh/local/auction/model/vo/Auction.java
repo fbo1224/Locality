@@ -1,5 +1,7 @@
 package com.kh.local.auction.model.vo;
 
+import com.kh.local.common.model.vo.PageInfo;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,5 +38,7 @@ public class Auction {
 	
 	// 낙찰가격
 	private int bidPrice;
+	
+	private PageInfo pageInfo;
 	
 }

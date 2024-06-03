@@ -2,8 +2,9 @@ package com.kh.local.auction.controller;
 
 
 
+import java.util.List;
+
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.local.auction.model.service.AuctionService;
 import com.kh.local.auction.model.vo.Auction;
+import com.kh.local.auction.model.vo.AuctionResponse;
 import com.kh.local.common.model.vo.PageInfo;
 import com.kh.local.common.template.Pagination;
 
@@ -27,14 +29,21 @@ public class AuctionAjaxController {
 	
 	@GetMapping("/{page}/{filter}")
 	public String selectAuction(@PathVariable("page") int page, @PathVariable("filter") String filter) {
-		System.out.println(filter);
-		System.out.println(page);
+		
 	      PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 8, 10);
 	      RowBounds rowBounds = new RowBounds(
 	            (pi.getCurrentPage() - 1) * pi.getBoardLimit(),
 	            pi.getBoardLimit()
 	            );
-		return new Gson().toJson(auctionService.selectAuction(rowBounds, filter));
+	      // 리스트 조회
+	      List<Auction> auctions = auctionService.selectAuction(rowBounds, filter);
+	      
+	      // 응답데이터
+	      AuctionResponse response = new AuctionResponse();
+	      response.setAuctions(auctions);
+	      response.setPageInfo(pi);
+	      
+		return new Gson().toJson(response);
 	}
 	
 	@GetMapping("/detail.auction/{auctionNo}")

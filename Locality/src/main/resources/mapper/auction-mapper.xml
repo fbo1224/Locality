@@ -56,6 +56,8 @@
 		       TB_AUCTION
 		 JOIN
 		       TB_AUC_IMG USING(AUCTION_NO)
+		 JOIN
+		       TB_AUC_RECORD USING(AUCTION_NO)
 	    WHERE
 	           PD_STATUS = 'Y'
 	    ORDER
