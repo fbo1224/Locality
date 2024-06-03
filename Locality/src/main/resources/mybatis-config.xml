@@ -28,6 +28,10 @@
 		<typeAlias type="com.kh.local.ad.model.vo.AdNumVO" alias="adNum"/>
 		<typeAlias type="com.kh.local.member.model.vo.JpgFile" alias="jpgFile"/>
 		<typeAlias type="com.kh.local.member.model.vo.GuestBook" alias="guestBook"/>
+		<typeAlias type="com.kh.local.animal.model.vo.Report" alias="report"/>
+		<typeAlias type="com.kh.local.animal.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.kh.local.animal.model.vo.Animal" alias="Animal"/> 
+		
 	</typeAliases>
 	
 	<mappers>

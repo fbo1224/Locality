@@ -1,4 +1,4 @@
-package com.kh.local.animal.model.dao;
+package com.kh.local.animal.model.repository;
 
 import java.util.HashMap;
 import java.util.List;

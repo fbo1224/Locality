@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.local.animal.model.dao.animalRepository;
+import com.kh.local.animal.model.repository.animalRepository;
 import com.kh.local.animal.model.vo.Animal;
 import com.kh.local.animal.model.vo.AnimalBoard;
 import com.kh.local.animal.model.vo.Attachment;
