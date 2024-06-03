@@ -11,9 +11,9 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.local.member.model.vo.Member" alias="member"/>
-    	<typeAlias type="com.kh.local.notice.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.local.auction.model.vo.Save" alias="save" />
 		<typeAlias type="com.kh.local.auction.model.vo.Bid" alias="bid" />
+    	<typeAlias type="com.kh.local.notice.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.local.auction.model.vo.MorePagination" alias="morepagination" />
 		<typeAlias type="com.kh.local.auction.model.vo.Auction" alias="auction"/>
     	<typeAlias type="com.kh.local.community.model.vo.CommuPhotoVO" alias="commuPhoto"/>
