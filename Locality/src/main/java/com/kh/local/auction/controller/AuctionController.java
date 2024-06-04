@@ -57,7 +57,8 @@ public class AuctionController {
 	// 검색기능
 	@GetMapping("search.do")
 	public String selectSearchList(Model model, String keyword, String field) {
-		
+		System.out.println(keyword);
+		System.out.println(field);
 		HashMap<String, String> map = new HashMap();
 		map.put("field", field);
 		map.put("keyword", keyword);

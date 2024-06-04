@@ -127,8 +127,8 @@
     .refresh_btn{
     	width : 600px;
     	height : 50px;
-       margin: auto;
-       text-align: center;
+        margin: auto;
+        text-align: center;
     }
     .refresh_btn > img{
        width: 45px;

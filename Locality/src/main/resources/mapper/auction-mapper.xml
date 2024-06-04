@@ -282,11 +282,14 @@
 				PD_STATUS,
 				CATE_NO,
 				SELLER,
-				IMG_PATH
+				IMG_PATH,
+                BID_PRICE
 	      FROM
 	            TB_AUCTION
 	      JOIN
 	            TB_AUC_IMG USING(AUCTION_NO)
+          JOIN
+                TB_AUC_RECORD USING(AUCTION_NO)
 	     WHERE
 	            PD_STATUS = 'Y'
 	       AND
@@ -294,20 +297,22 @@
 	       LIKE '%' || #{keyword} || '%'
 	      ORDER
 	         BY
-	       <choose>
-         		<when test="filter == 'low'">
-         			BID_PRICE ASC
-         		</when>
-         		<when test="filter == 'bid'">
-         			BID_CNT DESC
-         		</when>
-         		<when test="filter == 'cnt'">
-         			PD_CNT DESC
-         		</when>
-         		<otherwise>
-	         		AUCTION_NO DESC
-         		</otherwise>
-         	</choose>
+       		<if test="field != null">
+	       		<choose>
+	         		<when test="field == 'low'">
+	         			BID_PRICE ASC
+	         		</when>
+	         		<when test="field == 'bid'">
+	         			BID_CNT DESC
+	         		</when>
+	         		<when test="field == 'cnt'">
+	         			PD_CNT DESC
+	         		</when>
+	         		<otherwise>
+		         		AUCTION_NO DESC
+	         		</otherwise>
+         		</choose>
+       		</if>
 	</select>
 	
 	<!-- 필터 기능 
