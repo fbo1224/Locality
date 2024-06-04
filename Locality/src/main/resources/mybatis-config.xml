@@ -31,6 +31,8 @@
 		<typeAlias type="com.kh.local.animal.model.vo.Animal" alias="Animal"/> 
 		<typeAlias type="com.kh.local.animal.model.vo.AnimalBoard" alias="AnimalBoard"/>   
 	</typeAliases>
+
+
 	<mappers>
 		<mapper resource="/mapper/member-mapper.xml"/>
     	<mapper resource="/mapper/community-mapper.xml"/>
@@ -39,7 +41,6 @@
 		<mapper resource="/mapper/ad-mapper.xml"/>
 		<mapper resource="/mapper/animal-mapper.xml"/>
 	</mappers>
-	
 	
 
 

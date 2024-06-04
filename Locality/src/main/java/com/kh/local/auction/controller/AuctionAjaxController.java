@@ -29,7 +29,8 @@ public class AuctionAjaxController {
 	
 	@GetMapping("/{page}/{filter}")
 	public String selectAuction(@PathVariable("page") int page, @PathVariable("filter") String filter) {
-		
+		System.out.println("page : " + page);
+		System.out.println("filter : " + filter);
 	      PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 8, 10);
 	      RowBounds rowBounds = new RowBounds(
 	            (pi.getCurrentPage() - 1) * pi.getBoardLimit(),
