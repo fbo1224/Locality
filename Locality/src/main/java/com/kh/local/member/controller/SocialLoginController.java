@@ -8,12 +8,16 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.local.member.model.service.MemberService;
 import com.kh.local.member.model.vo.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -22,12 +26,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SocialLoginController {
 
+	private final MemberService memberService;
+	
+    @GetMapping("kakaoLogin")
+    public String kakaoLogin() {
+
+    	String loginUrl = "https://kauth.kakao.com/oauth/authorize"
+		    			+ "?client_id=6a7db0306acb235e8eca7541784693af"
+		    			+ "&redirect_uri=http://localhost:8001/local/code"
+		    			+ "&response_type=code";
+    	
+    	return "redirect:" + loginUrl; 
+    	
+    }
+
 	@GetMapping("code")
-	public void code(String code) throws IOException, ParseException {
+	public ModelAndView code(String code, HttpSession session, ModelAndView mv) throws IOException, ParseException {
 		
 		String accessToken = getToken(code);
-		Member member = getUserInfo(accessToken);
-		System.out.println(member);
+		String socialId = getUserInfo(accessToken);
+		Member member = memberService.socialLogin(socialId);
+		
+		if(member != null) {
+			session.setAttribute("loginUser", member);
+			mv.setViewName("main");
+		}else {
+			session.setAttribute("alertMsg", "회원가입을 진행해주세요");
+			session.setAttribute("socialId", socialId);
+			mv.setViewName("login/socialSignUpForm");
+		}
+		return mv;
 	}
 	
 	public String getToken(String code) throws IOException, ParseException{
@@ -68,7 +96,7 @@ public class SocialLoginController {
 		return accessToken;
 	}
 	
-	public Member getUserInfo(String accessToken) throws IOException, ParseException {
+	public String getUserInfo(String accessToken) throws IOException, ParseException {
 		
 		String userInfoUrl = "https://kapi.kakao.com/v2/user/me";
 		
@@ -77,20 +105,13 @@ public class SocialLoginController {
 		urlConnection.setRequestMethod("GET");
 		urlConnection.setRequestProperty("Authorization", "Bearer " + accessToken);
 		
-		//System.out.println(urlConnection.getResponseCode());
-		
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 		
 		String responseData = br.readLine();
 		
 		JSONObject responseObj = (JSONObject)new JSONParser().parse(responseData);
 		
-		Member member = new Member();
-		
-		member.setUserId(responseObj.get("id").toString());
-		
-		return member;
-		
+		return responseObj.get("id").toString();
 	}	
 	
 }

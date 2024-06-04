@@ -20,15 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.local.common.model.vo.Message;
 import com.kh.local.member.model.service.MemberService;
-import com.kh.local.member.model.vo.Areas;
 import com.kh.local.member.model.vo.Member;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("singUp/")
+@RequestMapping("signUp/")
 @RequiredArgsConstructor
-public class SingUpAjaxController {
+public class SignUpAjaxController {
 
 	private final JavaMailSender sender;
 	private final MemberService memberService; 

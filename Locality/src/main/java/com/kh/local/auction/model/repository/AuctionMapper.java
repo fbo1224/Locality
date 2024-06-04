@@ -1,4 +1,4 @@
-package com.kh.local.auction.model.dao;
+package com.kh.local.auction.model.repository;
 
 import java.util.HashMap;
 import java.util.List;
