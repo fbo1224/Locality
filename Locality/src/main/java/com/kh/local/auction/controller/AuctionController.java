@@ -53,7 +53,7 @@ public class AuctionController {
 		return "auction/main";
 	}
 	
-	
+	/*
 	// 검색기능
 	@GetMapping("search.do")
 	public String selectSearchList(Model model, String keyword, String field) {
@@ -67,7 +67,7 @@ public class AuctionController {
 		model.addAttribute("list", searchList).addAttribute("keyword", keyword);
 		
 		return "auction/main";
-	}
+	}*/
 	
 	
 	// 상세페이지 이동

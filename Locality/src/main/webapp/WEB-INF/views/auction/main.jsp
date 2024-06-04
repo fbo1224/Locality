@@ -169,11 +169,11 @@
 
     <div id="header">
         <div id="search">
-            <form action="search.do" method="get">
+            <!-- <form action="search.do" method="get"> -->
                 <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
                 <input type="hidden" name="field"/>
-                <button type="submit">검색</button>
-            </form>
+                <button type="submit" id="searchBtn">검색</button>
+            <!-- </form> -->
         </div>
     </div>
 
@@ -197,7 +197,7 @@
 		      <div class="refresh_btn"><img src="./resources/images/auction/more.png"></img></div>
 		      
             <script>
-	            let page = 1,filter = 'all', resultStr = '';
+	            let page = 1,filter = 'all', resultStr = '', keyword = '';
 	            $(() => {
 	            	selectAuction(page);
 	                $('.refresh_btn > img').click(() => {
@@ -214,10 +214,12 @@
             			let title = $('#pd_title');
             			console.log(filter);
             			// AJAX filter 값 넣기
-            			selectAuction(page, filter);
+            			selectAuction(page, filter, '');
             			
             			// 검색할 때 field 값 넣기
             			$('input[name="field"]').val(filter);
+            			
+            			keyword = '';
             			
             			// 제목 변경
             			if(filter == 'bid'){
@@ -233,12 +235,18 @@
             				title.text('전체 상품');
             			}
             		})
+            		
+            		
+            		$('#searchBtn').click(() => {
+            			page = 1;
+            			resultStr = '';
+            		})
             	})
 	            
 		            // 제품 리스트 AJAX
 		            function selectAuction(page, filter){
 		            	$.ajax({
-		            		url : 'products/' + page + '/' + filter,
+		            		url : 'products/' + page + '/' + filter + '/' + keyword,
 		            		type : 'get',
 		            		success : result => {
 		                        const auctions = result.auctions;
