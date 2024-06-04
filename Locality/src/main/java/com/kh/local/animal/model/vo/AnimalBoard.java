@@ -2,9 +2,17 @@ package com.kh.local.animal.model.vo;
 
 import java.sql.Date;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter 
 public class AnimalBoard {
 	
 	private int boardNo;

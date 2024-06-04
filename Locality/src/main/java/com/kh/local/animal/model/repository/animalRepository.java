@@ -48,12 +48,12 @@ public class animalRepository {
 	public int insertContent(SqlSession sqlSession, Report report) {
 		return sqlSession.insert("animalMapper.insertContent",report);
 	}
-	/*
-	public List<Report> viewMain(SqlSession sqlSession, int userNo) {
-		return sqlSession.selectList("animalMapper.viewMain", userNo);
+
+	public List<Report> viewMain(SqlSession sqlSession) {
+		return sqlSession.selectList("animalMapper.viewMain");
 	}
 	
-	*/
+
 	public int insertAnimalBoard(SqlSession sqlSession, AnimalBoard board) {
 		return sqlSession.insert("animalMapper.insertBoard", board);
 	}

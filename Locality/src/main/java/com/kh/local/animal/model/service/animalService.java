@@ -37,10 +37,10 @@ public interface animalService {
 	
 	// 실종 게시판 첨부파일 첨부
 		int insertReport(Attachment attachment);
-		/*
+	
 	// 반려동물 메인화면 값 불러오기
-		List<Report> viewMain(int userNo);
-		*/
+		List<Report> viewMain();
+		
 		
 	//게시판 글 작성
 	int insertAnimalBoard(AnimalBoard board);

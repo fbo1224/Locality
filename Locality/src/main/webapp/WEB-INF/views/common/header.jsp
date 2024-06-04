@@ -121,11 +121,10 @@
                     <li><a href="save.list?userNo=${ loginUser.userNo }">장바구니</a></li>
                 </ul>
             </li>
-            <li><a href="#">반려동물</a>
+             <li><a href="main">반려동물</a>
                 <ul class="subMenu">
-                    <li><a href="main">소통게시판</a></li>
+                    <li><a href="boardList">소통게시판</a></li>
                     <li><a href="hospital">편의시설안내</a></li>
-                    <li><a href="#">지식IN</a></li>
                 </ul>
             </li>
             <li><a href="commu?areasNo=${ loginUser.areasCode }">함께해요</a></li>
