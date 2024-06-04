@@ -176,7 +176,7 @@
 		</div>
 	</div>
 	
-	<form action="confirmUpdate" method="post" id="confirmUpdate">
+	<form action="" method="post" id="confirmUpdate">
 	    <input type="hidden" id="userVal" name="userNo">
 		<input type="hidden" id="friendVal" name="friendNo">
 	</form>

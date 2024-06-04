@@ -71,14 +71,14 @@ public class animalServiceImpl implements animalService {
 	public int insertReport(Attachment attachment) {
 		return repository.insertReport(sqlSession, attachment);
 	}
-	/*
+	
 	@Override
-	public List<Report> viewMain(int userNo) {
+	public List<Report> viewMain() {
 		
-		return repository.viewMain(sqlSession,userNo);
+		return repository.viewMain(sqlSession);
 	}
 	
-	*/
+
 	@Override
 	public int insertAnimalBoard(AnimalBoard board) {
 		return repository.insertAnimalBoard(sqlSession, board);	}

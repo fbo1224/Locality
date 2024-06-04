@@ -28,4 +28,5 @@ public class Member {
 	private String countyName;
 	private int areasCode;
 	private String idChecked;
+	private String socialId;
 }

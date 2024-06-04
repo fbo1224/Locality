@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page errorPage="../common/errorPage.jsp"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,17 +50,19 @@
 	}
 	
 	#btn {
-		width : 200px;
-		background-color :  #7EA1FF;
-		color : white;
+		width : 170px;
+		background-color :  #FFD1E3;
+		color : lightgray;
 		font-weight : bolder;  
-		border-radius : 5px;
-		height : 40px;
+		border-radius : 9px;
+		height : 35px;
 		border : none;
+		cursor : pointer;
 	}
 	
 	#btn:hover {
 		box-shadow : 20px;
+		color:gray;
 	}
 	
 	.table-dark>th{
@@ -84,6 +88,11 @@
 		color:grey;
 	
 	}
+	.image>img{
+		height:100%;
+		width:100%;
+	
+	}
 	
 	
 	
@@ -107,37 +116,25 @@
 		<div id="content" class="table" style="height: 50%; padding-left : 23%; " >
 			
 			<!-- 나중에는 for문 돌릴 예정 -->
-			<div id="report">
-			<div class="image" style="height:65%; width : 100%; ">Image</div>
+			<c:forEach items="${list }" var="Report" >
+				<div id="report">
+				<div class="image" style="height:65%; width : 100%; "><img src="${Report.changeName }" alt="파일"></div>
 					<div id="text" style="height:35%; width : 100%; font-size : 11px;">
 						<ul>
-							<li>이름 : 까미</li>
-							<li>종류 : 고양이 / 코리안숏헤어</li>
-							<li>나이 : 6살</li>
-							<li>실종장소 : 연희동 어딘가</li>
+							<li>이름 : ${Report.animalName }</li>
+							<li>종류 : ${Report.animalType } / ${Report.breede }</li>
+							<li>나이 : ${Report.age}</li>
+							<li>실종장소 : ${Report.reportPlace }</li>
 							
 						</ul>						
 
 					</div>
-			</div>
-		
-			<div id="report" style="margin-right : 35px;">
-			<div class="image" style="height:65%; width : 100%; ">Image</div>
-			<div id="text" style="height:35%; width : 100%;">text</div>
+					</div>
+			</c:forEach>
 			</div>
 			
-			<div id="report" style="margin-right : 35px;">
-			<div class="image" style="height:65%; width : 100%;">Image</div>
-			<div id="text" style="height:35%; width : 100%;" >text</div>
-			</div>
 			
-			<div id="report" style="margin-right : 35px;">
-			<div class="image" style="height:65%; width : 100%; " >Image</div>
-			<div id="text" style="height:35%; width : 100%;">text</div>
-			</div>
-		
-		
-		</div>
+
 		<div id="table_btn">
 		<button type="button" id="btn" onclick="location.href='report'">실종제보하기</button>
 		</div>
@@ -175,7 +172,7 @@
 	</div>
 
 </div>
-
+</div>
 <script>
 	
 	

@@ -169,11 +169,13 @@ public class MemberController {
 	@PostMapping("confirmUpdate")
 	public ModelAndView confirmUpdate(ModelAndView mv,HttpSession session, Member member) {
 		
+		System.out.println(member);
+		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("friendNo", member.getFriendNo());
 		map.put("userNo", member.getUserNo());
 		
-		String msg = (memberService.confirmUpdate(map) > 0) ? "승인완료됐습니다." : "오류발생";
+		String msg = (memberService.confirmUpdate(memberService.friendSelect(map)) > 0) ? "승인완료됐습니다." : "오류발생";
 		session.setAttribute("alertMsg", msg);
 		
 		mv.setViewName("redirect:friendAll");
@@ -188,7 +190,7 @@ public class MemberController {
 		map.put("friendNo", member.getFriendNo());
 		map.put("userNo", member.getUserNo());
 		
-		String msg = (memberService.refuse(map) > 0) ? "거절완료됐습니다." : "오류발생";
+		String msg = (memberService.refuse(memberService.friendSelect(map)) > 0) ? "거절완료됐습니다." : "오류발생";
 		session.setAttribute("alertMsg", msg);
 		
 		mv.setViewName("redirect:friendAll");

@@ -20,9 +20,7 @@
 		<typeAlias type="com.kh.local.community.model.vo.CommuBoardVO" alias="commuBoard"/>
 		<typeAlias type="com.kh.local.community.model.vo.CommuLikeVO" alias="commuLike"/>
 		<typeAlias type="com.kh.local.community.model.vo.CommuReplyVO" alias="commuReply"/>
-		<typeAlias type="com.kh.local.member.model.vo.Areas" alias="areas"/>
-		<typeAlias type="com.kh.local.animal.model.vo.AnimalBoard" alias="AnimalBoard"/>              
-		<typeAlias type="com.kh.local.animal.model.vo.AnimalBoard"/>
+		<typeAlias type="com.kh.local.member.model.vo.Areas" alias="areas"/>       
 		<typeAlias type="com.kh.local.ad.model.vo.AdBoardVO" alias="adBoard"/>
 		<typeAlias type="com.kh.local.ad.model.vo.AdPhotoVO" alias="adPhoto"/>
 		<typeAlias type="com.kh.local.ad.model.vo.AdNumVO" alias="adNum"/>
@@ -31,8 +29,7 @@
 		<typeAlias type="com.kh.local.animal.model.vo.Report" alias="report"/>
 		<typeAlias type="com.kh.local.animal.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.local.animal.model.vo.Animal" alias="Animal"/> 
-		
-	</typeAliases>
+		<typeAlias type="com.kh.local.animal.model.vo.AnimalBoard" alias="AnimalBoard"/>   
 	
 	<mappers>
 		<mapper resource="/mapper/member-mapper.xml"/>
