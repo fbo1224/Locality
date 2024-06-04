@@ -69,7 +69,7 @@ public class Forwading {
 		PageInfo pi =Pagination.getPageInfo(service.BoardCount(), page, 4, 10);
 		
 		
-		
+		System.out.println(service.BoardList(pi));
 
 		model.addAttribute("list", service.BoardList(pi));
 		model.addAttribute("pageInfo", pi);
@@ -109,16 +109,29 @@ public class Forwading {
 	}
 	// 게시판 글 작성양식 
 	@RequestMapping("enrollform")
-	public String enrollForm() {
+	public String enrollForm(HttpSession session, Model model) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		
+		System.out.println(service.show(userNo));
+		model.addAttribute("animal", service.show(userNo));
+		
 		return "animal/boardEnrollForm";
 	}
 	
-
+	
 	@RequestMapping("viewDetail")
-	public String boardDetail(int boardNo, Model model) {
+	public String boardDetail(int boardNo, Model model, HttpSession session) {
 		service.viewDetail(boardNo);
 		model.addAttribute("AnimalBoard", service.viewDetail(boardNo));
 		return "animal/boardDetail";
+	}
+	
+	
+	@RequestMapping("updateDetail")
+	public String updateForm (int boardNo) {
+		System.out.println(boardNo);
+		return "animal/updateForm";
 	}
 	
 	@PostMapping("insertAnimalBoard")
