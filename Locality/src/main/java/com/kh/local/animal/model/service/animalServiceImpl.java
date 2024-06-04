@@ -105,6 +105,13 @@ public class animalServiceImpl implements animalService {
 		return repository.defaultAttachment(sqlSession,attachment);
 	}
 
+	@Override
+	public List<Animal> show(int userNo) {
+		
+		return repository.show(sqlSession, userNo);
+	}
+
+	
 	
 
 	

@@ -11,7 +11,7 @@
 }
 
 #entire div {
-	
+	border : 1px lightpink;
 }
 #content {
 	height: 912px;
@@ -25,6 +25,7 @@
 	padding-top: 150px;
 	margin: 0 auto;
 	border-bottom : 1px solid lightgrey;
+	
 	
 }
 
@@ -43,9 +44,10 @@
 }
 
 #img-area>img {
-	width : 50%;
-	height : 50;
+	width : 100%;
+	height : 80%;
 	margin: auto;
+	margin-top : 50px;
 }		
 
 #category{
@@ -70,6 +72,10 @@
 		color : gray;
 }
 
+#revise> a : hover {
+		background-color : #FFFAB7;
+}
+
 .index {
 		border:none;
 		background-color : #FFD1E3;
@@ -80,12 +86,14 @@
 		color : gray;
 	}
 
+	
+
 </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div id="entire">
-<div id="title">
+<div id="title" style="border-bottom: 1px solid lightgray;">
 			<h3 align="center" style="font-weight: bolder; font-size:30px;">${AnimalBoard.title }</h3>
 			<div style="height : 29px;"><button id="category">${AnimalBoard.categoryName }</button></div>
 		</div>
@@ -94,9 +102,11 @@
 			<div id="information" style="float:right; height:5%; width: 25%; ">
 			<span>${AnimalBoard.writer }</span> <span>${AnimalBoard.writeDate }</span> <span>조회수 ${AnimalBoard.viewCount }</span>
 			</div>
-			<div id="img-area" ><img src="${AnimalBoard.uploadedFile }" alt="file" ></div>
-			<div id="component" style="width: 65%; height:26%; margin:auto; margin-top:83px;">${AnimalBoard.content }</div>
-			<div id="revise" ><a href="">수정하기</a>/<a href="">삭제하기</a></div>
+			<div id="img-area" ><img src="${AnimalBoard.uploadedFile }" alt="file" >
+			<span></span>
+			</div>
+			<div id="component" style="width: 65%; height:26%; margin:auto; margin-top:43px; text-align:center; font-size : 15px;">${AnimalBoard.content }</div>
+			<div id="revise" style=" width: 11%; height : 4%;  font-size : 14px;" ><a href="updateDetail?boardNo=${AnimalBoard.boardNo }">수정하기</a>/<a href="deleteDetail?boardNo=${AnimalBoard.boardNo }">삭제하기</a></div>
 			<div  style="width:30%; height: 9%; margin:auto; margin-top : 15px;">
 				<button class="index" onclick="location.href='viewDetail?boardNo='+${AnimalBoard.boardNo-1}">이전</button> <button class="index" onclick="location.href='boardList'">목록</button> <button class="index" onclick="location.href='viewDetail?boardNo='+${AnimalBoard.boardNo+1}">다음</button>
 			</div>
