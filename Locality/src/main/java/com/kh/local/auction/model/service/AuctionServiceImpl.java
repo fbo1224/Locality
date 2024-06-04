@@ -20,8 +20,8 @@ public class AuctionServiceImpl implements AuctionService{
 	private final AuctionMapper auctionMapper;
 	
 	@Override
-	public List<Auction> selectAuction(RowBounds rowBounds) {
-		return auctionMapper.selectAuction(rowBounds);
+	public List<Auction> selectAuction(RowBounds rowBounds, String filter) {
+		return auctionMapper.selectAuction(rowBounds, filter);
 	}
 
 	@Override

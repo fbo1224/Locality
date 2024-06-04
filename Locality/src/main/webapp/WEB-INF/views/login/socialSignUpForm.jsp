@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<script
-	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 body {
 	background-color: rgba(0, 0, 0, 0.911);
@@ -163,7 +161,13 @@ input::placeholder {
 </head>
 
 <body>
-
+	
+	<c:if test="${ not empty alertMsg }">
+		<script>
+			alert('${alertMsg}')
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
 
 	<div id="logo">
 		<p>Locality</p>
@@ -173,7 +177,8 @@ input::placeholder {
 		<div id="frame">
 			<p>* 필수 입력 (<>+_\ - # & | ; 특수문자 사용 불가 )</p>
 			<div id="email">
-				<input type="text" id="userId" required placeholder="* 이메일 입력"><br>
+				<input type="text" id="userId" required
+					placeholder="* 이메일 입력"><br>
 				<button id="emailSend" class="btn btn-danger">인증번호 발송</button>
 				<span>* 이메일 인증을 진행해주세요</span>
 			</div>
@@ -183,10 +188,11 @@ input::placeholder {
 				<button id="confirmBtn" class="btn btn-danger" disabled>확인</button>
 			</div>
 			<div id="pwd">
-				<input type="password" id="userPwd" required placeholder="* 비밀번호 입력">
+				<input type="password" id="userPwd" required
+					placeholder="* 비밀번호 입력">
 			</div>
 			<div id="pwd">
-				<input type="password" id="checkPwd" required
+				<input type="password" id="checkPwd"required
 					placeholder="* 비밀번호 확인">
 			</div>
 			<div id="name">
@@ -196,8 +202,7 @@ input::placeholder {
 				<input type="text" required id="nickName" placeholder="* 닉네임">
 			</div>
 			<div>
-				<input type="text" required id="phone" placeholder="* 휴대폰 번호"
-					style="margin: 0;" />
+				<input type="text" required id="phone" placeholder="* 휴대폰 번호" style="margin: 0;" />
 			</div>
 			<div id="selectBox">
 				<p>{ 거주지 }</p>
@@ -219,8 +224,9 @@ input::placeholder {
 					<option value="37">* 경상북도</option>
 					<option value="38">* 경상남도</option>
 					<option value="39">* 제주특별자치도</option>
-				</select> <select id="county">
-
+				</select> 
+				<select id="county">
+					
 				</select>
 			</div>
 			<div id="submit">
@@ -230,16 +236,17 @@ input::placeholder {
 			</div>
 		</div>
 	</div>
-
+	
 	<form action="signUpUser" method="post" id="userForm">
-		<input type="hidden" id="hiddenId" name="userId"> <input
-			type="hidden" id="hiddenPwd" name="userPwd"> <input
-			type="hidden" id="hiddenName" name="userName"> <input
-			type="hidden" id="hiddenNick" name="nickName"> <input
-			type="hidden" id="hiddenPhone" name="phone"> <input
-			type="hidden" id="hiddenAreas" name="areasCode">
+		<input type="hidden" id="hiddenId" name="userId">
+		<input type="hidden" id="hiddenPwd" name="userPwd">
+		<input type="hidden" id="hiddenName" name="userName">
+		<input type="hidden" id="hiddenNick" name="nickName">
+		<input type="hidden" id="hiddenPhone" name="phone">
+		<input type="hidden" id="hiddenAreas" name="areasCode">
+		<input type="hidden" id="hiddenSocialId" name="socialId">
 	</form>
-
+	
 	<div id="footer">
 		<div id="footer_1">
 			<p id="p1">이웃사람들</p>
@@ -249,11 +256,10 @@ input::placeholder {
 	</div>
 
 	<script>
-	
+		
 		function back(){
 			location.href='userLoginForm';
 		}
-		
 	
 		const emailSend = document.getElementById('emailSend');
         const confirmBtn = document.getElementById('confirmBtn');
@@ -282,6 +288,7 @@ input::placeholder {
         		})
         	}
         })
+        
         // 이메일 발송 함수
         function emailtransmit(){
         	userId.setAttribute('readonly', 'readonly');
@@ -381,7 +388,7 @@ input::placeholder {
 			}
 		})
 		
-		
+		let socialId = '${sessionScope.socialId}';
 		function signUpUser(){
 			$('#hiddenId').val($('#userId').val())
 			$('#hiddenPwd').val($('#userPwd').val())
@@ -389,6 +396,7 @@ input::placeholder {
 			$('#hiddenNick').val($('#nickName').val())
 			$('#hiddenPhone').val($('#phone').val())
 			$('#hiddenAreas').val($('#county').val())
+			$('#hiddenSocialId').val(socialId)
 			$('#userForm').submit();
 		}
 		

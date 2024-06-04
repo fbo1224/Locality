@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.local.member.model.dao.MemberMapper">
+<mapper namespace="com.kh.local.member.model.repository.MemberMapper">
 	
 	<resultMap type="member" id="memberResultSet">
 		<result property="userNo" column="USER_NO"/>
@@ -79,7 +79,7 @@
 		                           MY_ID = 
 	</sql>
 	
-	<select id="loginConfirm" parameterType="member" resultMap="memberResultSet">
+	<sql id="login">
 		SELECT
 		      USER_NO,
 		      USER_ID,
@@ -99,11 +99,24 @@
           LEFT
           JOIN
               TB_ADDRESS USING (USER_NO)       
+	</sql>
+	
+	<select id="loginConfirm" parameterType="member" resultMap="memberResultSet">
+		<include refid="login"/>   
 		 WHERE     
 		      USER_ID = #{userId}
 		   AND
 		      STATUS = 'Y'   
 	</select>
+	
+	<select id="socialLogin" parameterType="string" resultMap="memberResultSet">
+		<include refid="login"/>
+		WHERE
+		     SOCIAL_ID = #{socialId}
+		  AND
+		     STATUS = 'Y'   
+	</select>
+	
 	
 	<select id="citySearch" parameterType="_int" resultMap="areasResultSet">
 		SELECT
@@ -152,6 +165,9 @@
 			  NICKNAME,
 			  PHONE,
 			  AREAS_CODE
+		<if test="socialId != null">
+			 ,SOCIAL_ID
+		</if>	  
 			  )
 		VALUES
 			  (
@@ -162,6 +178,9 @@
 			  #{nickName},
 			  #{phone},
 			  #{areasCode}
+		<if test="socialId != null">
+			 ,#{socialId}
+		</if>
 			  )	  	  
 	</insert>
 	
@@ -343,25 +362,33 @@
 		      USER_NO = #{userNo}
 	</update>
 	
-	<update id="confirmUpdate" parameterType="hashmap">
+	<select id="friendSelect" parameterType="hashmap" resultType="_int">
+		SELECT
+		      FRIENDSHIP_NO
+		  FROM
+		      TB_FRIEND
+		 WHERE         
+		      MY_ID = #{userNo} OR MY_ID = #{friendNo}
+		   AND
+		      FRIEND_ID = #{userNo} OR FRIEND_ID = #{friendNo}   
+	</select>
+	
+	
+	<update id="confirmUpdate" parameterType="int">
 		UPDATE
 		      TB_FRIEND
 		   SET
 		      STATUS = 'Y'
 		 WHERE
-		      MY_ID = #{userNo}
-		   AND
-		      FRIEND_ID = #{friendNo}      
+		      FRIENDSHIP_NO = #{friendShip} 
 	</update>
 	
-	<delete id="refuse">
+	<delete id="refuse" parameterType="hashmap">
 		DELETE
 		  FROM
 		      TB_FRIEND
 		 WHERE
-		      MY_ID = #{userNo}
-		   AND
-		      FRIEND_ID = #{friendNo}    
+		      FRIENDSHIP_NO = #{friendShip}
 	</delete>
 	
 </mapper>

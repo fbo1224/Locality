@@ -7,7 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import com.kh.local.common.model.vo.PageInfo;
-import com.kh.local.community.model.dao.CommunityMapper;
+import com.kh.local.community.model.repository.CommunityMapper;
 import com.kh.local.community.model.vo.CommuBoardVO;
 import com.kh.local.community.model.vo.CommuLikeVO;
 import com.kh.local.community.model.vo.CommuPhotoVO;

@@ -11,10 +11,10 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.local.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.local.auction.model.vo.Save" alias="save"/>
+		<typeAlias type="com.kh.local.auction.model.vo.Bid" alias="bid"/>
     	<typeAlias type="com.kh.local.notice.model.vo.Notice" alias="notice"/>
-		<typeAlias type="com.kh.local.auction.model.vo.Save" alias="save" />
-		<typeAlias type="com.kh.local.auction.model.vo.Bid" alias="bid" />
-		<typeAlias type="com.kh.local.auction.model.vo.MorePagination" alias="morepagination" />
+		<typeAlias type="com.kh.local.auction.model.vo.MorePagination" alias="morepagination"/>
 		<typeAlias type="com.kh.local.auction.model.vo.Auction" alias="auction"/>
     	<typeAlias type="com.kh.local.community.model.vo.CommuPhotoVO" alias="commuPhoto"/>
 		<typeAlias type="com.kh.local.community.model.vo.CommuBoardVO" alias="commuBoard"/>
@@ -31,7 +31,8 @@
 		<typeAlias type="com.kh.local.animal.model.vo.Animal" alias="Animal"/> 
 		<typeAlias type="com.kh.local.animal.model.vo.AnimalBoard" alias="AnimalBoard"/>   
 	</typeAliases>
-	
+
+
 	<mappers>
 		<mapper resource="/mapper/member-mapper.xml"/>
     	<mapper resource="/mapper/community-mapper.xml"/>
@@ -40,7 +41,6 @@
 		<mapper resource="/mapper/ad-mapper.xml"/>
 		<mapper resource="/mapper/animal-mapper.xml"/>
 	</mappers>
-	
 	
 
 
