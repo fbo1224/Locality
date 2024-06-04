@@ -23,26 +23,29 @@
     #ct{
         margin: auto;
         width: 1200px;
-        height: 2500px;
+        height: auto;
         
     }
 
     #photo{
-        margin-top: 150px;
         width: 100%;
         height: 500px;
     }
 
     #header{
         width: 100%;
-        height: 300px;
+        height: 100px;
         position: relative;
     }
 
     #header > form{text-align: center;}
 
     #title{width: 100%; height: 50px; border-bottom:1px solid black;}
-
+	.pro_wrap {
+		width : 1200px;
+		height: auto;
+		border: 1px solid black;
+	}
     .product{
         float: left;
         width: 25%;
@@ -121,11 +124,36 @@
         bottom: 100px;
         left: 50%;
     }
+    .refresh_btn{
+    	width : 600px;
+    	height : 50px;
+       margin: auto;
+       text-align: center;
+    }
+    .refresh_btn > img{
+       width: 45px;
+       height: 45px;
+       margin-top: 40px;
+    }
+    .duct_wrap{
+		width : 1200px;
+		height: auto;
+		border: 1px solid black;
+    }
     
+    #filter > button{
+    	border-radius:10px;
+    	background-color:#fff;
+    	border:1px solid black;
+    	font-weight:bold;
+    	margin-bottom:10px;
+    	margin-right:10px;
+    }
+    #filter > button:hover{
+    	color:white;
+    	background-color:black;
+    }
     
-    
-    
-
 
 </style>
 
@@ -138,15 +166,12 @@
         <img src="https://www.kobay.co.kr/imgDown.do?Rname=pc1.jpg&name=B2KY5CZJSPZ9&path=BANNER" alt="" style="width: 100%; height: 100%;">
     </div>
     
-    
-    
-    
 
     <div id="header">
         <div id="search">
             <form action="search.do" method="get">
                 <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
-                <input type="hidden" name="field" value="${ field }" />
+                <input type="hidden" name="field"/>
                 <button type="submit">검색</button>
             </form>
         </div>
@@ -156,115 +181,123 @@
         <div id="ct">
             <div class="title">
                 <div><h1 id="pd_title">전체 상품</h1></div>
-                <div>
-                	<a href="filter.do?field=all">전체보기</a>
-                	<a href="filter.do?field=bid">인기순</a>
-                	<a href="filter.do?field=cnt">조회순</a>
-                	<a href="filter.do?field=low">가격 낮은 순</a>
+                <div id="filter">
+                	<button value="all">전체보기</button>
+                	<button value="bid">인기순</button>
+                	<button value="cnt">조회순</button>
+                	<button value="low">가격 낮은 순</button>
                 </div>
             </div>
             
-            <div id="product">
-				<c:forEach items="${ list }" var="product" end="7">
-					<div class="product">
-						<input type="hidden" value="${ product.auctionNo }">
-						<div class="pd_photo"><img src="${ product.imgPath }" alt="상품"></div>
-						<div class="pd_title">${ product.pdName }</div>
-						<div class="pd_auc">현재가:  ${ product.startPrice }원 <br> 입찰단위 : ${ product.bidUnit }원</div>
-						<div class="pd_count">조회수: ${ product.pdCnt }회 <br> 입찰수: ${ product.bidCnt }건</div>
-					</div>
-				</c:forEach>
+            <div class="pro_wrap">
+            	<div class="duct_wrap">
+            	
+            	</div>
 			</div>
-            
+		      <div class="refresh_btn"><img src="./resources/images/auction/more.png"></img></div>
+		      
             <script>
-            	
-	            // 리스트 뿌리기
-	        	$(() => {
-	        		$pdTitle = $('#pd_title');
-        			if(${ value eq 'low' }){
-        				$pdTitle.text('가격 낮은 순서 상품');
-        			} 
-        			else if (${ value eq 'bid' }){
-        				$pdTitle.text('인기순 상품');	
-        			}
-        			else if(${ value  eq 'cnt' }){
-        				$pdTitle.text('높은 조회 상품');
-        			}
-        			else{
-        				$pdTitle.text('전체 상품');
-        			}
-	        	})
-            	
-	            // 상세페이지로 이동
+	            let page = 1,filter = 'all', resultStr = '';
 	            $(() => {
-	                $('#product > div').click(function() {
-	                    location.href = 'detail.auction?auctionNo=' + $(this).children('input[type="hidden"]').val();
+	            	selectAuction(page);
+	                $('.refresh_btn > img').click(() => {
+	                	selectAuction(++page, filter);
 	                });
-	            });
+	             });
 	            
-	            
-	            $(() => { 
-	            	$(window).scroll(function() {
-	                if ($(this).scrollTop() > 250) { 
-	                  $('#topBtn').fadeIn();
-	                } else {
-	                  $('#topBtn').fadeOut();
-	                }
-	              }); 
-	            	
-	              $("#topBtn").click(function() { 
-	              	$('html, body').animate({ scrollTop : 0
-	              	}, 500);
-	              	return false; 
-	              }); 
-	            });
-	            /*
-	            $(() => {
-	            	$('.more').click(function(){
-	            		$('.more').remove();
-		            	$('#product').append('<c:forEach items="${ list }" var="product" end="15">'
-	                                   + '<div class="product">'
-                	                   + '<input type="hidden" value="${ product.auctionNo }">'
-                                       + '<div class="pd_photo"><img src="${ product.imgPath }" alt="상품"></div>'
-                                       + '<div class="pd_title">${ product.pdName }</div>'
-                                       + '<div class="pd_auc">시작가:  ${ product.startPrice } <br> 입찰단위 : ${ product.bidUnit }</div>'
-                                       + '<div class="pd_count">조회수: ${ product.pdCnt } <br> 입찰수: ${ product.bidCnt }</div>'
-                                       + '<div class="pd_date">남은날짜 ${ product.createDate }</div>'
-                                       + '</div>'
-			                           + '</c:forEach>'
-			                           + '<a class="more">더보기</a>'
-			                           );
-                 		});
-	            	});*/
-	            /*
-	            function moreList(){
-	            	var startNum = $('.product').length;		
-            		var addListHtml = "";
-            		console.log(startNum);
-            		
-            		$.ajax({
+	            // 필터
+            	$(() => {
+            		$('#filter > button').click((e) => {
+            			page = 1;
+            			resultStr = '';
+            			filter = e.target.value;
+            			let title = $('#pd_title');
+            			console.log(filter);
+            			// AJAX filter 값 넣기
+            			selectAuction(page, filter);
             			
-            			url : 'more.do',
-            			data : {
-            				startNum = startNum;
-            				value = '${ value }',
-            			},
-            			success : 
-            				console.log(${value});
-            	}*/
-            	
+            			// 검색할 때 field 값 넣기
+            			$('input[name="field"]').val(filter);
+            			
+            			// 제목 변경
+            			if(filter == 'bid'){
+            				title.text('인기순 상품');
+            			}
+            			else if(filter == 'cnt'){
+            				title.text('많이 찾은 상품');
+            			}
+            			else if(filter == 'low'){
+            				title.text('가격 낮은 상품');
+            			}
+            			else{
+            				title.text('전체 상품');
+            			}
+            		})
+            	})
+	            
+		            // 제품 리스트 AJAX
+		            function selectAuction(page, filter){
+		            	$.ajax({
+		            		url : 'products/' + page + '/' + filter,
+		            		type : 'get',
+		            		success : result => {
+		                        const auctions = result.auctions;
+		                        const pageInfo = result.pageInfo;
+		            			
+		            			for(let i in auctions){
+			            			resultStr += '<div class="product">'
+					    					   + '<input type="hidden" value="' + auctions[i].auctionNo + '">'
+					    						+ '<div class="pd_photo"><img src="' + auctions[i].imgPath + '" alt="상품"></div>'
+					    						+ '<div class="pd_title">' + auctions[i].pdName + '</div>'
+					    						+ '<div class="pd_auc">현재가:  ' + auctions[i].startPrice 
+					    						+ '원 <br> 입찰단위 : ' + auctions[i].bidUnit + '원</div>'
+					    						+ '<div class="pd_count">조회수: ' + auctions[i].pdCnt + ' 회 <br> 입찰수: ' + auctions[i].bidCnt + '건</div>'
+					    						+ '</div>'
+		            			}
+		            			$('.duct_wrap').html(resultStr);
+		            			
+		                        if (pageInfo.currentPage != pageInfo.maxPage) {
+		                            $('.refresh_btn').css('display', 'block');
+		                        } else {
+		                            $('.refresh_btn').css('display', 'none');
+		                        }
+		            		},
+		            		error : result => {
+		            			console.log('AJAX 실패');
+		            		}
+		            	})
+		            }
 	            	
+   		            // 상세페이지로 이동
+   		            
+   		            $(document).on('click','.product',function() {
+   		            	location.href = 'detail.auction?auctionNo=' + $(this).children('input[type="hidden"]').val();
+   		            });
+   		            
+		            // TOP버튼
+		            $(() => { 
+		            	$(window).scroll(function() {
+			                if ($(this).scrollTop() > 250) { 
+			                  $('#topBtn').fadeIn();
+			                } else {
+			                  $('#topBtn').fadeOut();
+			                }
+		            	}); 
+		            	
+			            $("#topBtn").click(function() { 
+				             $('html, body').animate({ scrollTop : 0
+				             }, 500);
+				             return false; 
+			            }); 
+		            });
             </script>
 
         </div>
-        <button id="addBtn" onclick="moreList();">더보기</button>
         <a id="topBtn" >TOP</a>
         
         
     </div>
 	
-	
-	<jsp:include page="../common/footer.jsp" />
 
 </body>
 </html>

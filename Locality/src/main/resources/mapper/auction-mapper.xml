@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.local.auction.model.dao.AuctionMapper">
+<mapper namespace="com.kh.local.auction.model.repository.AuctionMapper">
 	
 	<resultMap type="auction" id="auctionResultSet">
 		<result column="AUCTION_NO"  property="auctionNo" />
@@ -56,11 +56,26 @@
 		       TB_AUCTION
 		 JOIN
 		       TB_AUC_IMG USING(AUCTION_NO)
+		 JOIN
+		       TB_AUC_RECORD USING(AUCTION_NO)
 	    WHERE
 	           PD_STATUS = 'Y'
 	    ORDER
 	       BY
-	           AUCTION_NO DESC
+         	<choose>
+         		<when test="filter == 'low'">
+         			BID_PRICE ASC
+         		</when>
+         		<when test="filter == 'bid'">
+         			BID_CNT DESC
+         		</when>
+         		<when test="filter == 'cnt'">
+         			PD_CNT DESC
+         		</when>
+         		<otherwise>
+	         		AUCTION_NO DESC
+         		</otherwise>
+         	</choose>
 	</select>
 	
 	<select id="auctionDetail" parameterType="_int" resultMap="auctionResultSet">
@@ -280,13 +295,13 @@
 	      ORDER
 	         BY
 	       <choose>
-         		<when test="field == 'low'">
+         		<when test="filter == 'low'">
          			BID_PRICE ASC
          		</when>
-         		<when test="field == 'bid'">
+         		<when test="filter == 'bid'">
          			BID_CNT DESC
          		</when>
-         		<when test="field == 'cnt'">
+         		<when test="filter == 'cnt'">
          			PD_CNT DESC
          		</when>
          		<otherwise>
@@ -295,7 +310,7 @@
          	</choose>
 	</select>
 	
-	<!-- 필터 기능 -->
+	<!-- 필터 기능 
 	<select id="searchFilter" parameterType="string" resultMap="auctionResultSet">
 		SELECT    
 				AUCTION_NO,
@@ -335,7 +350,7 @@
 	         		AUCTION_NO DESC
          		</otherwise>
          	</choose>
-	</select>
+	</select>-->
 	
 	<select id="resultAuction" parameterType="_int" resultMap="auctionResultSet">
 		SELECT
