@@ -57,6 +57,7 @@ public interface AnimalService {
 	// 사용자 모든 반려동물 정보 
 	List<Animal> show(int userNo);
 	
+ 
 	// 
 	List<AnimalBoard> findboard();
 	
@@ -66,5 +67,8 @@ public interface AnimalService {
 	// 게시글 삭제
 	AnimalBoard deleteDetail(int boardNo);
 	
+
+
+
 		
 }
