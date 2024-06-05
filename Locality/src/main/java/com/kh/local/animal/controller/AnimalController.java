@@ -1,5 +1,6 @@
 package com.kh.local.animal.controller;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kh.local.animal.model.service.animalService;
+import com.kh.local.animal.model.service.AnimalService;
 
 @Controller
 public class AnimalController {
