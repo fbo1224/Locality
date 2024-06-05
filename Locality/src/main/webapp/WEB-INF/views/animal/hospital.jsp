@@ -114,7 +114,7 @@ margin:0 auto;
 	<div id="entire">
 		
 		<div id="title">
-		<h3 align="center" style="font-weight : bolder;">동물병원</h3>
+		<h3 align="center" style="font-weight : bolder;"></h3>
 		</div>
 	
 		<div id="content" style="width : 920px; height: 80%;">
@@ -198,7 +198,7 @@ let $category = $('#select').val();
 
 // 페이지 로딩 후 바로 실행됨
 $(function() {
-	
+	$('#title>h3').html($category);
 	$.ajax({
 		 
 		 url: 'findHospital',
@@ -235,7 +235,8 @@ $(function() {
 // select의 option이 바뀔때마다 값이 달라짐 
 $('#select').change(() => {
 	$category = $('#select').val();
-	console.log($category);
+	$('#title>h3').html($category);
+	
 	
  $.ajax({
 		 
