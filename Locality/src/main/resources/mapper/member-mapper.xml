@@ -98,23 +98,28 @@
 		      TB_AREAS USING (AREAS_CODE)
           LEFT
           JOIN
-              TB_ADDRESS USING (USER_NO)       
+              TB_ADDRESS USING (USER_NO) 
+         WHERE             
 	</sql>
-	
-	<select id="loginConfirm" parameterType="member" resultMap="memberResultSet">
-		<include refid="login"/>   
-		 WHERE     
-		      USER_ID = #{userId}
-		   AND
-		      STATUS = 'Y'   
+
+	<select id="loginConfirm" parameterType="member"
+							  resultMap="memberResultSet">
+							  
+		<include refid="login" />
+		   USER_ID = #{userId}
+		AND
+		   STATUS = 'Y'
+		   
 	</select>
-	
-	<select id="socialLogin" parameterType="string" resultMap="memberResultSet">
-		<include refid="login"/>
-		WHERE
-		     SOCIAL_ID = #{socialId}
-		  AND
-		     STATUS = 'Y'   
+
+	<select id="socialLogin" parameterType="string"
+							 resultMap="memberResultSet">
+							 
+		<include refid="login" />
+		   SOCIAL_ID = #{socialId}
+		AND
+		   STATUS = 'Y'
+		   
 	</select>
 	
 	
