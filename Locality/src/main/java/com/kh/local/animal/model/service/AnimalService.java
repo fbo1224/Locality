@@ -12,7 +12,7 @@ import com.kh.local.animal.model.vo.Report;
 import com.kh.local.common.model.vo.AreaInfomation;
 import com.kh.local.common.model.vo.PageInfo;
 
-public interface AnimalService {
+public interface animalService {
 	
 	// 반려동물 정보 추출
 	Animal animalInfo(HashMap<String, String> info);
@@ -53,22 +53,5 @@ public interface AnimalService {
 	
 	// 
 	int defaultAttachment(Attachment attachment);
-	
-	// 사용자 모든 반려동물 정보 
-	List<Animal> show(int userNo);
-	
- 
-	// 
-	List<AnimalBoard> findboard();
-	
-	// 게시글 수정
-	AnimalBoard updateDetail(int boardNo);
-	
-	// 게시글 삭제
-	AnimalBoard deleteDetail(int boardNo);
-	
-
-
-
 		
 }

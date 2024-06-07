@@ -48,7 +48,7 @@ public interface AuctionMapper {
 	// int remainDate(int auctionNo);
 	
 	// 검색기능
-	List<Auction> selectSearchList(HashMap<String, String> map);
+	List<Auction> searchAuction(HashMap<String, String> map);
 	
 	// 필터기능
 	List<Auction> searchFilter(String field);

@@ -121,7 +121,7 @@
 						<option id="title">제목</option>
 						<option id="writer">작성자</option>
 						<option id="content">내용</option>
-					</select> <input type="text" id="keyword" style="width: 290px; margin-left: -5px; margin-right: -5px; border-color: blue:lighrgray;"
+					</select> <input type="text" id="keyword" style="width: 290px; margin-left: -5px; margin-right: -5px;"
 						placeholder="키워드를 입력해주세요" />
 
 					<button id="btn" onclick="findkeyword();">
@@ -139,10 +139,9 @@
 			<div id="component"
 				style="height: 80%; width: 100%; margin-top: 45px;">
 
-				<c:forEach items="${list}" var="AnimalBoard">
 				<div class="components" >
 
-					
+					<c:forEach items="${list}" var="AnimalBoard">
 						
 						<div style="width:100%; margin-top: 10px; border-top : 1px solid lightgray;"></div>
 						<!-- image -->
@@ -156,7 +155,7 @@
 							style="height: 85%; margin-top: 10px; width: 360px; margin-left: 20px;">
 							<!-- title -->
 							<div style="height: 25%; width: 100%; font-weight: bolder;">${ AnimalBoard.title}</div>
-							<div style="display:none" class="boardNo">${AnimalBoard.boardNo }</div>
+							<div style="display:none" id="boardNo">${AnimalBoard.boardNo }</div>
 							<!-- text -->
 							<div
 								style="height: 65%; width: 100%; margin-top: 10px; font-size: 12px;">
@@ -175,36 +174,38 @@
 
 						</div>
 
-					
+					</c:forEach>
 
 				</div>
-				</c:forEach>
-				<div style="float:left; margin-top:50px;"><button id="enroll" onclick="location.href='enrollform'">글쓰기</button></div>	
+
+				<div style="float:left; margin-top:439px;"><button id="enroll" onclick="location.href='enrollform'">글쓰기</button></div>	
 
 	</div>
 	
 				<div style="width: 100%; height: 80%; float:left; margin-bottom:50px;" >
 					
-				<div style="width: 100%; height: 15%; margin-top: -60px;">
+				<div style="width: 100%; height: 15%">
 					<div class="container mt-3" style="width: 40%; margin-left: 30%;">
 
 
 						<ul class="pagination" style="margin-left : 70px; " >
 							<c:choose>
 								<c:when test="${pageinfo.currentPage eq 1 }">
-									<li class="page-item disabled" >
-									<a class="page-link" href="boardList?page=${pageInfo.currentPage -1}" style="background-color: #FFD1E3; color : gray;">이전</a></li>
+									<li class="page-item"><a class="page-link"
+										href="boardList?page=${pageInfo.currentPage -1}" style="background-color: #FFFAB7">이전</a></li>
 								</c:when>
 								<c:otherwise>
-									<a class="page-link" href="boardList?page=${pageInfo.currentPage-1 }" style="background-color: #FFD1E3; color : gray;">이전</a>
+									<a class="page-link"
+										href="boardList?page=${pageInfo.currentPage }"
+										style="background-color: #FFFAB7"></a>
 								</c:otherwise>
 							</c:choose>
 
 							<c:forEach begin="${pageInfo.startPage }" end="${pageInfo.endPage }" var="p">
-								<li class="page-item"><a class="page-link" style="color : gray;" id="page" href="boardList?page=${p }">${p }</a></li>
+								<li class="page-item"><a class="page-link" id="page" href="boardList?page=${p }">${p }</a></li>
 							</c:forEach>
 							
-							<li class="page-item"><a class="page-link" href="boardList?page=${pageInfo.currentPage +1}" style="background-color: #FFD1E3; color : gray;">다음</a></li>
+							<li class="page-item"><a class="page-link" href="boardList?page=${pageInfo.currentPage +1}" style="background-color: #FFFAB7">다음</a></li>
 						</ul>
 
 
@@ -220,7 +221,10 @@
 	<script> // 카테고리 선택시 값 바뀌는 기능 
 			$('#category').change(()=>{
 					const $category=$('#category').val();
-						
+					
+			//		console.log($category);
+			//		alert($category);
+					
 					location.href = 'keywordList?page=1&category='+$category;
 				
 			});
@@ -236,16 +240,12 @@
 			}
 			
 			// 게시글 상세보기 
-				$('.components').click(function(){
-				
-					// 안보이게 숨겨둔 boardNo
-					
-				const $boardNo = $(this).find('.boardNo').text();
+			$('.components').click(()=>{
+				// 안보이게 숨겨둔 boardNo
+				const $boardNo = $('#boardNo').text();
 				console.log($boardNo);
 				location.href = "viewDetail?boardNo="+$boardNo; 
-		});
-			
-			
+			});
 	</script>
 </body>
 </html>

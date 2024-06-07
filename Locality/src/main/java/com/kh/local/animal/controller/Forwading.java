@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.local.animal.model.service.AnimalService;
+import com.kh.local.animal.model.service.animalService;
 import com.kh.local.animal.model.vo.Animal;
 import com.kh.local.animal.model.vo.AnimalBoard;
 import com.kh.local.animal.model.vo.Attachment;
@@ -32,7 +32,7 @@ import com.kh.local.member.model.vo.Member;
 public class Forwading {
 
 	@Autowired
-	private AnimalService service;
+	private animalService service;
 	
 	// 등록된 반려동물 정보
 	public Animal animalInfo(HttpSession session, String animalName) {
@@ -53,7 +53,7 @@ public class Forwading {
 
 	@RequestMapping("main") // ��, �� ���� 
 	public ModelAndView forward(ModelAndView mv){
-	//	System.out.println(service.viewMain());
+		System.out.println(service.viewMain());
 		mv.addObject("list", service.viewMain()).setViewName("animal/firstPage");
 
 		return mv;
@@ -67,6 +67,8 @@ public class Forwading {
 
 
 		PageInfo pi =Pagination.getPageInfo(service.BoardCount(), page, 4, 10);
+		
+		
 		
 
 		model.addAttribute("list", service.BoardList(pi));
@@ -107,36 +109,16 @@ public class Forwading {
 	}
 	// 게시판 글 작성양식 
 	@RequestMapping("enrollform")
-	public String enrollForm(HttpSession session, Model model) {
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int userNo = loginUser.getUserNo();
-		
-	//	System.out.println(service.show(userNo));
-		model.addAttribute("animal", service.show(userNo));
-		
+	public String enrollForm() {
 		return "animal/boardEnrollForm";
 	}
 	
-	
+
 	@RequestMapping("viewDetail")
-	public String boardDetail(int boardNo, Model model, HttpSession session) {
+	public String boardDetail(int boardNo, Model model) {
 		service.viewDetail(boardNo);
 		model.addAttribute("AnimalBoard", service.viewDetail(boardNo));
 		return "animal/boardDetail";
-	}
-	
-	
-	@RequestMapping("updateDetail")
-	public String updateForm (int boardNo,Model model,HttpSession session) {
-			boardDetail(boardNo,model,session);
-			
-			service.updateDetail(boardNo);
-		return "animal/updateForm";
-	}
-	
-	@RequestMapping("deleteDetail")
-	public String deleteDetail() {
-		return "redirect:animal/boardList";
 	}
 	
 	@PostMapping("insertAnimalBoard")
@@ -272,8 +254,6 @@ public class Forwading {
 		}
 		
 	}
-	
-	
 	
 	
 	

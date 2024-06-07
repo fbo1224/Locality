@@ -234,7 +234,7 @@
 					</div>
 
                     <div class="content_btn" align="center">
-                        <a href="ad?areasNo=${ sessionScope.loginUser.areasCode }&category=${board.categoryNo}" class="btn btn-sm btn-info">목&nbsp;록</a>
+                        <a href="ad?areasNo=${ sessionScope.loginUser.areasCode }&category=0" class="btn btn-sm btn-info">목&nbsp;록</a>
 
                       	<a  class="btn btn-sm btn-secondary" onclick="postSubmit(0)">수&nbsp;정</a>
                        	<a  class="btn btn-sm btn-danger" onclick="postSubmit(1)">삭&nbsp;제</a>

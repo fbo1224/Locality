@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>     
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,18 +91,16 @@ padding-left : 31%;
 	<div id="content" style="height: 520px; width:100%">
 	<textarea name="content" rows= "18" cols= "161" style="border-radius:2px;"></textarea>
 	<input type="file" name="upfile"/>
-	<c:forEach items="${animal }" var="Animal">
-	<input type="checkbox" class="box" name="animalName" value="${Animal.animalName }"/><label class="pet">${Animal.animalName }</label>
-	</c:forEach>
+	<input type="checkbox" class="box" name="animalName" value="설이"/><label class="pet">설이</label>
+	<input type="checkbox" class="box" name="animalName" value="까미"/><label class="pet">까미</label>
 	</div>
 	
 </div>
-<div id="submit"style="width:100%; height:9%"><button type="submit" id="btn" >등록</button></div>
+<div id="submit"style="width:100%; height:9%"><button type="submit" id="btn">등록</button></div>
 </div>
 </form>
 </div>
 
 <jsp:include page ="../common/footer.jsp"/>
 </body>
-
 </html>

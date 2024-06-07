@@ -127,7 +127,6 @@
                         <tr>
                         	<c:choose>
                         		<c:when test="${ loginUser.userNo ne auction.userNo }">
-                        
 		                            <td>제시가</td>
 		                            <td><input type="number" name="bidPrice" id="bid" required></td>
 		                            <td><button onclick="inBid();">입찰하기</button></td>

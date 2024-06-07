@@ -51,7 +51,6 @@ public class AdController {
 				
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
-		model.addAttribute("category", category);
 		
 		return "ad/adList";
 	}

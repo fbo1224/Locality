@@ -117,9 +117,6 @@
 			
 			
 		</script>
-			
-			
-
 
 			<div class="customer">
 				<p>공지사항</p>
