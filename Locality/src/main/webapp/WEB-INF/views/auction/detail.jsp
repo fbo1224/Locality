@@ -88,7 +88,7 @@
                     <thead>
                         <tr>
                           <th>현재가</th>
-                          <th>${ auction.bidPrice }원</th>
+                          <th class="price">${ auction.bidPrice }원</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -127,7 +127,8 @@
                         <tr>
                         	<c:choose>
                         		<c:when test="${ loginUser.userNo ne auction.userNo }">
-                        
+                        		${loginUser.userNo }
+                        		${ auction.userNo }
 		                            <td>제시가</td>
 		                            <td><input type="number" name="bidPrice" id="bid" required></td>
 		                            <td><button onclick="inBid();">입찰하기</button></td>
@@ -156,7 +157,7 @@
 							userNo : ${ loginUser.userNo },
 							auctionNo : ${ auction.auctionNo }
 						},
-						success : function(result) {
+						success : result => {
 							
 							if(result === 'NE'){
 								alert('이미 존재하는 상품입니다.');
@@ -172,20 +173,15 @@
 							}
 							
 						},
-						error : function(request, status, error){
-							console.log("error code : " + + request.status + "\n"+
-							"message:"+request.responseText+"\n"+"error:"+error);
+						error : result => {
+							console.log()
 						}
 					});
 				};
 				
 				function inBid(){
 					const bidPrice = document.getElementById('bid').value;
-					
-					
 					location.href="auction.bid?userNo=" + ${ loginUser.userNo } + '&auctionNo=' + ${ auction.auctionNo } + '&bidPrice=' + bidPrice;  
-					
-					
 				}
 				
 			</script>

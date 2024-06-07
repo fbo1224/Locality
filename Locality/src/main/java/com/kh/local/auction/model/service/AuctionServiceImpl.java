@@ -74,8 +74,8 @@ public class AuctionServiceImpl implements AuctionService{
 //	}
 
 	@Override
-	public List<Auction> selectSearchList(HashMap<String, String> map) {
-		return auctionMapper.selectSearchList(map);
+	public List<Auction> searchAuction(HashMap<String, String> map) {
+		return auctionMapper.searchAuction(map);
 	}
 
 	@Override

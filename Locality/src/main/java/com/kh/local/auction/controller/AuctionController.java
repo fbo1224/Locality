@@ -53,23 +53,6 @@ public class AuctionController {
 		return "auction/main";
 	}
 	
-	/*
-	// 검색기능
-	@GetMapping("search.do")
-	public String selectSearchList(Model model, String keyword, String field) {
-		System.out.println(keyword);
-		System.out.println(field);
-		HashMap<String, String> map = new HashMap();
-		map.put("field", field);
-		map.put("keyword", keyword);
-		List<Auction> searchList = auctionService.selectSearchList(map);
-		
-		model.addAttribute("list", searchList).addAttribute("keyword", keyword);
-		
-		return "auction/main";
-	}*/
-	
-	
 	// 상세페이지 이동
 	@GetMapping("detail.auction")
 	public ModelAndView auctionDetail(int auctionNo, ModelAndView mv) {
@@ -225,16 +208,4 @@ public class AuctionController {
 			return "common/errorPage";
 		}
 	}
-	
-	// 더보기 페이징
-//	@ResponseBody
-//	@GetMapping("more.do")
-//	public List<MorePagination> morePage(MorePagination morepagination) {
-//		
-//		List<MorePagination> list = auctionService.morePage(morepagination);
-//		
-//		list;
-//	}
-	
-	
 }

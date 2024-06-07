@@ -4,7 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="animalMapper">
 
-
 <resultMap id="list" type="AnimalBoard">
 <result column="BOARD_NO" property="boardNo"/>
 <result column="TITLE" property="title"/>
@@ -105,7 +104,7 @@
 				 JOIN 
 				        TB_MEMBER USING (USER_NO)
 				 JOIN
-				 		TB_BOARD_FILE USING (BOARD_NO) 	      
+				 		TB_BOARD_FILE USING (BOARD_NO)       
 				 ORDER
 				    BY
 				        WRITE_DATE DESC
@@ -155,7 +154,6 @@
 						VIEW_COUNT,
 						CATEGORY_NO,
 						USER_NO,
-						CHANGE_NAME
 						
 				  FROM	
 				  		TB_ANIMAL_BOARD
@@ -163,8 +161,6 @@
 						TB_CATEGORY USING(CATEGORY_NO)
 				  JOIN
 				  		TB_MEMBER USING(USER_NO)
-				  JOIN 
-				  		TB_BOARD_FILE USING(BOARD_NO)		
 				  	
 				 WHERE
 				 		<choose>
@@ -335,15 +331,5 @@
 				WHERE
 						BOARD_NO = #{boardNo}       
 					
-</select>
-<select id="nameInfo" parameterType="_int" resultType="Animal">
-		SELECT
-				ANIMAL_TYPE animalType,
-				BREEDE breede,
-				ANIMAL_NAME animalName
-		FROM
-				TB_ANIMAL
-		WHERE
-				USER_NO = #{userNo}				
 </select>
 </mapper>

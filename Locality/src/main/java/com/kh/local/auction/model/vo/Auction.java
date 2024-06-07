@@ -16,12 +16,12 @@ public class Auction {
 	private int auctionNo;
 	private String pdName; // 상품명
 	private String pdDesc; // 상품설명
-	private int bidUnit; // 입찰가격
+	private String bidUnit; // 입찰가격
 	private String condition; // 낙찰여부
 	private String startDate;
 	private String endDate;
 	private int bidCnt; // 입찰수
-	private int startPrice;
+	private String startPrice;
 	private int pdCnt;
 	private String pdStatus;
 	private String pdLcn;
@@ -37,7 +37,7 @@ public class Auction {
 	private int userNo;
 	
 	// 낙찰가격
-	private int bidPrice;
+	private String bidPrice;
 	
 	private PageInfo pageInfo;
 	

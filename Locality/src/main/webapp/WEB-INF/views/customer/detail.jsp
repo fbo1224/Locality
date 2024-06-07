@@ -24,10 +24,11 @@
 	
 	th{width: 90px; background-color:lightgray;}
 	
-    div{box-shadow: 0 0 0 1px red;}
+    /*div{box-shadow: 0 0 0 1px red;}*/
 
     #wrap{
         margin: auto;
+        margin-top:100px;
         width: 100%;
         height: 700px;
     }
@@ -55,7 +56,6 @@
 
 	<jsp:include page="../common/header.jsp"/>
 	
-	<p>게시판 상세조회
 	
 	<div id="wrap">
 		<div id="ct">

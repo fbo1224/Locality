@@ -60,23 +60,6 @@ public class Forwading {
 		
 	}
 	
-	@GetMapping("boardList")
-	public String boardList(@RequestParam(value="page", defaultValue="1")
-	int page, Model model) {
-
-
-
-		PageInfo pi =Pagination.getPageInfo(service.BoardCount(), page, 4, 10);
-		
-		
-		System.out.println(service.BoardList(pi));
-
-		model.addAttribute("list", service.BoardList(pi));
-		model.addAttribute("pageInfo", pi);
-		
-	
-		return "animal/boardList";
-	}
 	
 	// 카테고리 옵션 선택시 값 추출 
 	//	@ResponseBody
@@ -107,31 +90,12 @@ public class Forwading {
 		return mv;
 		
 	}
-	// 게시판 글 작성양식 
-	@RequestMapping("enrollform")
-	public String enrollForm(HttpSession session, Model model) {
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int userNo = loginUser.getUserNo();
-		
-		System.out.println(service.show(userNo));
-		model.addAttribute("animal", service.show(userNo));
-		
-		return "animal/boardEnrollForm";
-	}
-	
-	
+
 	@RequestMapping("viewDetail")
-	public String boardDetail(int boardNo, Model model, HttpSession session) {
+	public String boardDetail(int boardNo, Model model) {
 		service.viewDetail(boardNo);
 		model.addAttribute("AnimalBoard", service.viewDetail(boardNo));
 		return "animal/boardDetail";
-	}
-	
-	
-	@RequestMapping("updateDetail")
-	public String updateForm (int boardNo) {
-		System.out.println(boardNo);
-		return "animal/updateForm";
 	}
 	
 	@PostMapping("insertAnimalBoard")

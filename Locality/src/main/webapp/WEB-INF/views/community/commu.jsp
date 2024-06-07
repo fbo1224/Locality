@@ -109,7 +109,7 @@
 							<th style="width: 5%; text-align:center">No</th>
 							<th style="width: 10%; text-align:center">지역</th>
 							<th style="width: 10%; text-align:center">카테고리</th>
-							<th style="width: 30%; text-align:center">제목</th>
+							<th style="width: 30%; text-align:center">제&nbsp;&nbsp;&nbsp;&nbsp;목</th>
 							<th style="width: 10%; text-align:center">작성자</th>
 							<th style="width: 15%; text-align:center">작성일</th>
 							<th style="width: 10%; text-align:center">조회수</th>

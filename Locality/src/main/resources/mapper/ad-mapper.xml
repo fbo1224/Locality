@@ -11,7 +11,6 @@
 		<result property="categoryName" column="BIZ_CNAME"/>
 		<result property="adTitle"      column="AD_TITLE"/>
 		<result property="countyName"    column="COUNTY_NAME"/>
-		<result property="categoryNo"    column="CATEGORY"/>
 		<result property="adWriter"     column="BIZ_NAME"/>
 		<result property="count"        column="COUNT"/>
 		<result property="adContent"    column="AD_CONTENT"/>
@@ -64,7 +63,6 @@
 			   AD_TITLE,
 			   COUNTY_NAME,
 			   BIZ_NAME,
-			   CATEGORY,
 			   COUNT,
 			   CHANGE_NAME,
 			   FILE_LEVEL
@@ -109,7 +107,6 @@
 		       AD_NO,
 		       BIZ_NO,
 		       BIZ_NAME,
-		       CATEGORY,
 		       AD_TITLE,
 		       AD_CONTENT,
 		       BIZ_ADDRESS,

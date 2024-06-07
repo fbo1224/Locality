@@ -239,12 +239,12 @@
                 	
                 	<c:choose>
                       <c:when test="${ pi.currentPage eq 1 }">
-                          <li class="page-item disabled"><a class="page-link" href="${ pi.currentPage - 1 }&category=${ category}" style="background-color:#FFD1E3; color:white">이전</a></li>
+                          <li class="page-item disabled"><a class="page-link" href="${ pi.currentPage - 1 }" style="background-color:#FFD1E3; color:white">이전</a></li>
                        </c:when>
                        
                        <c:otherwise>
                           <li class="page-item">
-                             <a class="page-link" href="ad?page=${ pi.currentPage - 1 }&areasNo=${ sessionScope.loginUser.areasCode }&category=${ category}" style="background-color:#FFD1E3; color:white">
+                             <a class="page-link" href="ad?page=${ pi.currentPage - 1 }&areasNo=${ sessionScope.loginUser.areasCode }" style="background-color:#FFD1E3; color:white">
                                 	이전
                              </a>
                           </li>
@@ -252,9 +252,9 @@
                     </c:choose>
 
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                       <li class="page-item"><a class="page-link" href="ad?page=${p}&areasNo=${ sessionScope.loginUser.areasCode }&category=${ category}" style="background-color:#FFD1E3; color:white">${p}</a></li>
+                       <li class="page-item"><a class="page-link" href="ad?page=${p}&areasNo=${ sessionScope.loginUser.areasCode }" style="background-color:#FFD1E3; color:white">${p}</a></li>
                     </c:forEach>
-                       <li class="page-item"><a class="page-link" href="ad?page=${ pi.currentPage + 1 }&areasNo=${ sessionScope.loginUser.areasCode }&category=${ category}" style="background-color:#FFD1E3; color:white">다음</a></li>                   
+                       <li class="page-item"><a class="page-link" href="ad?page=${ pi.currentPage + 1 }&areasNo=${ sessionScope.loginUser.areasCode }" style="background-color:#FFD1E3; color:white">다음</a></li>                   
                     	
                 </ul>
             </div>

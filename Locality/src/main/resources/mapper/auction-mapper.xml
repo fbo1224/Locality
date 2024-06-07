@@ -35,17 +35,18 @@
 		       AUCTION_NO,
 		       PD_NAME,
 		       PD_DESC,
-		       BID_UNIT,
+		       TO_CHAR(BID_UNIT, '999,999,999') AS BID_UNIT,
 		       TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
 		       TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
 		       BID_CNT,
-		       START_PRICE,
+		       TO_CHAR(START_PRICE, '999,999,999') AS START_PRICE,
 		       PD_CNT,
 		       PD_STATUS,
 		       CATE_NO,
 		       SELLER,
 		       IMG_PATH,
-		       TO_CHAR(TB_AUC_IMG.CREATE_DATE , 'YYYY/MM/DD') AS CREATE_DATE
+		       TO_CHAR(TB_AUC_IMG.CREATE_DATE , 'YYYY/MM/DD') AS CREATE_DATE,
+		       TO_CHAR(BID_PRICE, '999,999,999') AS BID_PRICE
 	</sql>
 	
 	<!-- 상품 리스트 조회 -->
@@ -78,23 +79,57 @@
          	</choose>
 	</select>
 	
+	<!-- 검색기능 -->
+	<select id="searchAuction" parameterType="hashMap" resultMap="auctionResultSet">
+	    SELECT
+		       <include refid="selectList" />
+		  FROM
+		       TB_AUCTION
+		  JOIN
+		       TB_AUC_IMG USING(AUCTION_NO)
+		  JOIN
+		       TB_AUC_RECORD USING(AUCTION_NO)
+	     WHERE
+	            PD_STATUS = 'Y'
+	       AND
+	            PD_NAME
+	       LIKE '%' || #{keyword} || '%'
+	      ORDER
+	         BY
+	       <choose>
+         		<when test="filter == 'low'">
+         			BID_PRICE ASC
+         		</when>
+         		<when test="filter == 'bid'">
+         			BID_CNT DESC
+         		</when>
+         		<when test="filter == 'cnt'">
+         			PD_CNT DESC
+         		</when>
+         		<otherwise>
+	         		AUCTION_NO DESC
+         		</otherwise>
+         	</choose>
+	</select>
+	
 	<select id="auctionDetail" parameterType="_int" resultMap="auctionResultSet">
 		SELECT
 		       A.AUCTION_NO,
 		       A.PD_NAME,
 		       A.PD_DESC,
-		       A.BID_UNIT,
+		       TO_CHAR(A.BID_UNIT, '999,999,999') AS BID_UNIT,
 		       TO_CHAR(A.START_DATE, 'YYYY/MM/DD') AS START_DATE,
 		       TO_CHAR(A.END_DATE, 'YYYY/MM/DD') AS END_DATE,
 		       TRUNC(A.END_DATE - SYSDATE, 0) + 1 AS REMAIN_DATE,
 		       A.BID_CNT,
-		       A.START_PRICE,
+		       TO_CHAR(A.START_PRICE, '999,999,999') AS START_PRICE,
 		       A.PD_CNT,
 		       A.PD_STATUS,
 		       M.USER_NAME AS SELLER,
 		       A.CATE_NO,
 		       I.IMG_PATH,
-		       MAX(R.BID_PRICE) AS BID_PRICE
+		       TO_CHAR(MAX(R.BID_PRICE), '999,999,999') AS BID_PRICE,
+		       A.USER_NO
 		FROM
 		       TB_AUCTION A
 		JOIN
@@ -165,11 +200,11 @@
 			    TB_AUCTION.AUCTION_NO,
 			    PD_NAME,
 			    PD_DESC,
-			    BID_UNIT,
+			    TO_CHAR(BID_UNIT, '999,999,999') AS BID_UNIT,
 			    TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
 			    TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
 			    BID_CNT,
-			    START_PRICE,
+			    TO_CHAR(START_PRICE, '999,999,999') AS START_PRICE,
 			    PD_CNT,
 			    PD_STATUS,
 			    CATE_NO,
@@ -269,51 +304,7 @@
 		   AND
 		       USER_NO = #{userNo}
 	</update>
-	
-	<select id="selectSearchList" parameterType="hashMap" resultMap="auctionResultSet">
-		SELECT    
-				AUCTION_NO,
-				PD_NAME,
-				PD_DESC,
-				BID_UNIT,
-				BID_CNT,
-				START_PRICE,
-				PD_CNT,
-				PD_STATUS,
-				CATE_NO,
-				SELLER,
-				IMG_PATH,
-                BID_PRICE
-	      FROM
-	            TB_AUCTION
-	      JOIN
-	            TB_AUC_IMG USING(AUCTION_NO)
-          JOIN
-                TB_AUC_RECORD USING(AUCTION_NO)
-	     WHERE
-	            PD_STATUS = 'Y'
-	       AND
-	            PD_NAME
-	       LIKE '%' || #{keyword} || '%'
-	      ORDER
-	         BY
-       		<if test="field != null">
-	       		<choose>
-	         		<when test="field == 'low'">
-	         			BID_PRICE ASC
-	         		</when>
-	         		<when test="field == 'bid'">
-	         			BID_CNT DESC
-	         		</when>
-	         		<when test="field == 'cnt'">
-	         			PD_CNT DESC
-	         		</when>
-	         		<otherwise>
-		         		AUCTION_NO DESC
-	         		</otherwise>
-         		</choose>
-       		</if>
-	</select>
+
 	
 	<!-- 필터 기능 
 	<select id="searchFilter" parameterType="string" resultMap="auctionResultSet">
@@ -360,15 +351,15 @@
 	<select id="resultAuction" parameterType="_int" resultMap="auctionResultSet">
 		SELECT
 		       AUCTION_NO,
-		       BID_PRICE,
+		       TO_CHAR(BID_PRICE, '999,999,999') AS BID_PRICE,
 		       PD_NAME,
 			   PD_DESC,
-			   BID_UNIT,
+			   TO_CHAR(BID_UNIT, '999,999,999') AS BID_UNIT,
 			   TO_CHAR(TB_AUCTION.START_DATE , 'YYYY/MM/DD') AS START_DATE,
 			   TO_CHAR(TB_AUCTION.END_DATE , 'YYYY/MM/DD') AS END_DATE,
 			   TRUNC(END_DATE - SYSDATE, 0) + 1 AS REMAIN_DATE,
 			   BID_CNT,
-			   START_PRICE,
+			   TO_CHAR(START_PRICE, '999,999,999') AS START_PRICE,
 			   PD_CNT,
 			   PD_STATUS,
 			   CATE_NO,
@@ -400,7 +391,7 @@
 		SELECT
 		       AUCTION_NO,
 		       USER_NO,
-		       BID_PRICE,
+		       TO_CHAR(BID_PRICE, '999,999,999') AS BID_PRICE,
 		       CONDITION
 		  FROM
 		       TB_AUC_RECORD
@@ -438,15 +429,15 @@
 				AUCTION_NO,
 				PD_NAME,
 				PD_DESC,
-				BID_UNIT,
+				TO_CHAR(BID_UNIT, '999,999,999') AS BID_UNIT,
 				BID_CNT,
-				START_PRICE,
+				TO_CHAR(START_PRICE, '999,999,999') AS START_PRICE,
 				PD_CNT,
 				PD_STATUS,
 				CATE_NO,
 				SELLER,
 				IMG_PATH,
-				TB_AUC_RECORD.BID_PRICE
+				TO_CHAR(TB_AUC_RECORD.BID_PRICE, '999,999,999') AS BID_PRICE
 	      FROM
 	            TB_AUCTION
 	      JOIN
@@ -481,7 +472,7 @@
 				(SELECT 
 		               AUCTION_NO,
 		               TB_AUC_RECORD.USER_NO,
-		               MAX(BID_PRICE) AS BID_PRICE
+		               TO_CHAR(MAX(BID_PRICE), '999,999,999') AS BID_PRICE
 		          FROM
 		               TB_AUC_RECORD
 		          JOIN

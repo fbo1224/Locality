@@ -53,8 +53,5 @@ public interface animalService {
 	
 	// 
 	int defaultAttachment(Attachment attachment);
-	
-	// 사용자 모든 반려동물 정보 
-	List<Animal> show(int userNo);
-		
+
 }

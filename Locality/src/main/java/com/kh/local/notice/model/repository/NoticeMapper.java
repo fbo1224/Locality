@@ -1,7 +1,5 @@
 package com.kh.local.notice.model.repository;
 
-
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
