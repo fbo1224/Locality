@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.local.auction.model.service.AuctionService;
@@ -66,17 +65,6 @@ public class AuctionAjaxController {
 		response.setKeyword(keyword);
 		
 		return new Gson().toJson(response);
-	}
-	
-	@GetMapping("/detail.auction/{auctionNo}")
-	public ModelAndView auctionDetail(@PathVariable int auctionNo, ModelAndView mv) {
-		Auction auction = auctionService.auctionDetail(auctionNo);
-		if(auctionService.increaseCount(auctionNo) > 0 && auction != null) {
-			mv.addObject("auction", auction).setViewName("auction/detail");
-		} else {
-			mv.addObject("errorMsg", "상품 조회에 실패하였습니다.").setViewName("common/errorPage");
-		}
-		return mv;
 	}
 	
 	

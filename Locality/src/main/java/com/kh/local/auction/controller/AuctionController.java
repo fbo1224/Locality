@@ -208,16 +208,4 @@ public class AuctionController {
 			return "common/errorPage";
 		}
 	}
-	
-	// 더보기 페이징
-//	@ResponseBody
-//	@GetMapping("more.do")
-//	public List<MorePagination> morePage(MorePagination morepagination) {
-//		
-//		List<MorePagination> list = auctionService.morePage(morepagination);
-//		
-//		list;
-//	}
-	
-	
 }
