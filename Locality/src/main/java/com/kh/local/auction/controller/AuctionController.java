@@ -75,8 +75,6 @@ public class AuctionController {
 			model.addAttribute("errorMsg", "상품을 삭제하지 못했습니다.");
 			return "common/errorPage";
 		}
-		
-		
 	}
 	
 	// 경매 상품등록 페이지 이동
