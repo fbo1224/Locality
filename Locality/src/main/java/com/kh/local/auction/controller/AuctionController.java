@@ -91,11 +91,9 @@ public class AuctionController {
 		auction.setSeller(seller);
 		auction.setCateNo(scale);
 		
-
 		if(!upfile.getOriginalFilename().equals("")) {
 			auction.setImgPath(saveFile(upfile, session));
 		}
-		
 		int auctionNo = auctionService.insertAuction(auction);
 		auction.setAuctionNo(auctionNo);
 		
