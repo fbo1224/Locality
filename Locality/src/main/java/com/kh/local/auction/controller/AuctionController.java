@@ -193,7 +193,7 @@ public class AuctionController {
 	// 입찰하기
 	@GetMapping("auction.bid")
 	public String auctionBid(Bid bid, HttpSession session) {
-		
+		System.out.println(bid);
 		if(auctionService.updateBid(bid) == 0) {
 			auctionService.auctionBid(bid);
 			session.setAttribute("alertMsg", "입찰이 완료되었습니다.");
