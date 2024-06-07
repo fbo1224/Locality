@@ -156,7 +156,8 @@
 		       A.PD_STATUS,
 		       M.USER_NAME,
 		       A.CATE_NO,
-		       I.IMG_PATH
+		       I.IMG_PATH,
+		       A.USER_NO
 	</select>
 	
 	<update id="increaseCount" parameterType="_int">
