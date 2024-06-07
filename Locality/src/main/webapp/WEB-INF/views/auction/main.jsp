@@ -167,11 +167,8 @@
 
     <div id="header">
         <div id="search">
-            <!-- <form action="search.do" method="get"> -->
-                <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
-                <!-- <input type="hidden" name="field"/> -->
-                <button type="button">검색</button>
-            <!-- </form> -->
+            <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
+            <button type="button">검색</button>
         </div>
     </div>
 

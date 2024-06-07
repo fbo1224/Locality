@@ -58,7 +58,7 @@
 			        level: 3 // 지도의 확대 레벨
 			    };  
 			
-			// 지도를 생성합니다    
+			// 지도를 생성
 			var map = new kakao.maps.Map(mapContainer, mapOption); 
 			
 			// 장소 검색 객체를 생성합니다
