@@ -169,7 +169,7 @@
 	    let userCountyName = '${sessionScope.loginUser.countyName}';
 		$(document).ready( () => {
 			$.ajax({
-				url: 'singUp/' + $('#city').val() ,
+				url: 'signUp/' + $('#city').val() ,
 				type: 'get',
 				success: city =>{
 					let option = city.data.map(data=>{
@@ -189,7 +189,7 @@
 		
     	$('#city').click(function() {
 			$.ajax({
-				url: 'singUp/' + $(this).val(),
+				url: 'signUp/' + $(this).val(),
 				type: 'get',
 				success: city =>{
 					let option = city.data.map(data =>{

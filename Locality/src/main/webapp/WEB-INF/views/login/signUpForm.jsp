@@ -251,7 +251,7 @@ input::placeholder {
 	<script>
 	
 		function back(){
-			location.href='userLoginForm';
+			location.href='loginForm';
 		}
 		
 	
