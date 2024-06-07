@@ -81,9 +81,11 @@ public class MiniAjaxController {
 		change = change.replaceAll(" ", "&nbsp;");
 		book.setPostContent(change.replaceAll("\\n", "<br>"));
 		msg = (memberService.insertPost(book) > 0) ? "Y" : "N";
+		
 		message.setData(msg);
 		message.setMessage("방명록 작성 결과");
 		message.setResponseCode(!msg.equals("Y") ? "400": "200");
+		
 		Message m = new Message("안녕","안녕", "200");
 		return merge(message);
 	}

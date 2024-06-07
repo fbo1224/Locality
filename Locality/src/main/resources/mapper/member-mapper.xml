@@ -67,17 +67,6 @@
               TB_CITY C USING (CITY_CODE)
 	</sql>
 	
-	<sql id="friendQueryJoin">
-		JOIN
-		    TB_FRIEND F ON (M.USER_NO = F.FRIEND_ID)
-       WHERE
-            F.FRIEND_ID IN (SELECT
-		           			      FRIEND_ID
-		                      FROM
-		                          TB_FRIEND
-		                     WHERE
-		                           MY_ID = 
-	</sql>
 	
 	<sql id="login">
 		SELECT
