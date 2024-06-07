@@ -4,7 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="animalMapper">
 
-
 <resultMap id="list" type="AnimalBoard">
 <result column="BOARD_NO" property="boardNo"/>
 <result column="TITLE" property="title"/>
@@ -16,6 +15,7 @@
 <result column="CATEGORY_NO" property="categoryNo"/>
 <result column="USER_NO" property="userNo"/>
 <result column="CHANGE_NAME" property="uploadedFile"/>
+<result column="ANIMAL_NAME" property="animalName"/>
 </resultMap>
 
 <resultMap id="report" type="com.kh.local.animal.model.vo.Report">
@@ -332,6 +332,4 @@
 						BOARD_NO = #{boardNo}       
 					
 </select>
-
-
 </mapper>

@@ -105,17 +105,5 @@ public class animalServiceImpl implements animalService {
 		return repository.defaultAttachment(sqlSession,attachment);
 	}
 
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-	
 
 }

@@ -258,7 +258,7 @@ input::placeholder {
 	<script>
 		
 		function back(){
-			location.href='userLoginForm';
+			location.href='loginForm';
 		}
 	
 		const emailSend = document.getElementById('emailSend');

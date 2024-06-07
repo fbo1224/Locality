@@ -87,6 +87,7 @@ public class SignUpAjaxController {
 	@GetMapping("{nickName}/{phone}")
 	public ResponseEntity<Message> nickPhoneConfirm(@PathVariable("nickName")String nickName, 
 								   @PathVariable("phone") String phone) {
+		
 		Member member = new Member();
 		member.setNickName(nickName);
 		member.setPhone(phone);

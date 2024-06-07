@@ -74,4 +74,5 @@ public class animalRepository {
 	public int defaultAttachment(SqlSession sqlSession, Attachment attachment) {
 		return sqlSession.insert("animalMapper.default", attachment);	
 				}
+
 }

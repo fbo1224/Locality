@@ -60,23 +60,6 @@ public class Forwading {
 		
 	}
 	
-	@GetMapping("boardList")
-	public String boardList(@RequestParam(value="page", defaultValue="1")
-	int page, Model model) {
-
-
-
-		PageInfo pi =Pagination.getPageInfo(service.BoardCount(), page, 4, 10);
-		
-		
-		
-
-		model.addAttribute("list", service.BoardList(pi));
-		model.addAttribute("pageInfo", pi);
-		
-	
-		return "animal/boardList";
-	}
 	
 	// 카테고리 옵션 선택시 값 추출 
 	//	@ResponseBody
@@ -107,12 +90,6 @@ public class Forwading {
 		return mv;
 		
 	}
-	// 게시판 글 작성양식 
-	@RequestMapping("enrollform")
-	public String enrollForm() {
-		return "animal/boardEnrollForm";
-	}
-	
 
 	@RequestMapping("viewDetail")
 	public String boardDetail(int boardNo, Model model) {
