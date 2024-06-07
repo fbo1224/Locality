@@ -270,8 +270,7 @@
                 (
                SEQ_AUCTION.CURRVAL, 
                #{imgPath}, 
-               SYSDATE,
-               DEFAULT
+               SYSDATE
                 )
         SELECT
                 *
@@ -379,7 +378,8 @@
 		       (
                #{auctionNo},
                #{userNo},
-		       #{bidPrice}
+		       #{bidPrice},
+		       DEFAULT
 		       )
 	</insert>
 	
