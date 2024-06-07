@@ -75,8 +75,6 @@ public class AuctionController {
 			model.addAttribute("errorMsg", "상품을 삭제하지 못했습니다.");
 			return "common/errorPage";
 		}
-		
-		
 	}
 	
 	// 경매 상품등록 페이지 이동
@@ -91,11 +89,9 @@ public class AuctionController {
 		auction.setSeller(seller);
 		auction.setCateNo(scale);
 		
-
 		if(!upfile.getOriginalFilename().equals("")) {
 			auction.setImgPath(saveFile(upfile, session));
 		}
-		
 		int auctionNo = auctionService.insertAuction(auction);
 		auction.setAuctionNo(auctionNo);
 		
@@ -197,7 +193,7 @@ public class AuctionController {
 	// 입찰하기
 	@GetMapping("auction.bid")
 	public String auctionBid(Bid bid, HttpSession session) {
-		
+		System.out.println(bid);
 		if(auctionService.updateBid(bid) == 0) {
 			auctionService.auctionBid(bid);
 			session.setAttribute("alertMsg", "입찰이 완료되었습니다.");

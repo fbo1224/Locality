@@ -68,11 +68,6 @@ public class AuctionServiceImpl implements AuctionService{
 		return auctionMapper.deleteAuction(save);
 	}
 
-//	@Override
-//	public int remainDate(int auctionNo) {
-//		return auctionMapper.remainDate(auctionNo);
-//	}
-
 	@Override
 	public List<Auction> searchAuction(HashMap<String, String> map) {
 		return auctionMapper.searchAuction(map);

@@ -156,7 +156,8 @@
 		       A.PD_STATUS,
 		       M.USER_NAME,
 		       A.CATE_NO,
-		       I.IMG_PATH
+		       I.IMG_PATH,
+		       A.USER_NO
 	</select>
 	
 	<update id="increaseCount" parameterType="_int">
@@ -305,49 +306,6 @@
 		       USER_NO = #{userNo}
 	</update>
 
-	
-	<!-- 필터 기능 
-	<select id="searchFilter" parameterType="string" resultMap="auctionResultSet">
-		SELECT    
-				AUCTION_NO,
-				PD_NAME,
-				PD_DESC,
-				BID_UNIT,
-				BID_CNT,
-				START_PRICE,
-				PD_CNT,
-				PD_STATUS,
-				CATE_NO,
-				SELLER,
-				IMG_PATH,
-				TB_AUC_RECORD.BID_PRICE
-	      FROM
-	            TB_AUCTION
-	      JOIN
-	            TB_AUC_IMG USING(AUCTION_NO)
-	      LEFT
-	      JOIN
-	            TB_AUC_RECORD USING(AUCTION_NO)
-	     WHERE
-	            PD_STATUS = 'Y'
-	      ORDER
-	         BY
-         	<choose>
-         		<when test="field == 'low'">
-         			BID_PRICE ASC
-         		</when>
-         		<when test="field == 'bid'">
-         			BID_CNT DESC
-         		</when>
-         		<when test="field == 'cnt'">
-         			PD_CNT DESC
-         		</when>
-         		<otherwise>
-	         		AUCTION_NO DESC
-         		</otherwise>
-         	</choose>
-	</select>-->
-	
 	<select id="resultAuction" parameterType="_int" resultMap="auctionResultSet">
 		SELECT
 		       AUCTION_NO,
@@ -420,7 +378,8 @@
 		       (
                #{auctionNo},
                #{userNo},
-		       #{bidPrice}
+		       #{bidPrice},
+		       DEFAULT
 		       )
 	</insert>
 	

@@ -56,7 +56,6 @@
     .pd_title{width: 100%; height: 100px; font-size:20px; font-weight:bold; padding-top:20px;}
     .pd_auc{float: left; width: 50%; height: 50px;}
     .pd_count{float: left; width: 50%; height: 50px;}
-    .pd_date{width: 100%; height: 50px;}
 
     a{color: black; text-decoration: none;}
 
@@ -168,11 +167,8 @@
 
     <div id="header">
         <div id="search">
-            <!-- <form action="search.do" method="get"> -->
-                <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
-                <!-- <input type="hidden" name="field"/> -->
-                <button type="button">검색</button>
-            <!-- </form> -->
+            <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
+            <button type="button">검색</button>
         </div>
     </div>
 
@@ -232,7 +228,8 @@
 						    					   + '<div class="pd_title">' + searchList[i].pdName + '</div>'
 						    					   + '<div class="pd_auc">현재가:  ' + searchList[i].bidPrice 
 						    					   + '원 <br> 입찰단위 : ' + searchList[i].bidUnit + '원</div>'
-						    					   + '<div class="pd_count">조회수: ' + searchList[i].pdCnt + ' 회 <br> 입찰수: ' + searchList[i].bidCnt + '건</div>'
+						    					   + '<div class="pd_count">조회수: ' + searchList[i].pdCnt + ' 회 </div>'
+						    					   + '<div class="pd_bid">입찰수 : ' + searchList[i].bidCnt + '건</div>'
 						    					   + '</div>'
 			            			}
 			            			$('.duct_wrap').html(resultStr);

@@ -94,7 +94,7 @@
 	            <div id="photo">
 	                <img class="img" src="./resources/images/auction/basic.png">
 	                <h1 id="upfileMent">사진을 등록해주세요.</h1>
-	                <input type="file" name="upfile" onchange="loadImg(this);" id="upfile">
+	                <input type="file" name="upfile" onchange="loadImg(this);" id="upfile" required>
 	            </div>
 	            <div id="info">
 	            	<input type="hidden" name="userNo" value="${ loginUser.userNo }">
@@ -113,31 +113,38 @@
 	                	
 		              		<tr>
 		                       <td>상품 등록명</td>
-		                       <td><input type="text" name="pdName"></td>
+		                       <td><input type="text" name="pdName" required></td>
 	                      	</tr>
 		                   	<tr>
 		                   		<td>상품 설명</td>
-		                   		<td><textarea name="pdDesc"></textarea></td>
+		                   		<td><textarea name="pdDesc" required></textarea></td>
 		                   	</tr>
 		                  		<tr>
 		                        <td>시작가</td>
-		                        <td><input type="number" name="startPrice"></td>
+		                        <td><input type="number" name="startPrice" required></td>
                       		</tr>
                       		 <tr>
 		                       	<td>입찰단위</td>
-		                       	<td><input type="number" name="bidUnit"></td>
+		                       	<!-- <td><input type="number" name="bidUnit" required></td> -->
+		                       	<td>
+		                       		<select name="bidUnit">
+		                				<option value="500">500원</option>
+		                				<option value="1000">1000원</option>
+		                				<option value="10000">10000원</option>
+		                			</select>
+		                		</td>	
 	                      	</tr>
-							<tr>
+							<tr><!-- 
 		                       	<td>경매 시작일자</td>
 		                       	<td>
 		                       		<label for="date">날짜를 선택하세요:
 								  	<input type="date"
 									       name="startDate"
-									       max="2077-06-20"
-									       min="2077-06-05"
+									       max="2025-06-20"
+									       min="2024-06-05"
 									       value="2024-06-10">
 									</label>
-								</td>
+								</td> -->
 	                      	</tr>
 	                      	<tr>
 	                      		<td><button type="submit">등록하기</button></td>

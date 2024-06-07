@@ -33,10 +33,10 @@ public class AuctionAjaxController {
 	public String selectAuction(@PathVariable("page") int page, 
 			                    @PathVariable("filter") String filter) {
         
-	    PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 8, 10);
+	    PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 9, 10);
 	    RowBounds rowBounds = new RowBounds(
 	    	(pi.getCurrentPage() - 1) * pi.getBoardLimit(),
-	         pi.getBoardLimit());
+	         pi.getBoardLimit() - 1);
 	    
 	    // 리스트 조회
 	    List<Auction> auctions = auctionService.selectAuction(rowBounds, filter);
