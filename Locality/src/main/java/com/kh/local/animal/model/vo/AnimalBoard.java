@@ -26,8 +26,5 @@ public class AnimalBoard {
 	private int userNo;
 	private String animalName;
 	private String uploadedFile;
-	private String animalType;
-	private String breede;
-	
 
 }
