@@ -230,7 +230,7 @@
 						    					   + '<input type="hidden" value="' + searchList[i].auctionNo + '">'
 						    					   + '<div class="pd_photo"><img src="' + searchList[i].imgPath + '" alt="상품"></div>'
 						    					   + '<div class="pd_title">' + searchList[i].pdName + '</div>'
-						    					   + '<div class="pd_auc">현재가:  ' + searchList[i].startPrice 
+						    					   + '<div class="pd_auc">현재가:  ' + searchList[i].bidPrice 
 						    					   + '원 <br> 입찰단위 : ' + searchList[i].bidUnit + '원</div>'
 						    					   + '<div class="pd_count">조회수: ' + searchList[i].pdCnt + ' 회 <br> 입찰수: ' + searchList[i].bidCnt + '건</div>'
 						    					   + '</div>'
