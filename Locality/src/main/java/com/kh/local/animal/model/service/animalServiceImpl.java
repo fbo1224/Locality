@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.local.animal.model.repository.AnimalRepository;
+import com.kh.local.animal.model.repository.animalRepository;
 import com.kh.local.animal.model.vo.Animal;
 import com.kh.local.animal.model.vo.AnimalBoard;
 import com.kh.local.animal.model.vo.Attachment;
@@ -17,13 +17,13 @@ import com.kh.local.common.model.vo.AreaInfomation;
 import com.kh.local.common.model.vo.PageInfo;
 
 @Service
-public class AnimalServiceImpl implements AnimalService {
+public class animalServiceImpl implements animalService {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
 	@Autowired
-	private AnimalRepository repository;
+	private animalRepository repository;
 
 	@Override
 	public AreaInfomation information(int code) {
@@ -111,22 +111,7 @@ public class AnimalServiceImpl implements AnimalService {
 		return repository.show(sqlSession, userNo);
 	}
 
-	@Override
-	public List<AnimalBoard> findboard() {
-		return repository.updatedBoard(sqlSession);
-	}
-
-	@Override
-	public AnimalBoard updateDetail(int boardNo) {
-		
-		return null;
-	}
-
-	@Override
-	public AnimalBoard deleteDetail(int boardNo) {
 	
-		return null;
-	}
 	
 
 	

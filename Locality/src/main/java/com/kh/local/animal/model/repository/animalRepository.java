@@ -14,7 +14,7 @@ import com.kh.local.animal.model.vo.Report;
 import com.kh.local.common.model.vo.AreaInfomation;
 
 @Repository
-public class AnimalRepository {
+public class animalRepository {
 	
 
 	public AreaInfomation information(SqlSession sqlSession, int code) {
@@ -77,9 +77,5 @@ public class AnimalRepository {
 	
 	public List<Animal> show(SqlSession sqlSession, int userNo) {
 		return sqlSession.selectList("animalMapper.nameInfo", userNo);
-	}
-	
-	public List<AnimalBoard> updatedBoard(SqlSession sqlSession) {
-		return sqlSession.selectList("animalMapper.updatedBoard");
 	}
 }
