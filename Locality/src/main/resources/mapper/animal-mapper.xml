@@ -17,8 +17,6 @@
 <result column="USER_NO" property="userNo"/>
 <result column="CHANGE_NAME" property="uploadedFile"/>
 <result column="ANIMAL_NAME" property="animalName"/>
-<result column="ANIMAL_TYPE" property="animalType"/>
-<result column="BREEDE" property="breede"/>
 </resultMap>
 
 <resultMap id="report" type="com.kh.local.animal.model.vo.Report">
@@ -348,36 +346,4 @@
 		WHERE
 				USER_NO = #{userNo}				
 </select>
-<select id="updatedBoard" resultMap="list"> 
-		SELECT 
-			* 
-		FROM 			
-				( 
-				SELECT 
-						BOARD_NO, 
-						TITLE, 
-						CATEGORY_NAME, 
-						NICKNAME, 
-						CONTENT, 
-						TO_CHAR(WRITE_DATE,'YYYY-MM-DD') AS "WRITE_DATE", 
-						VIEW_COUNT, 
-						ANIMAL_TYPE,
-						BREEDE 
-				FROM 
-						TB_ANIMAL_BOARD 
-				JOIN 
-						TB_ANIMAL USING(USER_NO) 
-				JOIN 
-						TB_MEMBER USING(USER_NO) 
-				JOIN 
-						TB_CATEGORY USING(CATEGORY_NO) 
-				ORDER 
-				  BY
-						WRITE_DATE DESC 
-						) 
-		WHERE 
-				ROWNUM BETWEEN 1 AND 3 
-	
-	</select>
-
 </mapper>

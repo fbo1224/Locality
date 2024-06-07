@@ -47,13 +47,12 @@
 	
 	#report>div {
 	border : 1px solid lightgray;
-	border-radius : 5px;
 	}
 	
 	#btn {
 		width : 170px;
 		background-color :  #FFD1E3;
-		color : gray;
+		color : lightgray;
 		font-weight : bolder;  
 		border-radius : 9px;
 		height : 35px;
@@ -70,7 +69,7 @@
 		margin-left : 50px;
 	}
 	
-	#table > #thead{
+	#thead{
 	background-color : #FFD1E3;
 	color : blue;
 	}
@@ -112,7 +111,7 @@
 
 	<div id="board_table" class="table">
 	
-		<div id="title" class="table" style="height: 20%; font-family:bolder;"><h2 align="center">실종</h2></div>
+		<div id="title" class="table" style="height: 20%; font-family:bolder;"><h2 align="center">실종제보</h2></div>
 		
 		<div id="content" class="table" style="height: 50%; padding-left : 23%; " >
 			
@@ -142,24 +141,31 @@
 	</div>
 	<div style="height:38%; width : 100%;">
 		<!-- bootStrap 게시판 예정 -->
-		<h2 align="center"> 최근 게시글 TOP</h2>
+		<h2 align="center"> 최근 게시글 top 5 </h2>
 	
 		<div id="click"> <a href="boardList">더보기</a> </div>	
-  <table class="table" style="width : 52%; margin-left : 23%; margin-top:25px; font-size : 14px;">
+  <table class="table" style="width : 52%; margin-left : 23%; margin-top:25px;">
     <thead>
       <tr id="thead">
         <th>카테고리</th>
         <th colspan="3">제목</th>
         <th>종</th>
         <th>종류</th>
-         <th>작성자</th>
         <th>작성일</th>
         <th>조회수</th>
       </tr>
     </thead>
     <tbody>
-     
-    </tbody>
+      <tr>
+        <td>카테고리명</td>
+        <td colspan="3">제목 </td>
+        <td>말티푸</td>
+        <td>강아지 </td>
+        <td>2024.03.22</td>
+        <td>5</td>
+      </tr>
+       
+          </tbody>
   </table>
  
 		
@@ -169,40 +175,36 @@
 
 <script>
 	
-//top board 불러오기
+	
+	
 
-	$(()=>{
+	/*
+	 전체 게시글 불러오기? callback함수
+	$(function(){
+		findTopBoards
+		
+	
+	});
+	
+	function findTopBoards(){
 		$.ajax({
-				url : 'boards',
-				type: 'get',
-				success : function(result) {
-					let value= '';
-					for(let i in result) {						
-						value  += '<tr>' 
-								+ '<td>' + result[i].categoryName 			+ '</td>'
-								+ '<td colspan="3">' + result[i].title 		+ '</td>'
-								+ '<td>' + result[i].animalType				+ '</td>'
-								+ '<td>' + result[i].breede					+ '</td>'
-								+ '<td>' + result[i].writer		 			+ '</td>'
-								+ '<td>' + result[i].writeDate	 			+ '</td>'
-								+ '<td>' + result[i].viewCount 				+ '</td>'
-							+ '</tr>';
-					}
-						console.log(value);
-							$('.table>tbody').html(value);
-								
-					}
-				}) 
-	
-	}) 
-	
-		
-		
-	
+				url:recentBoards
+				success : function (result) {
+					console.log(result);
+				}
+				
+				let value = '';
+				for(let i in result){
+					value += 
+				} 
+		})
+	}
 
+	*/
 
 
 </script>
+
 
 
 
