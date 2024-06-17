@@ -13,6 +13,6 @@ public class Bid {
 	
 	private int userNo;
 	private int auctionNo;
-	private int bidPrice;
+	private String bidPrice;
 	
 }

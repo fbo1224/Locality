@@ -22,6 +22,7 @@
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="BID_PRICE" property="bidPrice" />
 		<result column="REMAIN_DATE" property="remainDate" />
+		<result column="BID_PRICE" property="bidPrice" />
 	</resultMap>
 	
 	<resultMap type="bid" id="bidResultSet">
