@@ -43,8 +43,7 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("main");
 		} else {
-			mv.addObject("alertMsg", "아이디 또는 비밀번호가 일치하지 않습니다")
-			.setViewName("login/userLoginForm");
+			mv.addObject("alertMsg", "아이디 또는 비밀번호가 일치하지 않습니다").setViewName("login/userLoginForm");
 		}
 		return mv;
 	}
@@ -117,7 +116,7 @@ public class MemberController {
 			msg = "사진첨부 실패";
 		}
 		session.setAttribute("alertMsg", msg);
-		mv.setViewName("redirect:photoBook");
+		mv.setViewName("redirect:/photoBook");
 		
 		return mv;
 	}
@@ -169,6 +168,8 @@ public class MemberController {
 	
 	@PostMapping("confirmUpdate")
 	public ModelAndView confirmUpdate(ModelAndView mv,HttpSession session, Member member) {
+		
+		System.out.println(member);
 		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("friendNo", member.getFriendNo());

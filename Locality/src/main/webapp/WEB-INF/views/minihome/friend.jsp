@@ -269,11 +269,13 @@
 					num = 2;
 				}
 			})
+			
 			confirm.forEach((confirm)=>{
 				if(confirm.value === friendNo){
 					num = 3;
 				}
 			})
+			
 			location.href='friendMiniPage/' + friendNo + '/' + friendName + '/' + num;
 		}
 		
